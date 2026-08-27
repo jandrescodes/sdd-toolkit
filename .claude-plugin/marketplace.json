@@ -1,0 +1,17 @@
+{
+  "name": "sdd-toolkit",
+  "owner": {
+    "name": "Andres (jandrescodes)",
+    "url": "https://github.com/jandrescodes"
+  },
+  "description": "Toolkit de Spec-Driven Development: el flujo completo por fases como skills y slash commands para Claude Code y opencode.",
+  "plugins": [
+    {
+      "name": "sdd",
+      "source": "./plugins/sdd",
+      "description": "Flujo Spec-Driven Development completo: constitución, spec (EARS), clarificación, plan, tareas, implementación, validación y cambio.",
+      "category": "workflow",
+      "keywords": ["sdd", "spec-driven", "ears", "workflow", "planning"]
+    }
+  ]
+}

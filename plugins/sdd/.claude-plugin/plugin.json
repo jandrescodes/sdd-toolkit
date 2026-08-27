@@ -1,0 +1,12 @@
+{
+  "name": "sdd",
+  "displayName": "Spec-Driven Development",
+  "version": "0.1.0",
+  "description": "Flujo SDD completo como skills y slash commands: constitución → spec (EARS) → clarificación → plan → tareas → implementación → validación → cambio.",
+  "author": {
+    "name": "Andres (jandrescodes)",
+    "url": "https://github.com/jandrescodes"
+  },
+  "license": "MIT",
+  "keywords": ["sdd", "spec-driven", "ears", "workflow", "planning", "specification"]
+}
