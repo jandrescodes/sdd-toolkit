@@ -3,6 +3,12 @@ name: spec-generator
 description: Usa esta skill cuando el usuario pida crear, redactar o revisar una especificación (spec) de una funcionalidad. Guía una entrevista de requisitos de una pregunta a la vez y produce un spec.md con requisitos en notación EARS siguiendo la plantilla incluida.
 ---
 
+<!--
+  Derivado de la skill `spec-generator` del curso de SDD de MoureDev
+  (https://github.com/mouredev/hello-sdd), bajo Apache License 2.0 — ver
+  LICENSE-APACHE y NOTICE. Modificado: texto de `description`.
+-->
+
 # Generador de specs
 
 Convierte una idea vaga en una especificación acordada. La spec es el

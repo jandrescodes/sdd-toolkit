@@ -92,4 +92,14 @@ reusarlo entre proyectos. Todo el mérito del método es de MoureDev.
 
 ## Licencia
 
-MIT — ver [LICENSE](./LICENSE).
+**MIT** para el trabajo propio de este repo (`install.sh`, `tests/validate.sh`,
+los 8 slash commands, la skill `sdd-flow`, los manifiestos del plugin) — ver
+[LICENSE](./LICENSE).
+
+**Apache License 2.0** para los archivos derivados del curso de MoureDev
+([hello-sdd](https://github.com/mouredev/hello-sdd), que es Apache-2.0) — ver
+[LICENSE-APACHE](./LICENSE-APACHE) y [NOTICE](./NOTICE). Son:
+`plugins/sdd/skills/spec-generator/SKILL.md`,
+`plugins/sdd/skills/spec-generator/spec-template.md`,
+`plugins/sdd/skills/sdd-flow/templates/AGENTS.md` y
+`plugins/sdd/skills/sdd-flow/templates/constitution.md`.

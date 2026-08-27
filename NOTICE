@@ -1,0 +1,35 @@
+sdd-toolkit
+Copyright (c) 2026 Jose Andrés Meneces López
+
+Este producto incluye software desarrollado como parte del curso de
+Spec-Driven Development de Brais Moure (MoureDev):
+
+    https://github.com/mouredev/hello-sdd
+    Licencia: Apache License 2.0
+
+Los siguientes archivos derivan de material de ese repositorio y se
+distribuyen bajo la Apache License 2.0 (ver LICENSE-APACHE), no bajo la
+licencia MIT del resto de este proyecto:
+
+    plugins/sdd/skills/spec-generator/SKILL.md
+        — derivado del SKILL.md de spec-generator de hello-sdd.
+          Modificado: texto de `description` en el frontmatter.
+
+    plugins/sdd/skills/spec-generator/spec-template.md
+        — copia de la plantilla de spec de hello-sdd (samples/spec.md /
+          skills/spec-generator/spec-template.md). Sin cambios de contenido.
+
+    plugins/sdd/skills/sdd-flow/templates/AGENTS.md
+        — derivado de samples/AGENTS.md de hello-sdd.
+          Modificado: rutas entre backticks; regla de no tocar `specs/`;
+          verificación al terminar más explícita.
+
+    plugins/sdd/skills/sdd-flow/templates/constitution.md
+        — estructura basada en docs/constitution.md de hello-sdd, generalizada
+          a huecos. Modificado: sin ejemplos atados a un stack.
+
+El método SDD, la aplicación de la notación EARS y la idea de la skill
+`spec-generator` provienen de ese mismo curso. Este repositorio solo empaqueta
+y distribuye ese flujo como plugin de Claude Code y script de instalación.
+
+Todo el mérito del método es de MoureDev.
