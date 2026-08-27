@@ -4,8 +4,12 @@
 #
 #   ./install.sh --target claude|opencode|both [--dry-run] [--force]
 #
-# claude   → ~/.claude/skills/           + ~/.claude/commands/
-# opencode → ~/.config/opencode/skills/  + ~/.config/opencode/command/
+# claude   → ~/.claude/skills/            + ~/.claude/commands/
+# opencode → ~/.config/opencode/skills/   + ~/.config/opencode/commands/
+#
+# Los commands del plugin no llevan prefijo (el plugin los expone como
+# `/sdd:<fase>`). Al instalarlos sueltos en un directorio plano, este script
+# les antepone `sdd-` para que no colisionen: `/sdd-<fase>`.
 set -eu
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,8 +24,8 @@ usage() {
   cat >&2 <<'EOF'
 Uso: ./install.sh --target claude|opencode|both [--dry-run] [--force]
 
-  claude    ~/.claude/skills/           + ~/.claude/commands/
-  opencode  ~/.config/opencode/skills/  + ~/.config/opencode/command/
+  claude    ~/.claude/skills/            + ~/.claude/commands/
+  opencode  ~/.config/opencode/skills/   + ~/.config/opencode/commands/
   both      ambos
 
   --dry-run  muestra qué copiaría sin escribir
@@ -32,7 +36,9 @@ EOF
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --target) TARGET="${2:-}"; shift 2 ;;
+    --target)
+      if [ $# -lt 2 ]; then echo "--target necesita un valor." >&2; usage; fi
+      TARGET="$2"; shift 2 ;;
     --target=*) TARGET="${1#*=}"; shift ;;
     --dry-run) DRY_RUN=1; shift ;;
     --force) FORCE=1; shift ;;
@@ -48,13 +54,18 @@ esac
 
 changed=0
 
-# copy_tree <dir-origen> <dir-destino>
+# copy_tree <dir-origen> <dir-destino> [prefijo-para-archivos-en-la-raíz]
 copy_tree() {
-  local src="$1" dst="$2" rel f target
+  local src="$1" dst="$2" prefix="${3:-}" rel f target
   [ -d "$src" ] || return 0
   while IFS= read -r f; do
-    rel="${f#$src/}"
-    target="$dst/$rel"
+    rel="${f#"$src"/}"
+    # El prefijo solo aplica a archivos en la raíz del árbol (los commands),
+    # no a archivos anidados dentro de una skill.
+    case "$rel" in
+      */*) target="$dst/$rel" ;;
+      *)   target="$dst/$prefix$rel" ;;
+    esac
     if [ -f "$target" ] && cmp -s "$f" "$target"; then
       continue
     fi
@@ -76,13 +87,13 @@ copy_tree() {
 install_claude() {
   echo "Claude Code:"
   copy_tree "$SRC_SKILLS" "$HOME/.claude/skills"
-  copy_tree "$SRC_COMMANDS" "$HOME/.claude/commands"
+  copy_tree "$SRC_COMMANDS" "$HOME/.claude/commands" "sdd-"
 }
 
 install_opencode() {
   echo "opencode:"
   copy_tree "$SRC_SKILLS" "$HOME/.config/opencode/skills"
-  copy_tree "$SRC_COMMANDS" "$HOME/.config/opencode/command"
+  copy_tree "$SRC_COMMANDS" "$HOME/.config/opencode/commands" "sdd-"
 }
 
 if [ "$TARGET" = "claude" ] || [ "$TARGET" = "both" ]; then install_claude; fi
