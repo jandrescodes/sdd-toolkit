@@ -1,6 +1,7 @@
 ---
 description: Fase 3 SDD — revisa la spec activa como QA profesional y lista ambigüedades, contradicciones, casos límite ausentes y conflictos con la constitución. No resuelve.
 argument-hint: "[ruta de la spec, si hay varias]"
+allowed-tools: Read, Grep, Glob
 ---
 
 Estás en la **fase 3 (Clarificación)** del flujo SDD.

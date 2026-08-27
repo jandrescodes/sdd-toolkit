@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "sdd-toolkit",
   "owner": {
     "name": "Andres (jandrescodes)",
@@ -10,8 +11,13 @@
       "name": "sdd",
       "source": "./plugins/sdd",
       "description": "Flujo Spec-Driven Development completo: constitución, spec (EARS), clarificación, plan, tareas, implementación, validación y cambio.",
+      "author": {
+        "name": "Andres (jandrescodes)",
+        "url": "https://github.com/jandrescodes"
+      },
       "category": "workflow",
-      "keywords": ["sdd", "spec-driven", "ears", "workflow", "planning"]
+      "keywords": ["sdd", "spec-driven", "ears", "workflow", "planning"],
+      "homepage": "https://github.com/jandrescodes/sdd-toolkit"
     }
   ]
 }

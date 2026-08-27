@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "sdd",
   "displayName": "Spec-Driven Development",
   "version": "0.1.0",
@@ -7,6 +8,7 @@
     "name": "Andres (jandrescodes)",
     "url": "https://github.com/jandrescodes"
   },
+  "homepage": "https://github.com/jandrescodes/sdd-toolkit",
   "license": "MIT",
   "keywords": ["sdd", "spec-driven", "ears", "workflow", "planning", "specification"]
 }

@@ -1,6 +1,7 @@
 ---
 description: Fase 7 SDD — recorre la spec RF por RF indicando qué test cubre cada uno y su resultado, y emite un veredicto de cumplimiento.
 argument-hint: "[ruta de la spec, si hay varias]"
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 Estás en la **fase 7 (Validación)** del flujo SDD.
