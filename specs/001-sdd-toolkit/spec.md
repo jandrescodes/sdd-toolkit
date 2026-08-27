@@ -28,12 +28,15 @@ un flujo SDD consistente entre proyectos, sin copiar prompts a mano.
 
 - RF-1: CUANDO el usuario ejecute `/plugin marketplace add <repo>` y luego
   `/plugin install sdd@sdd-toolkit` en Claude Code, EL SISTEMA expondrá 8 slash
-  commands con prefijo `sdd-` y 2 skills (`sdd`, `spec-generator`).
+  commands (namespaced por el plugin como `/sdd:<fase>`) y 2 skills
+  (`sdd-flow`, `spec-generator`).
 - RF-2: CUANDO el usuario ejecute `bash install.sh --target opencode`, EL SISTEMA
   copiará las skills a `~/.config/opencode/skills/` y los commands a
-  `~/.config/opencode/command/`.
+  `~/.config/opencode/commands/`, cada command con el nombre de archivo
+  prefijado `sdd-`.
 - RF-3: CUANDO el usuario ejecute `bash install.sh --target claude`, EL SISTEMA
-  copiará las skills a `~/.claude/skills/` y los commands a `~/.claude/commands/`.
+  copiará las skills a `~/.claude/skills/` y los commands a `~/.claude/commands/`,
+  cada command con el nombre de archivo prefijado `sdd-`.
 - RF-4: SI se pasa `--target both`, ENTONCES EL SISTEMA aplicará RF-2 y RF-3 en la
   misma ejecución.
 - RF-5: CUANDO `install.sh` se ejecute dos veces seguidas sin cambios en el
@@ -47,29 +50,29 @@ un flujo SDD consistente entre proyectos, sin copiar prompts a mano.
 
 ### Fases del flujo
 
-- RF-9: CUANDO se invoque `/sdd-constitution`, EL SISTEMA propondrá una
+- RF-9: CUANDO se invoque `/sdd:constitution`, EL SISTEMA propondrá una
   constitución de principios cortos y verificables y esperará aprobación antes de
   escribir `docs/constitution.md`.
-- RF-10: CUANDO se invoque `/sdd-spec`, EL SISTEMA iniciará una entrevista de
+- RF-10: CUANDO se invoque `/sdd:spec`, EL SISTEMA iniciará una entrevista de
   máximo 6 preguntas de una en una, NO escribirá código, y al terminar generará
   `specs/NNN-<slug>/spec.md` con RF en EARS y sección "Fuera de alcance".
-- RF-11: CUANDO se invoque `/sdd-clarify`, EL SISTEMA revisará la spec activa como
+- RF-11: CUANDO se invoque `/sdd:clarify`, EL SISTEMA revisará la spec activa como
   QA y listará ambigüedades, contradicciones, casos límite ausentes y conflictos
   con la constitución, sin proponer soluciones.
-- RF-12: CUANDO se invoque `/sdd-plan`, EL SISTEMA generará
+- RF-12: CUANDO se invoque `/sdd:plan`, EL SISTEMA generará
   `specs/NNN-<slug>/plan.md` con módulos, modelo de datos, decisiones
   justificadas y estrategia de tests, sin escribir código.
-- RF-13: SI al invocar `/sdd-plan` no existe `docs/constitution.md` o no hay
+- RF-13: SI al invocar `/sdd:plan` no existe `docs/constitution.md` o no hay
   spec activa en `specs/`, ENTONCES EL SISTEMA avisará y se detendrá.
-- RF-14: CUANDO se invoque `/sdd-tasks`, EL SISTEMA generará
+- RF-14: CUANDO se invoque `/sdd:tasks`, EL SISTEMA generará
   `specs/NNN-<slug>/tasks.md` con tareas ordenadas por dependencia, cada una con
   sus RF, un checkbox y una línea "Hecho cuando:" verificable.
-- RF-15: CUANDO se invoque `/sdd-implement <n>`, EL SISTEMA implementará solo la
+- RF-15: CUANDO se invoque `/sdd:implement <n>`, EL SISTEMA implementará solo la
   tarea T\<n\>, escribirá tests primero, ejecutará la suite, marcará la tarea y se
   detendrá.
-- RF-16: CUANDO se invoque `/sdd-validate`, EL SISTEMA recorrerá la spec RF por RF
+- RF-16: CUANDO se invoque `/sdd:validate`, EL SISTEMA recorrerá la spec RF por RF
   indicando qué test cubre cada uno y emitirá un veredicto de cumplimiento.
-- RF-17: CUANDO se invoque `/sdd-change <requisito>`, EL SISTEMA actualizará
+- RF-17: CUANDO se invoque `/sdd:change <requisito>`, EL SISTEMA actualizará
   primero la spec y mostrará el diff, sin tocar código.
 
 ### Mantenimiento y calidad
@@ -94,7 +97,7 @@ un flujo SDD consistente entre proyectos, sin copiar prompts a mano.
 - `install.sh` sin `~/.config/opencode/` ni `~/.claude/` → crea las rutas.
 - Reinstalar sobre una versión anterior → RF-5, RF-6.
 - Archivo de destino modificado por el usuario → RF-6 (se omite sin `--force`).
-- `/sdd-plan` en un proyecto sin constitución → RF-13.
+- `/sdd:plan` en un proyecto sin constitución → RF-13.
 - `marketplace.json` o `plugin.json` corrupto → RF-19.
 
 ## Fuera de alcance
@@ -106,11 +109,11 @@ repo en GitHub (lo hace el mantenedor a mano).
 ## Criterios de finalización
 
 - Todos los RF con evidencia en la validación (`specs/001-sdd-toolkit/` +
-  recorrido de `/sdd-validate`).
+  recorrido de `/sdd:validate`).
 - `bash tests/validate.sh` en verde.
 - `claude plugin validate ./plugins/sdd --strict` sin errores.
-- Demo manual: instalar en un proyecto scratch y ejecutar `/sdd-constitution` y
-  `/sdd-spec` sin errores.
+- Demo manual: instalar en un proyecto scratch y ejecutar `/sdd:constitution` y
+  `/sdd:spec` sin errores.
 
 ## Dudas abiertas
 
@@ -120,8 +123,9 @@ repo en GitHub (lo hace el mantenedor a mano).
 
 Hallazgos de la pasada QA y su resolución:
 
-1. **Ambigüedad**: "copiar commands a opencode" — opencode usa `command/`
-   (singular) para slash commands. Resuelto: RF-2 fija `~/.config/opencode/command/`.
+1. **Ambigüedad**: "copiar commands a opencode" — ¿a qué ruta? Resuelto: RF-2
+   fija `~/.config/opencode/commands/` (la que documenta opencode; probado:
+   también acepta `command/` en singular, pero se usa la documentada).
 2. **Caso límite ausente**: qué pasa si el destino fue editado por el usuario.
    Resuelto: RF-6 (omitir + informar; `--force` para sobrescribir).
 3. **Contradicción potencial**: RF-1 dice "8 commands", la lista tenía nombres
@@ -131,5 +135,23 @@ Hallazgos de la pasada QA y su resolución:
    se acepta `python3` **o** `node` (ambos habituales), no se añade dependencia.
 5. **Ambigüedad**: "esperará aprobación" en RF-9 — ¿y RF-10/12? Resuelto: spec y
    plan también piden aprobación explícita; recogido en cada command.
-6. **Caso límite**: `/sdd-implement` sin número. Resuelto: el command pide el
+6. **Caso límite**: `/sdd:implement` sin número. Resuelto: el command pide el
    número si falta (no asume T1).
+
+## Correcciones posteriores (revisión 2026-08-27)
+
+Segunda pasada de revisión sobre la versión inicial. Cambios de spec:
+
+- **RF-1**: los archivos de command del plugin **no** llevan prefijo `sdd-`;
+  Claude Code los namespacea como `/sdd:<fase>`. El prefijo `sdd-` lo añade
+  `install.sh` solo al copiarlos a un directorio plano (RF-2, RF-3).
+- **RF-2**: ruta de commands de opencode pasa a `~/.config/opencode/commands/`
+  (plural, documentada) en vez de `command/`.
+- **RF-8**: se cubre también `--target` presente pero sin valor (`./install.sh
+  --target`) → uso + salida 1.
+- **Criterios de finalización / RF-19**: `tests/validate.sh` incorpora una
+  prueba de humo real de `install.sh` (instala contra un `HOME` temporal y
+  verifica rutas, prefijo, idempotencia, `--dry-run`, `--force` y salidas de
+  error). Antes esa prueba solo estaba descrita en el plan.
+- **Licencia**: el material derivado de `mouredev/hello-sdd` (Apache-2.0) se
+  redistribuye bajo Apache-2.0, no MIT — ver `LICENSE-APACHE` y `NOTICE`.
