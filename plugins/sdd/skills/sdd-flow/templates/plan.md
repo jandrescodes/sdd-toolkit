@@ -20,12 +20,19 @@
 
 <Firmas de comandos/endpoints/funciones públicas, entradas y salidas.>
 
-## Estrategia de tests
+## Estrategia de verificación
 
-<Qué se prueba y cómo: unitarios, integración, datos inyectados, fixtures.>
+<Qué se prueba y cómo: suite automatizada (unitarios, integración, fixtures) o
+—si el proyecto no la tiene— checklist manual por rol/flujo y qué evidencia se
+pega.>
+
+## Riesgos
+
+- <Riesgo> → <mitigación o por qué se acepta>. <Enlaza a "Fuera de alcance" de
+  la spec si el riesgo se difiere.>
 
 ## Qué RF cubre cada parte
 
-| Parte | RF |
-| ----- | -- |
+| Parte | RF   |
+| ----- | ---- |
 | <…>   | RF-… |

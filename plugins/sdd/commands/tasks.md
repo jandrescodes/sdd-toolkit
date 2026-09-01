@@ -16,4 +16,9 @@ Plan: $ARGUMENTS (si está vacío, usa el `plan.md` de la spec activa más recie
    - El criterio "Hecho cuando" debe ser comprobable (un test, un comando, un
      archivo que existe), no "cuando funcione".
 3. Cubre todos los RF de la spec entre las tareas.
-4. No implementes nada todavía. Muéstrame la lista y espera el visto bueno.
+4. Añade siempre al final el bloque `## Cierre de la feature` de la plantilla
+   (checkboxes fuera de la numeración `Tn`: validación, roadmap, y los que
+   apliquen para CHANGELOG / despliegue / convención nueva). Deja como `<hueco>`
+   lo que dependa del proyecto; no inventes pasos que la constitución o
+   `AGENTS.md` no respalden.
+5. No implementes nada todavía. Muéstrame la lista y espera el visto bueno.
