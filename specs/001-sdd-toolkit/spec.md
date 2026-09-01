@@ -1,5 +1,7 @@
 # Spec 001 — sdd-toolkit
 
+**Estado:** implementada ✅ (0.2.0) — ver "Cambios posteriores" al final.
+
 ## Contexto y objetivo
 
 El flujo de Spec-Driven Development (Constitución → Spec → Clarificación → Plan →
@@ -61,17 +63,18 @@ un flujo SDD consistente entre proyectos, sin copiar prompts a mano.
   con la constitución, sin proponer soluciones.
 - RF-12: CUANDO se invoque `/sdd:plan`, EL SISTEMA generará
   `specs/NNN-<slug>/plan.md` con módulos, modelo de datos, decisiones
-  justificadas y estrategia de tests, sin escribir código.
+  justificadas, riesgos y estrategia de verificación, sin escribir código.
 - RF-13: SI al invocar `/sdd:plan` no existe `docs/constitution.md` o no hay
   spec activa en `specs/`, ENTONCES EL SISTEMA avisará y se detendrá.
 - RF-14: CUANDO se invoque `/sdd:tasks`, EL SISTEMA generará
   `specs/NNN-<slug>/tasks.md` con tareas ordenadas por dependencia, cada una con
   sus RF, un checkbox y una línea "Hecho cuando:" verificable.
 - RF-15: CUANDO se invoque `/sdd:implement <n>`, EL SISTEMA implementará solo la
-  tarea T\<n\>, escribirá tests primero, ejecutará la suite, marcará la tarea y se
-  detendrá.
+  tarea T\<n\>, verificación primero (suite automatizada o checklist manual),
+  la ejecutará, marcará la tarea y se detendrá.
 - RF-16: CUANDO se invoque `/sdd:validate`, EL SISTEMA recorrerá la spec RF por RF
-  indicando qué test cubre cada uno y emitirá un veredicto de cumplimiento.
+  con su verificación, escribirá `specs/NNN-<slug>/validation.md` y emitirá un
+  veredicto de cumplimiento.
 - RF-17: CUANDO se invoque `/sdd:change <requisito>`, EL SISTEMA actualizará
   primero la spec y mostrará el diff, sin tocar código.
 
@@ -102,9 +105,9 @@ un flujo SDD consistente entre proyectos, sin copiar prompts a mano.
 
 ## Fuera de alcance
 
-Soporte para Cursor u otros agentes; versionado semántico automático; CI/GitHub
-Actions; traducción del contenido a otros idiomas; interfaz gráfica; publicar el
-repo en GitHub (lo hace el mantenedor a mano).
+Soporte para Cursor u otros agentes; versionado semántico automático; traducción
+del contenido a otros idiomas; interfaz gráfica; publicar el repo en GitHub (lo
+hace el mantenedor a mano).
 
 ## Criterios de finalización
 
@@ -119,7 +122,7 @@ repo en GitHub (lo hace el mantenedor a mano).
 
 - Ninguna. (Resueltas en la clarificación — ver más abajo.)
 
-## Clarificación aplicada
+## Clarificaciones
 
 Hallazgos de la pasada QA y su resolución:
 
@@ -148,10 +151,27 @@ Segunda pasada de revisión sobre la versión inicial. Cambios de spec:
 - **RF-2**: ruta de commands de opencode pasa a `~/.config/opencode/commands/`
   (plural, documentada) en vez de `command/`.
 - **RF-8**: se cubre también `--target` presente pero sin valor (`./install.sh
-  --target`) → uso + salida 1.
+--target`) → uso + salida 1.
 - **Criterios de finalización / RF-19**: `tests/validate.sh` incorpora una
   prueba de humo real de `install.sh` (instala contra un `HOME` temporal y
   verifica rutas, prefijo, idempotencia, `--dry-run`, `--force` y salidas de
   error). Antes esa prueba solo estaba descrita en el plan.
 - **Licencia**: el material derivado de `mouredev/hello-sdd` (Apache-2.0) se
   redistribuye bajo Apache-2.0, no MIT — ver `LICENSE-APACHE` y `NOTICE`.
+
+## Cambios posteriores (mejoras de flujo, 2026-09)
+
+Fricciones detectadas al aplicar el toolkit a un repo real con historia
+(`un-repo-con-historia`) y corregidas en la versión 0.2.0. Cambios de spec:
+
+- **RF-15 / RF-16**: "tests" → "verificación" (suite automatizada **o** checklist
+  manual documentado), para proyectos sin suite. RF-16 además exige que la fase 7
+  deje `validation.md`.
+- **Fuera de alcance**: CI/GitHub Actions sale de la lista — se añade
+  `.github/workflows/validate.yml`.
+- **Nuevos artefactos de nivel proyecto / plantillas** (no cambian RF; son
+  material de la skill `sdd-flow`): `docs/roadmap.md`, `templates/roadmap.md`,
+  `templates/validation.md`, `templates/CLAUDE.md`,
+  `templates/AGENTS-sdd-section.md`, `docs/ADOPTING.md`.
+- **Fase 3**: su rastro se fija en `spec.md § Clarificaciones`.
+- Versión del plugin: `0.1.0` → `0.2.0`.

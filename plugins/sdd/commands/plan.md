@@ -1,5 +1,5 @@
 ---
-description: Fase 4 SDD — genera specs/NNN-<slug>/plan.md con módulos, modelo de datos, decisiones justificadas y estrategia de tests. Sin código.
+description: Fase 4 SDD — genera specs/NNN-<slug>/plan.md con módulos, modelo de datos, decisiones justificadas, riesgos y estrategia de verificación. Sin código.
 argument-hint: "[ruta de la spec, si hay varias]"
 ---
 
@@ -18,7 +18,9 @@ Spec: $ARGUMENTS (si está vacío, usa la spec activa más reciente de `specs/`)
    - Algoritmos no triviales con sus casos límite.
    - Decisiones técnicas, **cada una con la alternativa descartada** y por qué.
    - Contrato de interfaz (firmas, entradas/salidas, códigos de error).
-   - Estrategia de tests.
+   - Riesgos, cada uno con su mitigación o por qué se acepta.
+   - Estrategia de verificación: suite automatizada o —si el proyecto no la
+     tiene— checklist manual por rol/flujo y qué evidencia se pega.
    - Tabla de qué RF cubre cada parte.
 4. Todo el plan debe respetar la constitución. Si algo de la spec la contradice,
    señálalo en vez de planificarlo.

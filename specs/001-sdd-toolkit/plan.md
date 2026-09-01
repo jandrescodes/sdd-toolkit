@@ -19,7 +19,7 @@ install.sh --target claude|opencode|both [--dry-run] [--force]
 
 - Origen: `plugins/sdd/skills/` y `plugins/sdd/commands/` (RF-18).
 - Destinos:
-  - claude   → `~/.claude/skills/`         + `~/.claude/commands/`
+  - claude → `~/.claude/skills/` + `~/.claude/commands/`
   - opencode → `~/.config/opencode/skills/` + `~/.config/opencode/commands/`
 - Los commands (archivos en la raíz del árbol de origen) se copian con el
   nombre prefijado `sdd-` para no colisionar en un directorio plano; los
@@ -61,7 +61,17 @@ install.sh --target claude|opencode|both [--dry-run] [--force]
 El toolkit no persiste estado. Los únicos "datos" son archivos de texto:
 plantillas (origen) y sus copias (destino). El contrato es: origen manda.
 
-## Estrategia de tests
+## Riesgos
+
+- **Deriva entre el plugin y las copias de `install.sh`** → `plugins/sdd/` es la
+  única fuente editable (RF-18) y `tests/validate.sh` corre una prueba de humo
+  real de la instalación.
+- **`AGENTS.md` y `constitution.md` son Apache-2.0** → cualquier cambio de
+  contenido obliga a actualizar `NOTICE`; verificado en cada tanda de mejoras.
+- **Frontera de licencia difusa si se mueve `spec-template.md`** → se deja donde
+  está (en `spec-generator/`), documentado en README y `SKILL.md`.
+
+## Estrategia de verificación
 
 - `tests/validate.sh` (RF-19): parsea los 2 JSON; comprueba frontmatter
   `name`+`description` en cada `SKILL.md` y `description` en cada command;
@@ -76,12 +86,12 @@ plantillas (origen) y sus copias (destino). El contrato es: origen manda.
 
 ## Qué RF cubre cada parte
 
-| Parte | RF |
-| --- | --- |
-| `marketplace.json` + `plugin.json` | RF-1, RF-19 |
-| `install.sh` | RF-2..RF-8, RF-18 |
-| skill `spec-generator` + command `spec` | RF-10 |
-| skill `sdd-flow` + `templates/` | RF-9, RF-20 |
+| Parte                                     | RF                 |
+| ----------------------------------------- | ------------------ |
+| `marketplace.json` + `plugin.json`        | RF-1, RF-19        |
+| `install.sh`                              | RF-2..RF-8, RF-18  |
+| skill `spec-generator` + command `spec`   | RF-10              |
+| skill `sdd-flow` + `templates/`           | RF-9, RF-20        |
 | commands restantes (`clarify`, `plan`, …) | RF-9, RF-11..RF-17 |
-| `tests/validate.sh` | RF-19 |
-| `docs/` + `specs/001-sdd-toolkit/` | RF-20 |
+| `tests/validate.sh`                       | RF-19              |
+| `docs/` + `specs/001-sdd-toolkit/`        | RF-20              |

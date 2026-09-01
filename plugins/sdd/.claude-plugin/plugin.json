@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "sdd",
   "displayName": "Spec-Driven Development",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Flujo SDD completo como skills y slash commands: constitución → spec (EARS) → clarificación → plan → tareas → implementación → validación → cambio.",
   "author": {
     "name": "Andres (jandrescodes)",

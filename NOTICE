@@ -13,7 +13,9 @@ licencia MIT del resto de este proyecto:
 
     plugins/sdd/skills/spec-generator/SKILL.md
         — derivado del SKILL.md de spec-generator de hello-sdd.
-          Modificado: texto de `description` en el frontmatter.
+          Modificado: texto de `description` en el frontmatter; regla de
+          numeración de `specs/NNN` (contador monótono, no ligado al roadmap);
+          campo `**Estado:**` en el paso de redacción.
 
     plugins/sdd/skills/spec-generator/spec-template.md
         — copia de la plantilla de spec de hello-sdd (samples/spec.md /
@@ -22,11 +24,16 @@ licencia MIT del resto de este proyecto:
     plugins/sdd/skills/sdd-flow/templates/AGENTS.md
         — derivado de samples/AGENTS.md de hello-sdd.
           Modificado: rutas entre backticks; regla de no tocar `specs/`;
-          verificación al terminar más explícita.
+          verificación al terminar más explícita; línea de verificación como
+          puerta en Comandos; reglas de precedencia y de no desplegar
+          `docs/`/`specs/`.
 
     plugins/sdd/skills/sdd-flow/templates/constitution.md
         — estructura basada en docs/constitution.md de hello-sdd, generalizada
-          a huecos. Modificado: sin ejemplos atados a un stack.
+          a huecos. Modificado: sin ejemplos atados a un stack; principio de
+          "tests como puerta" ampliado a "verificación como puerta" para
+          admitir checklist manual documentado; añadido principio de "alcance
+          del producto".
 
 El método SDD, la aplicación de la notación EARS y la idea de la skill
 `spec-generator` provienen de ese mismo curso. Este repositorio solo empaqueta

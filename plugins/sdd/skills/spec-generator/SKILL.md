@@ -6,7 +6,8 @@ description: Usa esta skill cuando el usuario pida crear, redactar o revisar una
 <!--
   Derivado de la skill `spec-generator` del curso de SDD de MoureDev
   (https://github.com/mouredev/hello-sdd), bajo Apache License 2.0 — ver
-  LICENSE-APACHE y NOTICE. Modificado: texto de `description`.
+  LICENSE-APACHE y NOTICE. Modificado: texto de `description`; regla de
+  numeración de `specs/NNN` y campo `**Estado:**` en el paso de redacción.
 -->
 
 # Generador de specs
@@ -24,10 +25,16 @@ contrato: si algo no está aquí, no se implementa.
    usuario pregunta "¿cómo lo harías?", redirige al QUÉ.
    Prioriza preguntas cuya respuesta cambie lo que hay que construir; descarta
    las que tengan una respuesta obvia por defecto.
-3. **Elige el número.** Mira `specs/` y usa el siguiente libre con tres
-   dígitos: `specs/NNN-<nombre-en-kebab-case>/spec.md`.
+3. **Elige el número.** Contador propio de `specs/`, tres dígitos, monótono y
+   sin reutilizar números borrados: usa el siguiente libre
+   (`specs/NNN-<nombre-en-kebab-case>/spec.md`). En un repo nuevo empieza en
+   `001`; al adoptar SDD sobre una serie ya numerada, continúala (la decisión
+   se anota en `AGENTS.md`). El número **no** es el ordinal de `docs/roadmap.md`
+   ni un RF histórico. Lee `docs/roadmap.md` si existe.
 4. **Redacta** usando `spec-template.md` de esta skill, sin saltarte
-   secciones. Criterios de aceptación **siempre en notación EARS**, numerados
+   secciones. Añade bajo el título una línea
+   `**Estado:** <propuesta | en curso | implementada ✅>`.
+   Criterios de aceptación **siempre en notación EARS**, numerados
    como RF-1, RF-2, … Cada requisito debe ser verificable: si no se te ocurre
    cómo comprobarlo, está mal escrito.
 5. **Marca lo que no sepas** como `[NECESITA ACLARACIÓN: pregunta concreta]`.

@@ -13,7 +13,7 @@
       `validate.sh` valida ambos JSON.
 - [x] T4. Skill `spec-generator`: copiada y generalizada. (RF-10)
       Hecho cuando: frontmatter válido, sin referencias a proyectos concretos.
-- [x] T5. Skill `sdd-flow` + 4 plantillas en `templates/`. (RF-9, RF-20)
+- [x] T5. Skill `sdd-flow` + plantillas en `templates/`. (RF-9, RF-20)
       Hecho cuando: SKILL.md describe las 8 fases y enlaza cada plantilla.
 - [x] T6. Los 8 slash commands. (RF-9, RF-11..RF-17)
       Hecho cuando: cada uno con frontmatter `description`; `validate.sh` verde.
@@ -44,3 +44,27 @@
       (RF-2..RF-8, RF-19)
       Hecho cuando: `bash tests/validate.sh` ejecuta la instalación en un `HOME`
       temporal y todas las aserciones pasan.
+
+## Mejoras de flujo (2026-09)
+
+Ver `spec.md § Cambios posteriores` y `CHANGELOG.md`.
+
+- [x] T13. Grupo A: `validate.md` escribe `validation.md` (+ `Write`/`Skill`);
+      "verificación como puerta" en `/sdd:constitution` y plantilla; CI
+      (`.github/workflows/validate.yml`); `description` de `sdd-flow`.
+- [x] T14. Grupo B: plantillas `roadmap.md`, `validation.md`, `CLAUDE.md`,
+      `AGENTS-sdd-section.md`; huecos en `plan.md` (`## Riesgos`), `tasks.md`
+      (`## Cierre de la feature`), `spec-generator` (numeración + `**Estado:**`).
+- [x] T15. Grupo C: secciones de `SKILL.md` (adoptar, sobre `AGENTS.md`,
+      precedencia, no-deploy); `clarify` → `§ Clarificaciones`; `implement`
+      solo `Tn`; `constitution` pide alcance de producto.
+- [x] T16. Grupo D: `docs/roadmap.md`, `docs/ADOPTING.md`, `README`, dogfood de
+      `specs/001`, `plugin.json` a `0.2.0`.
+
+## Cierre de la feature
+
+- [x] Verificación de todos los RF (`specs/001-sdd-toolkit/validation.md`).
+- [x] Mover la feature a `Hecho ✅` en `docs/roadmap.md`.
+- [x] `CHANGELOG.md` al día (`## [No publicado]`).
+- [ ] Etiquetar la versión `0.2.0` (sin prefijo `v`) — lo hace el mantenedor.
+- [x] Convenciones nuevas anotadas en la propia skill `sdd-flow`.

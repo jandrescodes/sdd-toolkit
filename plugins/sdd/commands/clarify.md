@@ -18,5 +18,8 @@ Spec a revisar: $ARGUMENTS (si está vacío, usa la spec activa más reciente de
       concurrencia).
    4. Conflictos con la constitución.
 3. Para cada punto, cita el RF o la línea concreta.
-4. No propongas soluciones hasta que te lo pida. Cuando lo haga, aplicaremos los
-   cambios a la spec y anotaremos la resolución.
+4. No propongas soluciones hasta que te lo pida. Cuando lo haga, se aplican los
+   cambios a los RF afectados y cada hallazgo resuelto se anota como una línea
+   en una sección `## Clarificaciones` al final de `spec.md` (qué se preguntó,
+   qué se decidió, qué RF tocó). El historial de clarificaciones vive en
+   `spec.md`, no en `plan.md`.

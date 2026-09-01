@@ -15,5 +15,5 @@ Cambio solicitado: $ARGUMENTS
 4. Actualiza la spec (RF en EARS, y "Fuera de alcance" si el cambio recorta
    algo) y **muéstrame el diff**.
 5. Espera mi aprobación del diff.
-6. Solo entonces: actualiza el plan y las tareas afectadas, y sigue con la fase 6
-   para implementar los RF nuevos o cambiados.
+6. Solo entonces: actualiza el plan, las tareas afectadas y `validation.md` si
+   ya existía, y sigue con la fase 6 para implementar los RF nuevos o cambiados.
