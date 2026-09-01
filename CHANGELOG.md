@@ -34,7 +34,7 @@ Mejoras de flujo tras aplicar el toolkit a un repo real con historia. El tag
 - `docs/roadmap.md` como artefacto de nivel proyecto: `/sdd:spec` lo lee al
   elegir número, `/sdd:validate` mueve la feature a `Hecho ✅` al cerrarla.
 - `docs/ADOPTING.md`: checklist de 8 pasos para adoptar SDD en un repo con
-  historia, con un caso real. Enlazado desde `README` y `sdd-flow/SKILL.md`.
+  historia, con un ejemplo trabajado. Enlazado desde `README` y `sdd-flow/SKILL.md`.
 - `docs/artefactos.md`: mapa canónico de dónde vive cada artefacto SDD (ruta,
   quién lo toca, fase, plantilla origen) + reglas de numeración y precedencia.
 

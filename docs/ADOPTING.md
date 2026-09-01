@@ -3,7 +3,7 @@
 El flujo de la skill `sdd-flow` cubre "arrancar de cero". Este documento cubre el
 caso opuesto: un repo que **ya** tiene MVP, convenciones dispersas y features
 hechas. La versión corta de este checklist vive en `sdd-flow/SKILL.md` §
-"Adoptar en un repo con historia"; aquí está el detalle con un caso real.
+"Adoptar en un repo con historia"; aquí está el detalle y un ejemplo trabajado.
 
 > Regla general: **nada de código**. La adopción es una tarea de documentación.
 > Todo va a un commit `docs:` aparte, aprobado antes de escribir.
@@ -61,20 +61,20 @@ plantillas de PR: cualquier "lee `CLAUDE.md` primero" o flujo ad-hoc anterior
 pasa a apuntar al flujo SDD. Deja intactas las menciones históricas del
 `CHANGELOG`.
 
-## Caso real — `un-repo-con-historia`
+## Ejemplo — un repo con MVP y estructura `spec/` ad-hoc previa
 
-Commit de adopción: **21 archivos, +1089 / −714**, un solo commit `docs:`.
+Forma típica de la adopción, en un solo commit `docs:` (sin tocar código):
 
-| Qué se hizo        | Detalle                                                                                                  |
-| ------------------ | -------------------------------------------------------------------------------------------------------- |
-| Fusionar contexto  | `AGENT.md` (borrado) + grueso de `CLAUDE.md` (−348 líneas) → `AGENTS.md`; `CLAUDE.md` quedó en 16 líneas |
-| Constitución       | 9 principios derivados del código (borrado lógico, `Gate` único, validación doble, etc.)                 |
-| Roadmap            | `spec/constitution/roadmap.md` → `docs/roadmap.md`, reescribiendo rutas internas                         |
-| Misión             | `spec/constitution/mission.md` borrado; el "Qué NO es" → `README.md § Alcance`                           |
-| Tech-stack         | `spec/constitution/tech-stack.md` (72 líneas) fundido en `AGENTS.md`                                     |
-| Feature de ejemplo | `spec/features/007-…` conservada solo como referencia externa                                            |
-| Numeración         | la serie siguió en `008-…` (heredó el `007` previo), anotado en `AGENTS.md`                              |
-| Deploy             | `deploy.yml`: `--exclude='docs/' --exclude='specs/'` en el `rsync`                                       |
-| Barrido            | README, `PROMPTS.md`, docs internos, cabecera de la skill propia `una-skill-propia`                       |
+| Qué se hizo        | Detalle                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| Fusionar contexto  | `AGENT.md` + el grueso de `CLAUDE.md` → `AGENTS.md` terso; `CLAUDE.md` reducido a `@AGENTS.md` + notas de Claude Code |
+| Constitución       | Principios derivados del código real (reglas implícitas que ya se respetaban)              |
+| Roadmap            | `spec/constitution/roadmap.md` → `docs/roadmap.md`, reescribiendo las rutas internas       |
+| Misión / alcance   | `spec/constitution/mission.md` → `README.md § Alcance` (era un producto con README público) |
+| Tech-stack         | `spec/constitution/tech-stack.md` fundido en `AGENTS.md` (reglas) + `docs/` (referencia)   |
+| Feature de ejemplo | La feature ya documentada en `spec/features/NNN-…` se conservó solo como referencia         |
+| Numeración         | La serie de `specs/` continuó desde el último número usado, anotado en `AGENTS.md`          |
+| Deploy             | Workflow de deploy: `--exclude='docs/' --exclude='specs/'` en el `rsync`                    |
+| Barrido            | README, prompts internos, docs internos y cabeceras de skills propias del repo             |
 
 Después de eso, las fases 1-8 del flujo normal aplican sin cambios.

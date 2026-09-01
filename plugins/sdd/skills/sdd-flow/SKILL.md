@@ -56,7 +56,7 @@ toca qué: `docs/artefactos.md` del toolkit.
 ## Adoptar en un repo con historia
 
 Si el repo ya tiene MVP, convenciones dispersas y features hechas, **no** empieces
-de cero. Checklist (versión larga con un caso real en `docs/ADOPTING.md` del
+de cero. Checklist (versión larga con un ejemplo en `docs/ADOPTING.md` del
 toolkit):
 
 1. Inventaria dónde viven hoy las convenciones (`CLAUDE.md`, `AGENT(S).md`,

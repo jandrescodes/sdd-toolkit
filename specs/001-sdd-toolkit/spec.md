@@ -162,7 +162,8 @@ Segunda pasada de revisión sobre la versión inicial. Cambios de spec:
 ## Cambios posteriores (mejoras de flujo, 2026-09)
 
 Fricciones detectadas al aplicar el toolkit a un repo real con historia
-(`un-repo-con-historia`) y corregidas en la versión 0.2.0. Cambios de spec:
+(MVP hecho, convenciones dispersas) y corregidas en la versión 0.2.0. Cambios de
+spec:
 
 - **RF-15 / RF-16**: "tests" → "verificación" (suite automatizada **o** checklist
   manual documentado), para proyectos sin suite. RF-16 además exige que la fase 7
