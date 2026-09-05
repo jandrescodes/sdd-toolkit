@@ -1,80 +1,83 @@
-# Adoptar SDD en un repo con historia
+# Adopting SDD into a repo with history
 
-El flujo de la skill `sdd-flow` cubre "arrancar de cero". Este documento cubre el
-caso opuesto: un repo que **ya** tiene MVP, convenciones dispersas y features
-hechas. La versión corta de este checklist vive en `sdd-flow/SKILL.md` §
-"Adoptar en un repo con historia"; aquí está el detalle y un ejemplo trabajado.
+The `sdd-flow` skill's flow covers "starting from scratch". This document
+covers the opposite case: a repo that **already** has an MVP, scattered
+conventions, and finished features. The short version of this checklist
+lives in `sdd-flow/SKILL.md` § "Adopting into a repo with history"; here's
+the detail and a worked example.
 
-> Regla general: **nada de código**. La adopción es una tarea de documentación.
-> Todo va a un commit `docs:` aparte, aprobado antes de escribir.
+> General rule: **no code**. Adoption is a documentation task. Everything
+> goes into a separate `docs:` commit, approved before writing.
 
 ## Checklist
 
-### 1. Inventariar dónde viven hoy las convenciones
+### 1. Inventory where conventions currently live
 
-`CLAUDE.md`, `AGENT.md`/`AGENTS.md`, `CONTRIBUTING.md`, `docs/`, wikis, cabeceras
-de skills propias, plantillas de PR. Haz la lista antes de mover nada.
+`CLAUDE.md`, `AGENT.md`/`AGENTS.md`, `CONTRIBUTING.md`, `docs/`, wikis,
+headers of your own skills, PR templates. Make the list before moving
+anything.
 
-### 2. Consolidar en `AGENTS.md` terso + `docs/`
+### 2. Consolidate into a terse `AGENTS.md` + `docs/`
 
-`AGENTS.md` es el índice de **reglas** ("haz X" / "nunca Y"). Todo lo que sea
-material de consulta — volcados de API, catálogos de endpoints, tablas de
-esquema, flujos paso a paso — va a `docs/<tema>.md`, enlazado con una línea.
-`CLAUDE.md` queda con la línea `@AGENTS.md` + lo exclusivo de Claude Code.
-Pega el bloque `templates/AGENTS-sdd-section.md` en `AGENTS.md`.
+`AGENTS.md` is the index of **rules** ("do X" / "never Y"). Anything that's
+reference material — API dumps, endpoint catalogs, schema tables,
+step-by-step flows — goes to `docs/<topic>.md`, linked with one line.
+`CLAUDE.md` keeps the `@AGENTS.md` line + whatever's exclusive to Claude
+Code. Paste the `templates/AGENTS-sdd-section.md` block into `AGENTS.md`.
 
-### 3. Derivar `docs/constitution.md` de lo que el repo ya hace
+### 3. Derive `docs/constitution.md` from what the repo already does
 
-Stack real, reglas implícitas en el código, límites que ya se respetan. No la
-inventes: si el código nunca usa `DELETE` físico, eso es un principio; si toda
-autorización pasa por un punto único, eso es un principio.
+Real stack, rules implicit in the code, limits already respected. Don't
+invent it: if the code never does a hard `DELETE`, that's a principle; if
+all authorization goes through a single point, that's a principle.
 
-### 4. Sembrar `docs/roadmap.md`
+### 4. Seed `docs/roadmap.md`
 
-Sección `Hecho ✅` con las features existentes, **una línea cada una**. No
-retroactives `spec/plan/tasks` de lo ya hecho — apunta al `CHANGELOG`.
-`Siguiente` / `Backlog` con lo que venga.
+`Done ✅` section with the existing features, **one line each**. Don't
+retroactively write `spec/plan/tasks` for what's already done — point to the
+`CHANGELOG`. `Next` / `Backlog` with what's coming.
 
-### 5. Decidir dónde va el alcance de producto
+### 5. Decide where product scope lives
 
-El "qué es y qué NO es" (`mission` en estructuras antiguas): si el repo tiene
-README público, la versión larga va ahí y la constitución la resume en un
-principio; si no, va entera en la constitución.
+The "what it is and what it's NOT" (`mission` in older structures): if the
+repo has a public README, the long version goes there and the constitution
+summarizes it in one principle; if not, it goes entirely in the
+constitution.
 
-### 6. Numeración de `specs/`
+### 6. `specs/` numbering
 
-Si el repo ya tenía specs numeradas (p. ej. una carpeta `spec/features/007-…`
-previa), **continúa la serie** — la siguiente feature es `008`, no `001` — y
-anota esa decisión en `AGENTS.md`. El número no tiene que coincidir con el
-ordinal del roadmap ni con RF históricos.
+If the repo already had numbered specs (e.g. a prior `spec/features/007-…`
+folder), **continue the series** — the next feature is `008`, not `001` —
+and note that decision in `AGENTS.md`. The number doesn't have to match the
+roadmap's ordinal or historical FRs.
 
-### 7. Excluir `docs/` y `specs/` del despliegue
+### 7. Exclude `docs/` and `specs/` from deployment
 
-Son artefactos de desarrollo y suelen contener esquema, queries y umbrales. Si el
-deploy hace `rsync`/copia del checkout, añade `--exclude='docs/' --exclude='specs/'`
-(y `.github/`). Si el servidor sirve el repo directamente, sácalos del docroot.
+They're development artifacts and often contain schema, queries, and
+thresholds. If the deploy does `rsync`/a checkout copy, add
+`--exclude='docs/' --exclude='specs/'` (and `.github/`). If the server
+serves the repo directly, remove them from the docroot.
 
-### 8. Barrer las referencias
+### 8. Sweep the references
 
-`README.md`, archivos de prompts, docs internos, cabeceras de skills propias,
-plantillas de PR: cualquier "lee `CLAUDE.md` primero" o flujo ad-hoc anterior
-pasa a apuntar al flujo SDD. Deja intactas las menciones históricas del
-`CHANGELOG`.
+`README.md`, prompt files, internal docs, headers of your own skills, PR
+templates: any prior "read `CLAUDE.md` first" or ad-hoc flow now points to
+the SDD flow. Leave historical `CHANGELOG` mentions intact.
 
-## Ejemplo — un repo con MVP y estructura `spec/` ad-hoc previa
+## Example — a repo with an MVP and a prior ad-hoc `spec/` structure
 
-Forma típica de la adopción, en un solo commit `docs:` (sin tocar código):
+Typical shape of the adoption, in a single `docs:` commit (no code touched):
 
-| Qué se hizo        | Detalle                                                                                     |
-| ------------------ | ------------------------------------------------------------------------------------------- |
-| Fusionar contexto  | `AGENT.md` + el grueso de `CLAUDE.md` → `AGENTS.md` terso; `CLAUDE.md` reducido a `@AGENTS.md` + notas de Claude Code |
-| Constitución       | Principios derivados del código real (reglas implícitas que ya se respetaban)              |
-| Roadmap            | `spec/constitution/roadmap.md` → `docs/roadmap.md`, reescribiendo las rutas internas       |
-| Misión / alcance   | `spec/constitution/mission.md` → `README.md § Alcance` (era un producto con README público) |
-| Tech-stack         | `spec/constitution/tech-stack.md` fundido en `AGENTS.md` (reglas) + `docs/` (referencia)   |
-| Feature de ejemplo | La feature ya documentada en `spec/features/NNN-…` se conservó solo como referencia         |
-| Numeración         | La serie de `specs/` continuó desde el último número usado, anotado en `AGENTS.md`          |
-| Deploy             | Workflow de deploy: `--exclude='docs/' --exclude='specs/'` en el `rsync`                    |
-| Barrido            | README, prompts internos, docs internos y cabeceras de skills propias del repo             |
+| What was done   | Detail                                                                                                            |
+| --------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Merge context   | `AGENT.md` + the bulk of `CLAUDE.md` → terse `AGENTS.md`; `CLAUDE.md` reduced to `@AGENTS.md` + Claude Code notes |
+| Constitution    | Principles derived from the real code (implicit rules already respected)                                          |
+| Roadmap         | `spec/constitution/roadmap.md` → `docs/roadmap.md`, rewriting internal paths                                      |
+| Mission / scope | `spec/constitution/mission.md` → `README.md § Scope` (it was a product with a public README)                      |
+| Tech stack      | `spec/constitution/tech-stack.md` merged into `AGENTS.md` (rules) + `docs/` (reference)                           |
+| Example feature | The feature already documented in `spec/features/NNN-…` was kept only as reference                                |
+| Numbering       | The `specs/` series continued from the last number used, noted in `AGENTS.md`                                     |
+| Deploy          | Deploy workflow: `--exclude='docs/' --exclude='specs/'` in the `rsync`                                            |
+| Sweep           | README, internal prompts, internal docs, and headers of the repo's own skills                                     |
 
-Después de eso, las fases 1-8 del flujo normal aplican sin cambios.
+After that, the normal flow's phases 1-8 apply unchanged.

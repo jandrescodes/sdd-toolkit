@@ -1,42 +1,45 @@
 sdd-toolkit
 Copyright (c) 2026 Jose Andrés Meneces López
 
-Este producto incluye software desarrollado como parte del curso de
-Spec-Driven Development de Brais Moure (MoureDev):
+This product includes software developed as part of Brais Moure's
+(MoureDev) Spec-Driven Development course:
 
     https://github.com/mouredev/hello-sdd
-    Licencia: Apache License 2.0
+    License: Apache License 2.0
 
-Los siguientes archivos derivan de material de ese repositorio y se
-distribuyen bajo la Apache License 2.0 (ver LICENSE-APACHE), no bajo la
-licencia MIT del resto de este proyecto:
+The following files derive from material in that repository and are
+distributed under the Apache License 2.0 (see LICENSE-APACHE), not under
+this project's MIT license:
 
     plugins/sdd/skills/spec-generator/SKILL.md
-        — derivado del SKILL.md de spec-generator de hello-sdd.
-          Modificado: texto de `description` en el frontmatter; regla de
-          numeración de `specs/NNN` (contador monótono, no ligado al roadmap);
-          campo `**Estado:**` en el paso de redacción.
+        — derived from hello-sdd's spec-generator SKILL.md.
+          Modified: frontmatter `description` text; `specs/NNN` numbering
+          rule (monotonic counter, not tied to the roadmap); `**Status:**`
+          field in the drafting step; translated to English with the spec
+          content language now chosen by the target project.
 
     plugins/sdd/skills/spec-generator/spec-template.md
-        — copia de la plantilla de spec de hello-sdd (samples/spec.md /
-          skills/spec-generator/spec-template.md). Sin cambios de contenido.
+        — copy of hello-sdd's spec template (samples/spec.md /
+          skills/spec-generator/spec-template.md). Translated to English;
+          no other content changes.
 
     plugins/sdd/skills/sdd-flow/templates/AGENTS.md
-        — derivado de samples/AGENTS.md de hello-sdd.
-          Modificado: rutas entre backticks; regla de no tocar `specs/`;
-          verificación al terminar más explícita; línea de verificación como
-          puerta en Comandos; reglas de precedencia y de no desplegar
-          `docs/`/`specs/`.
+        — derived from hello-sdd's samples/AGENTS.md.
+          Modified: paths in backticks; rule against touching `specs/`;
+          more explicit end-of-task verification; verification-as-a-gate
+          line in Commands; precedence and docs/specs-not-deployed rules;
+          translated to English.
 
     plugins/sdd/skills/sdd-flow/templates/constitution.md
-        — estructura basada en docs/constitution.md de hello-sdd, generalizada
-          a huecos. Modificado: sin ejemplos atados a un stack; principio de
-          "tests como puerta" ampliado a "verificación como puerta" para
-          admitir checklist manual documentado; añadido principio de "alcance
-          del producto".
+        — structure based on hello-sdd's docs/constitution.md, generalized
+          into blanks. Modified: no stack-specific examples; "tests as a
+          gate" principle broadened to "verification as a gate" to admit a
+          documented manual checklist; added a "product scope" principle;
+          translated to English.
 
-El método SDD, la aplicación de la notación EARS y la idea de la skill
-`spec-generator` provienen de ese mismo curso. Este repositorio solo empaqueta
-y distribuye ese flujo como plugin de Claude Code y script de instalación.
+The SDD method, the application of EARS notation, and the idea for the
+`spec-generator` skill come from that same course. This repository only
+packages and distributes that flow as a Claude Code plugin and an install
+script.
 
-Todo el mérito del método es de MoureDev.
+All credit for the method goes to MoureDev.
