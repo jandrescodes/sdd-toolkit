@@ -1,178 +1,213 @@
 # Spec 001 — sdd-toolkit
 
-**Estado:** implementada ✅ (0.2.0) — ver "Cambios posteriores" al final.
+**Status:** implemented ✅ (0.3.0) — see "Later changes" at the end.
 
-## Contexto y objetivo
+## Context and goal
 
-El flujo de Spec-Driven Development (Constitución → Spec → Clarificación → Plan →
-Tareas → Implementación → Validación → Cambio) hoy vive disperso: prompts sueltos
-y una skill instalada a mano en un proyecto. Este toolkit lo empaqueta como algo
-reutilizable e instalable, para que cualquier proyecto nuevo tenga las 8 fases
-disponibles como skills y slash commands, en Claude Code y en opencode.
+The Spec-Driven Development flow (Constitution → Spec → Clarification → Plan
+→ Tasks → Implementation → Validation → Change) today lives scattered:
+loose prompts and a skill installed by hand in a project. This toolkit
+packages it as something reusable and installable, so any new project has
+the 8 phases available as skills and slash commands, in Claude Code and in
+opencode.
 
-## Usuarios / actores
+## Users / actors
 
-Desarrolladores que trabajan con agentes de IA (Claude Code u opencode) y quieren
-un flujo SDD consistente entre proyectos, sin copiar prompts a mano.
+Developers working with AI agents (Claude Code or opencode) who want a
+consistent SDD flow across projects, without copying prompts by hand.
 
-## Historias de usuario
+## User stories
 
-- H1: Como desarrollador quiero instalar el toolkit una vez para tener el flujo
-  SDD en todos mis proyectos.
-- H2: Como desarrollador quiero un comando por fase para no memorizar prompts.
-- H3: Como desarrollador quiero una entrevista guiada de requisitos que genere la
-  spec con el formato acordado.
-- H4: Como mantenedor quiero editar el contenido en un solo sitio.
+- U1: As a developer I want to install the toolkit once to have the SDD
+  flow in all my projects.
+- U2: As a developer I want one command per phase so I don't have to
+  memorize prompts.
+- U3: As a developer I want a guided requirements interview that generates
+  the spec in the agreed format.
+- U4: As a maintainer I want to edit the content in a single place.
 
-## Requisitos funcionales (criterios de aceptación en EARS)
+## Functional requirements (EARS acceptance criteria)
 
-### Distribución e instalación
+### Distribution and installation
 
-- RF-1: CUANDO el usuario ejecute `/plugin marketplace add <repo>` y luego
-  `/plugin install sdd@sdd-toolkit` en Claude Code, EL SISTEMA expondrá 8 slash
-  commands (namespaced por el plugin como `/sdd:<fase>`) y 2 skills
+- FR-1: WHEN the user runs `/plugin marketplace add <repo>` and then
+  `/plugin install sdd@sdd-toolkit` in Claude Code, THE SYSTEM shall expose
+  8 slash commands (namespaced by the plugin as `/sdd:<phase>`) and 2 skills
   (`sdd-flow`, `spec-generator`).
-- RF-2: CUANDO el usuario ejecute `bash install.sh --target opencode`, EL SISTEMA
-  copiará las skills a `~/.config/opencode/skills/` y los commands a
-  `~/.config/opencode/commands/`, cada command con el nombre de archivo
-  prefijado `sdd-`.
-- RF-3: CUANDO el usuario ejecute `bash install.sh --target claude`, EL SISTEMA
-  copiará las skills a `~/.claude/skills/` y los commands a `~/.claude/commands/`,
-  cada command con el nombre de archivo prefijado `sdd-`.
-- RF-4: SI se pasa `--target both`, ENTONCES EL SISTEMA aplicará RF-2 y RF-3 en la
-  misma ejecución.
-- RF-5: CUANDO `install.sh` se ejecute dos veces seguidas sin cambios en el
-  origen, EL SISTEMA dejará el destino idéntico la segunda vez (idempotente).
-- RF-6: SI un archivo de destino ya existe y difiere del origen, ENTONCES
-  `install.sh` lo omitirá e informará, salvo que se pase `--force`.
-- RF-7: CUANDO se pase `--dry-run`, EL SISTEMA listará qué copiaría sin escribir
-  nada.
-- RF-8: SI se pasa un `--target` no reconocido o ningún target, ENTONCES
-  `install.sh` mostrará el uso y terminará con salida 1.
+- FR-2: WHEN the user runs `bash install.sh --target opencode`, THE SYSTEM
+  shall copy the skills to `~/.config/opencode/skills/` and the commands to
+  `~/.config/opencode/commands/`, each command file prefixed with `sdd-`.
+- FR-3: WHEN the user runs `bash install.sh --target claude`, THE SYSTEM
+  shall copy the skills to `~/.claude/skills/` and the commands to
+  `~/.claude/commands/`, each command file prefixed with `sdd-`.
+- FR-4: IF `--target both` is passed, THEN THE SYSTEM shall apply FR-2 and
+  FR-3 in the same run.
+- FR-5: WHEN `install.sh` runs twice in a row with no changes to the
+  source, THE SYSTEM shall leave the destination identical the second time
+  (idempotent).
+- FR-6: IF a destination file already exists and differs from the source,
+  THEN `install.sh` shall skip it and report it, unless `--force` is
+  passed.
+- FR-7: WHEN `--dry-run` is passed, THE SYSTEM shall list what it would
+  copy without writing anything.
+- FR-8: IF an unrecognized `--target` is passed, or none at all, THEN
+  `install.sh` shall print usage and exit with status 1.
 
-### Fases del flujo
+### Flow phases
 
-- RF-9: CUANDO se invoque `/sdd:constitution`, EL SISTEMA propondrá una
-  constitución de principios cortos y verificables y esperará aprobación antes de
-  escribir `docs/constitution.md`.
-- RF-10: CUANDO se invoque `/sdd:spec`, EL SISTEMA iniciará una entrevista de
-  máximo 6 preguntas de una en una, NO escribirá código, y al terminar generará
-  `specs/NNN-<slug>/spec.md` con RF en EARS y sección "Fuera de alcance".
-- RF-11: CUANDO se invoque `/sdd:clarify`, EL SISTEMA revisará la spec activa como
-  QA y listará ambigüedades, contradicciones, casos límite ausentes y conflictos
-  con la constitución, sin proponer soluciones.
-- RF-12: CUANDO se invoque `/sdd:plan`, EL SISTEMA generará
-  `specs/NNN-<slug>/plan.md` con módulos, modelo de datos, decisiones
-  justificadas, riesgos y estrategia de verificación, sin escribir código.
-- RF-13: SI al invocar `/sdd:plan` no existe `docs/constitution.md` o no hay
-  spec activa en `specs/`, ENTONCES EL SISTEMA avisará y se detendrá.
-- RF-14: CUANDO se invoque `/sdd:tasks`, EL SISTEMA generará
-  `specs/NNN-<slug>/tasks.md` con tareas ordenadas por dependencia, cada una con
-  sus RF, un checkbox y una línea "Hecho cuando:" verificable.
-- RF-15: CUANDO se invoque `/sdd:implement <n>`, EL SISTEMA implementará solo la
-  tarea T\<n\>, verificación primero (suite automatizada o checklist manual),
-  la ejecutará, marcará la tarea y se detendrá.
-- RF-16: CUANDO se invoque `/sdd:validate`, EL SISTEMA recorrerá la spec RF por RF
-  con su verificación, escribirá `specs/NNN-<slug>/validation.md` y emitirá un
-  veredicto de cumplimiento.
-- RF-17: CUANDO se invoque `/sdd:change <requisito>`, EL SISTEMA actualizará
-  primero la spec y mostrará el diff, sin tocar código.
+- FR-9: WHEN `/sdd:constitution` is invoked, THE SYSTEM shall propose a
+  constitution of short, verifiable principles and wait for approval
+  before writing `docs/constitution.md`.
+- FR-10: WHEN `/sdd:spec` is invoked, THE SYSTEM shall start an interview
+  of at most 6 questions asked one at a time, shall NOT write code, and
+  when done shall generate `specs/NNN-<slug>/spec.md` with FRs in EARS and
+  an "Out of scope" section.
+- FR-11: WHEN `/sdd:clarify` is invoked, THE SYSTEM shall review the
+  active spec like a QA and list ambiguities, contradictions, missing edge
+  cases, and conflicts with the constitution, without proposing solutions.
+- FR-12: WHEN `/sdd:plan` is invoked, THE SYSTEM shall generate
+  `specs/NNN-<slug>/plan.md` with modules, data model, justified decisions,
+  risks, and a verification strategy, without writing code.
+- FR-13: IF `docs/constitution.md` doesn't exist or there's no active spec
+  in `specs/` when `/sdd:plan` is invoked, THEN THE SYSTEM shall warn and
+  stop.
+- FR-14: WHEN `/sdd:tasks` is invoked, THE SYSTEM shall generate
+  `specs/NNN-<slug>/tasks.md` with tasks ordered by dependency, each with
+  its FRs, a checkbox, and a verifiable "Done when:" line.
+- FR-15: WHEN `/sdd:implement <n>` is invoked, THE SYSTEM shall implement
+  only task T\<n\>, verification first (automated suite or manual
+  checklist), run it, mark the task, and stop.
+- FR-16: WHEN `/sdd:validate` is invoked, THE SYSTEM shall walk the spec
+  FR by FR with its verification, write `specs/NNN-<slug>/validation.md`,
+  and issue a compliance verdict.
+- FR-17: WHEN `/sdd:change <requirement>` is invoked, THE SYSTEM shall
+  update the spec first and show the diff, without touching code.
 
-### Mantenimiento y calidad
+### Maintenance and quality
 
-- RF-18: EL SISTEMA mantendrá `plugins/sdd/` como única copia editable; los
-  destinos de `install.sh` son copias.
-- RF-19: SI `tests/validate.sh` detecta un JSON que no parsea, o un `SKILL.md` o
-  command sin `name`/`description` en frontmatter, ENTONCES terminará con salida 1
-  y listará cada fallo.
-- RF-20: EL SISTEMA incluirá los artefactos SDD de su propia construcción
-  (`docs/constitution.md`, `specs/001-sdd-toolkit/`) como ejemplo vivo en el repo.
+- FR-18: THE SYSTEM shall keep `plugins/sdd/` as the single editable copy;
+  `install.sh`'s destinations are copies.
+- FR-19: IF `tests/validate.sh` detects a JSON file that fails to parse,
+  or a `SKILL.md` or command missing `name`/`description` in its
+  frontmatter, THEN it shall exit with status 1 and list each failure.
+- FR-20: THE SYSTEM shall include the SDD artifacts from its own build
+  (`docs/constitution.md`, `specs/001-sdd-toolkit/`) as a living example in
+  the repo.
 
-## Requisitos no funcionales
+## Non-functional requirements
 
-- Sin dependencias de runtime más allá de `bash` y `python3` o `node` para
-  validar JSON.
-- Contenido en español; identificadores en inglés.
-- Compatible con macOS y Linux (bash 3.2+). Windows queda vía WSL.
+- No runtime dependencies beyond `bash` and `python3` or `node` to
+  validate JSON.
+- The toolkit's own content (prompts, commands, docs) in English;
+  identifiers in English.
+- Compatible with macOS and Linux (bash 3.2+). Windows via WSL.
 
-## Casos límite
+## Edge cases
 
-- `install.sh` sin `~/.config/opencode/` ni `~/.claude/` → crea las rutas.
-- Reinstalar sobre una versión anterior → RF-5, RF-6.
-- Archivo de destino modificado por el usuario → RF-6 (se omite sin `--force`).
-- `/sdd:plan` en un proyecto sin constitución → RF-13.
-- `marketplace.json` o `plugin.json` corrupto → RF-19.
+- `install.sh` with neither `~/.config/opencode/` nor `~/.claude/` →
+  creates the paths.
+- Reinstalling over a previous version → FR-5, FR-6.
+- Destination file modified by the user → FR-6 (skipped without
+  `--force`).
+- `/sdd:plan` in a project with no constitution → FR-13.
+- Corrupt `marketplace.json` or `plugin.json` → FR-19.
 
-## Fuera de alcance
+## Out of scope
 
-Soporte para Cursor u otros agentes; versionado semántico automático; traducción
-del contenido a otros idiomas; interfaz gráfica; publicar el repo en GitHub (lo
-hace el mantenedor a mano).
+Support for Cursor or other agents; automatic semantic versioning; a
+graphical interface; publishing the repo on GitHub (done by hand by the
+maintainer).
 
-## Criterios de finalización
+## Completion criteria
 
-- Todos los RF con evidencia en la validación (`specs/001-sdd-toolkit/` +
-  recorrido de `/sdd:validate`).
-- `bash tests/validate.sh` en verde.
-- `claude plugin validate ./plugins/sdd --strict` sin errores.
-- Demo manual: instalar en un proyecto scratch y ejecutar `/sdd:constitution` y
-  `/sdd:spec` sin errores.
+- All FRs with evidence in the validation (`specs/001-sdd-toolkit/` +
+  `/sdd:validate` walkthrough).
+- `bash tests/validate.sh` green.
+- `claude plugin validate ./plugins/sdd --strict` with no errors.
+- Manual demo: install on a scratch project and run `/sdd:constitution` and
+  `/sdd:spec` with no errors.
 
-## Dudas abiertas
+## Open questions
 
-- Ninguna. (Resueltas en la clarificación — ver más abajo.)
+- None. (Resolved during clarification — see below.)
 
-## Clarificaciones
+## Clarifications
 
-Hallazgos de la pasada QA y su resolución:
+Findings from the QA pass and their resolution:
 
-1. **Ambigüedad**: "copiar commands a opencode" — ¿a qué ruta? Resuelto: RF-2
-   fija `~/.config/opencode/commands/` (la que documenta opencode; probado:
-   también acepta `command/` en singular, pero se usa la documentada).
-2. **Caso límite ausente**: qué pasa si el destino fue editado por el usuario.
-   Resuelto: RF-6 (omitir + informar; `--force` para sobrescribir).
-3. **Contradicción potencial**: RF-1 dice "8 commands", la lista tenía nombres
-   sueltos. Resuelto: lista canónica fijada — constitution, spec, clarify, plan,
-   tasks, implement, validate, change.
-4. **Conflicto con constitución nº4**: validar JSON necesita un parser. Resuelto:
-   se acepta `python3` **o** `node` (ambos habituales), no se añade dependencia.
-5. **Ambigüedad**: "esperará aprobación" en RF-9 — ¿y RF-10/12? Resuelto: spec y
-   plan también piden aprobación explícita; recogido en cada command.
-6. **Caso límite**: `/sdd:implement` sin número. Resuelto: el command pide el
-   número si falta (no asume T1).
+1. **Ambiguity**: "copy commands to opencode" — to which path? Resolved:
+   FR-2 fixes `~/.config/opencode/commands/` (the one opencode documents;
+   tested: `command/` singular also works, but the documented one is
+   used).
+2. **Missing edge case**: what happens if the destination was edited by
+   the user. Resolved: FR-6 (skip + report; `--force` to overwrite).
+3. **Potential contradiction**: FR-1 says "8 commands", the list had loose
+   names. Resolved: canonical list fixed — constitution, spec, clarify,
+   plan, tasks, implement, validate, change.
+4. **Conflict with constitution #4**: validating JSON needs a parser.
+   Resolved: `python3` **or** `node` accepted (both common), no new
+   dependency added.
+5. **Ambiguity**: "waits for approval" in FR-9 — what about FR-10/12?
+   Resolved: spec and plan also ask for explicit approval; reflected in
+   each command.
+6. **Edge case**: `/sdd:implement` with no number. Resolved: the command
+   asks for the number if missing (doesn't assume T1).
 
-## Correcciones posteriores (revisión 2026-08-27)
+## Later corrections (2026-08-27 review)
 
-Segunda pasada de revisión sobre la versión inicial. Cambios de spec:
+Second review pass over the initial version. Spec changes:
 
-- **RF-1**: los archivos de command del plugin **no** llevan prefijo `sdd-`;
-  Claude Code los namespacea como `/sdd:<fase>`. El prefijo `sdd-` lo añade
-  `install.sh` solo al copiarlos a un directorio plano (RF-2, RF-3).
-- **RF-2**: ruta de commands de opencode pasa a `~/.config/opencode/commands/`
-  (plural, documentada) en vez de `command/`.
-- **RF-8**: se cubre también `--target` presente pero sin valor (`./install.sh
---target`) → uso + salida 1.
-- **Criterios de finalización / RF-19**: `tests/validate.sh` incorpora una
-  prueba de humo real de `install.sh` (instala contra un `HOME` temporal y
-  verifica rutas, prefijo, idempotencia, `--dry-run`, `--force` y salidas de
-  error). Antes esa prueba solo estaba descrita en el plan.
-- **Licencia**: el material derivado de `mouredev/hello-sdd` (Apache-2.0) se
-  redistribuye bajo Apache-2.0, no MIT — ver `LICENSE-APACHE` y `NOTICE`.
+- **FR-1**: the plugin's command files do **not** carry an `sdd-` prefix;
+  Claude Code namespaces them as `/sdd:<phase>`. The `sdd-` prefix is
+  added by `install.sh` only when copying them into a flat directory
+  (FR-2, FR-3).
+- **FR-2**: opencode's commands path changes to
+  `~/.config/opencode/commands/` (plural, documented) instead of
+  `command/`.
+- **FR-8**: also covers `--target` present but with no value
+  (`./install.sh --target`) → usage + exit 1.
+- **Completion criteria / FR-19**: `tests/validate.sh` gains a real smoke
+  test of `install.sh` (installs against a temporary `HOME` and checks
+  paths, prefix, idempotence, `--dry-run`, `--force`, and error exits).
+  Previously that test was only described in the plan.
+- **License**: material derived from `mouredev/hello-sdd` (Apache-2.0) is
+  redistributed under Apache-2.0, not MIT — see `LICENSE-APACHE` and
+  `NOTICE`.
 
-## Cambios posteriores (mejoras de flujo, 2026-09)
+## Later changes (flow improvements, 2026-09)
 
-Fricciones detectadas al aplicar el toolkit a un repo real con historia
-(MVP hecho, convenciones dispersas) y corregidas en la versión 0.2.0. Cambios de
-spec:
+Friction found when applying the toolkit to a real repo with history (MVP
+done, scattered conventions), fixed in version 0.2.0. Spec changes:
 
-- **RF-15 / RF-16**: "tests" → "verificación" (suite automatizada **o** checklist
-  manual documentado), para proyectos sin suite. RF-16 además exige que la fase 7
-  deje `validation.md`.
-- **Fuera de alcance**: CI/GitHub Actions sale de la lista — se añade
-  `.github/workflows/validate.yml`.
-- **Nuevos artefactos de nivel proyecto / plantillas** (no cambian RF; son
-  material de la skill `sdd-flow`): `docs/roadmap.md`, `templates/roadmap.md`,
+- **FR-15 / FR-16**: "tests" → "verification" (automated suite **or**
+  documented manual checklist), for projects without a suite. FR-16 also
+  requires phase 7 to leave `validation.md` behind.
+- **Out of scope**: CI/GitHub Actions removed from the list —
+  `.github/workflows/validate.yml` added.
+- **New project-level artifacts / templates** (don't change FRs; material
+  of the `sdd-flow` skill): `docs/roadmap.md`, `templates/roadmap.md`,
   `templates/validation.md`, `templates/CLAUDE.md`,
   `templates/AGENTS-sdd-section.md`, `docs/ADOPTING.md`.
-- **Fase 3**: su rastro se fija en `spec.md § Clarificaciones`.
-- Versión del plugin: `0.1.0` → `0.2.0`.
+- **Phase 3**: its trace is fixed at `spec.md § Clarifications`.
+- Plugin version: `0.1.0` → `0.2.0`.
+
+## Later changes (English toolkit, user-chosen spec language, 2026-09)
+
+The out-of-scope item ruling out "translating the content to other
+languages" is superseded: the toolkit's own prompts, commands, skills, and
+docs are now English (the ecosystem convention for Claude Code plugins),
+while generated spec/plan/tasks/validation **content** language is chosen
+by the target project's constitution (defaulting to the user's language).
+Spec changes:
+
+- **`RF-` renamed to `FR-`** throughout this spec and the rest of the
+  toolkit. Past occurrences in this document were rewritten for
+  consistency, since this spec is the toolkit's own dogfood artifact, not
+  a third-party adopter's.
+- EARS keywords translated to their English canonical form (`WHEN`, `THE
+SYSTEM SHALL`, `IF...THEN`).
+- Non-functional requirements: "content in Spanish" → "the toolkit's own
+  content in English"; per-project spec content language is now a
+  constitution-level decision, documented in `docs/constitution.md`
+  principle 2.
+- Plugin version: `0.2.0` → `0.3.0`.

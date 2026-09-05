@@ -1,97 +1,102 @@
-# Plan técnico — Spec 001
+# Technical plan — Spec 001
 
-## Estructura de módulos
+## Module structure
 
-- `.claude-plugin/marketplace.json` → marketplace con un plugin `sdd` (RF-1).
-- `plugins/sdd/.claude-plugin/plugin.json` → manifiesto del plugin (RF-1).
-- `plugins/sdd/skills/spec-generator/` → skill de entrevista (RF-10).
-- `plugins/sdd/skills/sdd-flow/` → skill de flujo + `templates/` (RF-9, RF-20).
-- `plugins/sdd/commands/*.md` → 8 slash commands (RF-9..RF-17).
-- `install.sh` → distribución para opencode y Claude Code sin plugin (RF-2..RF-8).
-- `tests/validate.sh` → puerta de calidad (RF-19).
-- `docs/`, `specs/001-sdd-toolkit/` → dogfood, ejemplo vivo (RF-20).
+- `.claude-plugin/marketplace.json` → marketplace with one `sdd` plugin (FR-1).
+- `plugins/sdd/.claude-plugin/plugin.json` → plugin manifest (FR-1).
+- `plugins/sdd/skills/spec-generator/` → interview skill (FR-10).
+- `plugins/sdd/skills/sdd-flow/` → flow skill + `templates/` (FR-9, FR-20).
+- `plugins/sdd/commands/*.md` → 8 slash commands (FR-9..FR-17).
+- `install.sh` → distribution for opencode and Claude Code without the
+  plugin (FR-2..FR-8).
+- `tests/validate.sh` → quality gate (FR-19).
+- `docs/`, `specs/001-sdd-toolkit/` → dogfood, living example (FR-20).
 
-## Contrato de `install.sh`
+## `install.sh` contract
 
 ```
 install.sh --target claude|opencode|both [--dry-run] [--force]
 ```
 
-- Origen: `plugins/sdd/skills/` y `plugins/sdd/commands/` (RF-18).
-- Destinos:
+- Source: `plugins/sdd/skills/` and `plugins/sdd/commands/` (FR-18).
+- Destinations:
   - claude → `~/.claude/skills/` + `~/.claude/commands/`
   - opencode → `~/.config/opencode/skills/` + `~/.config/opencode/commands/`
-- Los commands (archivos en la raíz del árbol de origen) se copian con el
-  nombre prefijado `sdd-` para no colisionar en un directorio plano; los
-  archivos anidados dentro de una skill se copian tal cual (RF-2, RF-3).
-- Copia archivo a archivo. Si el destino existe y es idéntico → nada (RF-5).
-  Si existe y difiere → omite + avisa, salvo `--force` (RF-6).
-- `--dry-run` → imprime acciones, no escribe (RF-7).
-- target inválido, ausente, o presente sin valor → uso + exit 1 (RF-8).
-- `mkdir -p` de cada ruta de destino (caso límite).
+- Commands (files at the root of the source tree) are copied with the
+  filename prefixed `sdd-` to avoid collisions in a flat directory; files
+  nested inside a skill are copied as-is (FR-2, FR-3).
+- Copies file by file. If the destination exists and is identical →
+  nothing (FR-5). If it exists and differs → skip + warn, unless
+  `--force` (FR-6).
+- `--dry-run` → prints actions, writes nothing (FR-7).
+- Invalid, missing, or valueless `--target` → usage + exit 1 (FR-8).
+- `mkdir -p` for each destination path (edge case).
 
-## Decisiones técnicas
+## Technical decisions
 
-- **Plugin + script, no solo skills-dir.** El plugin da `/plugin update` y
-  namespacing (`sdd:...`); el script cubre opencode y a quien no quiera plugin.
-  Descartado: publicar solo como carpeta en `~/.claude/skills/` — sin commands
-  namespaced ni actualización.
-- **Commands sin prefijo en el plugin, con prefijo en el script.** Dentro del
-  plugin, `constitution.md` → `/sdd:constitution` (el plugin ya namespacea);
-  meterle `sdd-` daría `/sdd:sdd-constitution`. El script instala en un
-  directorio plano compartido, donde `/constitution` sería demasiado genérico,
-  así que ahí sí antepone `sdd-`. Descartado: un solo nombre para ambos
-  destinos — obliga a elegir entre feo en el plugin o colisión en el script.
-- **Ruta de commands de opencode: `commands/` (plural).** Es la que documenta
-  opencode. Probado en 1.17.13: también resuelve `command/` (singular), pero no
-  hay motivo para depender de un alias no documentado.
-- **Autodiscovery de skills/ y commands/** en `plugin.json` (no se listan
-  explícitamente) → menos superficie que mantener.
-- **`spec-generator` separada de la skill `sdd-flow`.** Es la única fase con
-  interacción real (entrevista); mezclarla haría la skill `sdd-flow` enorme y la
-  dispararía en el momento equivocado.
-- **Validación de JSON con `python3` o `node`**, lo que haya. Descartado añadir
-  `jq` — es una dependencia que muchos no tienen.
-- **Comparación de archivos en `install.sh` con `cmp -s`** (POSIX), no hash.
-- **Los commands referencian rutas del proyecto destino** (`docs/constitution.md`,
-  `specs/`), no rutas del toolkit — se ejecutan en el repo del usuario.
+- **Plugin + script, not just a skills dir.** The plugin provides
+  `/plugin update` and namespacing (`sdd:...`); the script covers opencode
+  and anyone who doesn't want the plugin. Discarded: publishing only as a
+  folder under `~/.claude/skills/` — no namespaced commands or updates.
+- **Commands unprefixed in the plugin, prefixed in the script.** Inside
+  the plugin, `constitution.md` → `/sdd:constitution` (the plugin already
+  namespaces it); adding `sdd-` would give `/sdd:sdd-constitution`. The
+  script installs into a shared flat directory, where `/constitution`
+  would be too generic, so there it does prefix `sdd-`. Discarded: a
+  single name for both destinations — forces a choice between ugly in the
+  plugin or a collision in the script.
+- **opencode's commands path: `commands/` (plural).** That's what
+  opencode documents. Tested on 1.17.13: `command/` (singular) also
+  resolves, but there's no reason to depend on an undocumented alias.
+- **Skills/ and commands/ autodiscovery** in `plugin.json` (not listed
+  explicitly) → less surface to maintain.
+- **`spec-generator` kept separate from the `sdd-flow` skill.** It's the
+  only phase with real interaction (the interview); merging it would make
+  `sdd-flow` huge and trigger it at the wrong moment.
+- **JSON validation with `python3` or `node`**, whichever is available.
+  Discarded adding `jq` — a dependency many don't have.
+- **File comparison in `install.sh` with `cmp -s`** (POSIX), not a hash.
+- **Commands reference paths in the target project** (`docs/constitution.md`,
+  `specs/`), not toolkit paths — they run inside the user's repo.
 
-## Modelo de "datos" (no hay estado)
+## "Data" model (no state)
 
-El toolkit no persiste estado. Los únicos "datos" son archivos de texto:
-plantillas (origen) y sus copias (destino). El contrato es: origen manda.
+The toolkit persists no state. The only "data" are text files: templates
+(source) and their copies (destination). The contract is: source rules.
 
-## Riesgos
+## Risks
 
-- **Deriva entre el plugin y las copias de `install.sh`** → `plugins/sdd/` es la
-  única fuente editable (RF-18) y `tests/validate.sh` corre una prueba de humo
-  real de la instalación.
-- **`AGENTS.md` y `constitution.md` son Apache-2.0** → cualquier cambio de
-  contenido obliga a actualizar `NOTICE`; verificado en cada tanda de mejoras.
-- **Frontera de licencia difusa si se mueve `spec-template.md`** → se deja donde
-  está (en `spec-generator/`), documentado en README y `SKILL.md`.
+- **Drift between the plugin and `install.sh`'s copies** → `plugins/sdd/`
+  is the only editable source (FR-18) and `tests/validate.sh` runs a real
+  install smoke test.
+- **`AGENTS.md` and `constitution.md` are Apache-2.0** → any content
+  change requires updating `NOTICE`; checked on every batch of
+  improvements.
+- **Fuzzy license boundary if `spec-template.md` is moved** → left where
+  it is (in `spec-generator/`), documented in the README and `SKILL.md`.
 
-## Estrategia de verificación
+## Verification strategy
 
-- `tests/validate.sh` (RF-19): parsea los 2 JSON; comprueba frontmatter
-  `name`+`description` en cada `SKILL.md` y `description` en cada command;
-  `name` == carpeta; `bash -n install.sh`; `install.sh` ejecutable.
-- Prueba de humo de `install.sh` **dentro de `tests/validate.sh`**
-  (RF-2..RF-8): instala con `HOME=$(mktemp -d)`, verifica los 4 destinos, el
-  prefijo `sdd-` en los commands, idempotencia en la segunda pasada,
-  `--dry-run` sin escrituras, `--force` que restaura un destino modificado, y
-  salida 1 con target ausente / inválido / sin valor.
-- `claude plugin validate ./plugins/sdd --strict` (RF-1).
-- Demo manual end-to-end en proyecto scratch (criterios de finalización).
+- `tests/validate.sh` (FR-19): parses both JSON files; checks
+  `name`+`description` frontmatter in every `SKILL.md` and `description`
+  in every command; `name` == folder; `bash -n install.sh`; `install.sh`
+  is executable.
+- `install.sh` smoke test **inside `tests/validate.sh`** (FR-2..FR-8):
+  installs with `HOME=$(mktemp -d)`, checks the 4 destinations, the
+  `sdd-` prefix on commands, idempotence on a second pass, `--dry-run`
+  with no writes, `--force` restoring a modified destination, and exit 1
+  with a missing / invalid / valueless target.
+- `claude plugin validate ./plugins/sdd --strict` (FR-1).
+- Manual end-to-end demo on a scratch project (completion criteria).
 
-## Qué RF cubre cada parte
+## Which FR each part covers
 
-| Parte                                     | RF                 |
+| Part                                      | FR                 |
 | ----------------------------------------- | ------------------ |
-| `marketplace.json` + `plugin.json`        | RF-1, RF-19        |
-| `install.sh`                              | RF-2..RF-8, RF-18  |
-| skill `spec-generator` + command `spec`   | RF-10              |
-| skill `sdd-flow` + `templates/`           | RF-9, RF-20        |
-| commands restantes (`clarify`, `plan`, …) | RF-9, RF-11..RF-17 |
-| `tests/validate.sh`                       | RF-19              |
-| `docs/` + `specs/001-sdd-toolkit/`        | RF-20              |
+| `marketplace.json` + `plugin.json`        | FR-1, FR-19        |
+| `install.sh`                              | FR-2..FR-8, FR-18  |
+| `spec-generator` skill + `spec` command   | FR-10              |
+| `sdd-flow` skill + `templates/`           | FR-9, FR-20        |
+| remaining commands (`clarify`, `plan`, …) | FR-9, FR-11..FR-17 |
+| `tests/validate.sh`                       | FR-19              |
+| `docs/` + `specs/001-sdd-toolkit/`        | FR-20              |

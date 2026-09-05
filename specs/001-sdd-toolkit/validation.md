@@ -1,62 +1,70 @@
-# Validación — Spec 001
+# Validation — Spec 001
 
-Recorrido RF por RF. Primera pasada 2026-08-27; revisada tras las correcciones
-del mismo día (ver "Correcciones posteriores" en `spec.md`).
+FR-by-FR walkthrough. First pass 2026-08-27; revised after the corrections
+the same day (see "Later corrections" in `spec.md`).
 
-| RF    | Resumen                                                              | Evidencia                                                                                                                                                                                                                                                                 | Veredicto                   |
-| ----- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| RF-1  | Plugin expone 8 commands + 2 skills                                  | Instalado en local desde un marketplace de tipo Directory: `claude plugin details sdd` → commands `constitution, spec, clarify, plan, tasks, implement, validate, change`; skills `sdd-flow`, `spec-generator`. `--strict` en verde. Vía plugin se invocan `/sdd:<fase>`. | PASA                        |
-| RF-2  | `install.sh --target opencode` → rutas opencode, commands prefijados | Prueba de humo en `tests/validate.sh`: `~/.config/opencode/skills/…` y `~/.config/opencode/commands/sdd-*.md`                                                                                                                                                             | PASA                        |
-| RF-3  | `install.sh --target claude` → rutas claude, commands prefijados     | Prueba de humo: `~/.claude/skills/…` y `~/.claude/commands/sdd-*.md`; ningún `spec.md` suelto                                                                                                                                                                             | PASA                        |
-| RF-4  | `--target both` aplica ambos                                         | Prueba de humo: 30 archivos en las 4 rutas                                                                                                                                                                                                                                | PASA                        |
-| RF-5  | Idempotente                                                          | Prueba de humo: segunda pasada → "Sin cambios (ya estaba al día)"                                                                                                                                                                                                         | PASA                        |
-| RF-6  | Destino que difiere se omite sin `--force`; `--force` sobrescribe    | Prueba de humo: se modifica `sdd-spec.md` en destino → sin `--force` no cambia; con `--force` vuelve a ser idéntico al origen                                                                                                                                             | PASA                        |
-| RF-7  | `--dry-run` no escribe                                               | Prueba de humo: tras `--target both --dry-run`, 0 archivos en el `HOME` temporal                                                                                                                                                                                          | PASA                        |
-| RF-8  | target inválido / ausente / sin valor → uso + exit 1                 | Prueba de humo: `install.sh` (sin args), `--target zzz`, `--target` (sin valor) → los tres salen 1                                                                                                                                                                        | PASA                        |
-| RF-9  | `/sdd:constitution` propone y espera aprobación                      | `commands/constitution.md` paso 4: "espera mi aprobación explícita"                                                                                                                                                                                                       | PASA (contrato del command) |
-| RF-10 | `/sdd:spec` entrevista ≤6, sin código, genera spec EARS              | `commands/spec.md` + skill `spec-generator` (máx 6, una a una, EARS, "Fuera de alcance")                                                                                                                                                                                  | PASA (contrato)             |
-| RF-11 | `/sdd:clarify` lista sin resolver                                    | `commands/clarify.md`: 4 bloques, "solo detecta, no resuelvas"; `allowed-tools: Read, Grep, Glob` (no puede escribir)                                                                                                                                                     | PASA (contrato)             |
-| RF-12 | `/sdd:plan` genera plan sin código                                   | `commands/plan.md` paso 3: "NO escribas código" + secciones                                                                                                                                                                                                               | PASA (contrato)             |
-| RF-13 | `/sdd:plan` se detiene sin constitución/spec                         | `commands/plan.md` paso 1: "avisa y detente"                                                                                                                                                                                                                              | PASA (contrato)             |
-| RF-14 | `/sdd:tasks` tareas <30min + "Hecho cuando:"                         | `commands/tasks.md`                                                                                                                                                                                                                                                       | PASA (contrato)             |
-| RF-15 | `/sdd:implement <n>` solo Tn, verificación primero, para             | `commands/implement.md` pasos 4-7 (suite o checklist)                                                                                                                                                                                                                     | PASA (contrato)             |
-| RF-16 | `/sdd:validate` recorre RF, escribe `validation.md`, da veredicto    | `commands/validate.md` pasos 2-6; `allowed-tools: …, Write, Skill`                                                                                                                                                                                                        | PASA (contrato)             |
-| RF-17 | `/sdd:change` spec + diff antes que código                           | `commands/change.md` pasos 1,4,5                                                                                                                                                                                                                                          | PASA (contrato)             |
-| RF-18 | `plugins/sdd/` única copia editable                                  | `install.sh` copia DESDE `plugins/sdd/`; README y constitución lo fijan                                                                                                                                                                                                   | PASA                        |
-| RF-19 | `validate.sh` falla con JSON/frontmatter inválido                    | `tests/validate.sh`: `json_check` + `frontmatter_value`, exit 1 con lista                                                                                                                                                                                                 | PASA                        |
-| RF-20 | Artefactos SDD propios en el repo                                    | `docs/constitution.md`, `specs/001-sdd-toolkit/{spec,plan,tasks,validation}.md`                                                                                                                                                                                           | PASA                        |
+| FR    | Summary                                                                    | Evidence                                                                                                                                                                                                                                                          | Verdict                 |
+| ----- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| FR-1  | Plugin exposes 8 commands + 2 skills                                       | Installed locally from a Directory-type marketplace: `claude plugin details sdd` → commands `constitution, spec, clarify, plan, tasks, implement, validate, change`; skills `sdd-flow`, `spec-generator`. `--strict` green. Invoked via plugin as `/sdd:<phase>`. | PASS                    |
+| FR-2  | `install.sh --target opencode` → opencode paths, prefixed commands         | Smoke test in `tests/validate.sh`: `~/.config/opencode/skills/…` and `~/.config/opencode/commands/sdd-*.md`                                                                                                                                                       | PASS                    |
+| FR-3  | `install.sh --target claude` → claude paths, prefixed commands             | Smoke test: `~/.claude/skills/…` and `~/.claude/commands/sdd-*.md`; no bare `spec.md`                                                                                                                                                                             | PASS                    |
+| FR-4  | `--target both` applies both                                               | Smoke test: 30 files across the 4 paths                                                                                                                                                                                                                           | PASS                    |
+| FR-5  | Idempotent                                                                 | Smoke test: second pass → "No changes (already up to date)"                                                                                                                                                                                                       | PASS                    |
+| FR-6  | A differing destination is skipped without `--force`; `--force` overwrites | Smoke test: `sdd-spec.md` modified at destination → unchanged without `--force`; identical to source again with `--force`                                                                                                                                         | PASS                    |
+| FR-7  | `--dry-run` writes nothing                                                 | Smoke test: after `--target both --dry-run`, 0 files in the temporary `HOME`                                                                                                                                                                                      | PASS                    |
+| FR-8  | Invalid / missing / valueless target → usage + exit 1                      | Smoke test: `install.sh` (no args), `--target zzz`, `--target` (no value) → all three exit 1                                                                                                                                                                      | PASS                    |
+| FR-9  | `/sdd:constitution` proposes and waits for approval                        | `commands/constitution.md` step 4: "wait for my explicit approval"                                                                                                                                                                                                | PASS (command contract) |
+| FR-10 | `/sdd:spec` interviews ≤6, no code, generates an EARS spec                 | `commands/spec.md` + `spec-generator` skill (max 6, one at a time, EARS, "Out of scope")                                                                                                                                                                          | PASS (contract)         |
+| FR-11 | `/sdd:clarify` lists without resolving                                     | `commands/clarify.md`: 4 blocks, "only detect, don't resolve"; `allowed-tools: Read, Grep, Glob` (can't write)                                                                                                                                                    | PASS (contract)         |
+| FR-12 | `/sdd:plan` generates a plan with no code                                  | `commands/plan.md` step 3: "Do NOT write code" + sections                                                                                                                                                                                                         | PASS (contract)         |
+| FR-13 | `/sdd:plan` stops without a constitution/spec                              | `commands/plan.md` step 1: "warn and stop"                                                                                                                                                                                                                        | PASS (contract)         |
+| FR-14 | `/sdd:tasks` tasks <30min + "Done when:"                                   | `commands/tasks.md`                                                                                                                                                                                                                                               | PASS (contract)         |
+| FR-15 | `/sdd:implement <n>` only Tn, verification first, stops                    | `commands/implement.md` steps 4-7 (suite or checklist)                                                                                                                                                                                                            | PASS (contract)         |
+| FR-16 | `/sdd:validate` walks FRs, writes `validation.md`, gives a verdict         | `commands/validate.md` steps 2-6; `allowed-tools: …, Write, Skill`                                                                                                                                                                                                | PASS (contract)         |
+| FR-17 | `/sdd:change` updates the spec + diff before code                          | `commands/change.md` steps 1, 4, 5                                                                                                                                                                                                                                | PASS (contract)         |
+| FR-18 | `plugins/sdd/` is the only editable copy                                   | `install.sh` copies FROM `plugins/sdd/`; README and constitution fix this                                                                                                                                                                                         | PASS                    |
+| FR-19 | `validate.sh` fails on invalid JSON/frontmatter                            | `tests/validate.sh`: `json_check` + `frontmatter_value`, exit 1 with a list                                                                                                                                                                                       | PASS                    |
+| FR-20 | Own SDD artifacts in the repo                                              | `docs/constitution.md`, `specs/001-sdd-toolkit/{spec,plan,tasks,validation}.md`                                                                                                                                                                                   | PASS                    |
 
-## Criterios de finalización
+## Completion criteria
 
-- [x] Todos los RF con evidencia (tabla arriba).
-- [x] `bash tests/validate.sh` en verde (incluye la prueba de humo de `install.sh`).
-- [x] `claude plugin validate ./plugins/sdd --strict` sin errores.
-- [x] Instalación del plugin verificada localmente: `claude plugin marketplace
-    add <ruta>` + `claude plugin install sdd@sdd-toolkit` OK;
-      `claude plugin details sdd` lista los 8 commands (`constitution`, `spec`,
-      …) y las 2 skills (`sdd-flow`, `spec-generator`); `--strict` en verde.
-- [x] Instalación desde el marketplace **publicado en GitHub**:
+- [x] All FRs with evidence (table above).
+- [x] `bash tests/validate.sh` green (includes `install.sh`'s smoke test).
+- [x] `claude plugin validate ./plugins/sdd --strict` with no errors.
+- [x] Plugin install verified locally: `claude plugin marketplace add
+  <path>` + `claude plugin install sdd@sdd-toolkit` OK; `claude plugin
+  details sdd` lists the 8 commands (`constitution`, `spec`, …) and the
+      2 skills (`sdd-flow`, `spec-generator`); `--strict` green.
+- [x] Install from the marketplace **published on GitHub**:
       `claude plugin marketplace add jandrescodes/sdd-toolkit` +
-      `claude plugin install sdd@sdd-toolkit` OK; `claude plugin details sdd`
-      lista los 8 commands y las 2 skills.
-- [ ] Recorrido end-to-end de las 8 fases sobre un proyecto real usando el
-      plugin instalado (queda como uso normal del toolkit).
+      `claude plugin install sdd@sdd-toolkit` OK; `claude plugin details
+    sdd` lists the 8 commands and the 2 skills.
+- [ ] End-to-end walkthrough of the 8 phases on a real project using the
+      installed plugin (left as the toolkit's normal usage).
 
-## Veredicto
+## Verdict
 
-**Spec cumplida a nivel de artefactos y de la puerta de calidad automatizada.**
-RF-9..RF-17 se validan a nivel de contrato del slash command (el comportamiento
-del agente al ejecutarlos). Queda pendiente la única comprobación que no se
-puede automatizar aquí: instalar el plugin desde el marketplace ya publicado y
-recorrer un proyecto real con él.
+**Spec fulfilled at the artifact and automated quality-gate level.**
+FR-9..FR-17 are validated at the slash command's contract level (the
+agent's behavior when running them). The only check that can't be
+automated here remains pending: installing the plugin from the already
+published marketplace and walking through a real project with it.
 
-## Notas
+## Notes
 
-- **Mejoras de flujo 2026-09 (0.2.0)**: RF-15/RF-16 revisados (verificación en
-  vez de tests; `validate` deja `validation.md`). Sin RF nuevos — el resto de la
-  tanda son plantillas y docs de la skill `sdd-flow`. `bash tests/validate.sh` y
-  `claude plugin validate --strict` siguen en verde tras los cambios.
-- `install.sh` usa `find -type f` sin orden estable entre sistemas de archivos;
-  no afecta al resultado (copia por archivo) pero el listado puede variar.
-- Licencia dual desde la revisión: MIT para el trabajo propio, Apache-2.0 para
-  los 4 archivos derivados de hello-sdd (`LICENSE-APACHE`, `NOTICE`).
+- **2026-09 flow improvements (0.2.0)**: FR-15/FR-16 revised (verification
+  instead of tests; `validate` leaves `validation.md`). No new FRs — the
+  rest of that batch is templates and docs for the `sdd-flow` skill.
+  `bash tests/validate.sh` and `claude plugin validate --strict` stayed
+  green after the changes.
+- **2026-09 English toolkit, user-chosen spec language (0.3.0)**: no new
+  FRs — `RF-` renamed to `FR-` throughout, EARS keywords translated to
+  English, spec content language now chosen by the target project's
+  constitution instead of hardcoded. `bash tests/validate.sh` and `claude
+plugin validate --strict` stayed green after the changes.
+- `install.sh` uses `find -type f` with no stable order across
+  filesystems; doesn't affect the result (copies file by file) but the
+  listing order may vary.
+- Dual license since the review: MIT for the toolkit's own work,
+  Apache-2.0 for the 4 files derived from hello-sdd (`LICENSE-APACHE`,
+  `NOTICE`).
