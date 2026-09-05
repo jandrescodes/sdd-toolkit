@@ -1,19 +1,21 @@
-# Constitución — <proyecto>
+# Constitution — <project>
 
-Principios innegociables. Toda spec, plan y tarea debe cumplirlos.
-Máximo ~15 líneas. Cada principio corto y verificable.
+Non-negotiable principles. Every spec, plan, and task must comply with them.
+Max ~15 lines. Each principle short and verifiable.
 
-1. **Alcance del producto**: <qué es en una frase>. NO es: <2-3 límites>.
-   (Si el repo tiene README público, la versión larga va ahí y esto la resume.)
-2. **<Simplicidad / stack>**: <lenguaje y versión, dependencias permitidas y
-   prohibidas>.
-3. **La spec manda**: ningún comportamiento se implementa si no está en la spec
-   activa. Si falta una decisión, se detiene el trabajo y se pregunta.
-4. **<Separación de capas>**: <p. ej. el núcleo no imprime ni lee de consola; la
-   interfaz es una capa fina y testeable sin ella>.
-5. **Verificación como puerta**: cada tarea termina verificada —
-   <suite automatizada en verde | checklist manual documentado con evidencia
-   pegada>. Prohibido avanzar sin ello.
-6. **<Datos / persistencia>**: <formato, dónde, qué está prohibido>.
-7. **Idioma**: <código e identificadores en X; mensajes al usuario y
-   documentación en Y>.
+1. **Product scope**: <what it is in one sentence>. It is NOT: <2-3 limits>.
+   (If the repo has a public README, the long version goes there and this
+   summarizes it.)
+2. **<Simplicity / stack>**: <language and version, allowed and forbidden
+   dependencies>.
+3. **The spec rules**: no behavior is implemented unless it's in the active
+   spec. If a decision is missing, work stops and the question is asked.
+4. **<Layer separation>**: <e.g. the core neither prints nor reads from the
+   console; the interface is a thin, testable layer without it>.
+5. **Verification as a gate**: every task ends verified —
+   <automated suite green | documented manual checklist with evidence
+   attached>. Never proceed without it.
+6. **<Data / persistence>**: <format, where, what's forbidden>.
+7. **Content language**: <the language specs, plans, and other generated
+   artifact content are written in — code and identifiers stay in English
+   regardless>.

@@ -1,25 +1,25 @@
 ---
-description: Fase 3 SDD — revisa la spec activa como QA profesional y lista ambigüedades, contradicciones, casos límite ausentes y conflictos con la constitución. No resuelve.
-argument-hint: "[ruta de la spec, si hay varias]"
+description: SDD phase 3 — reviews the active spec like a professional QA and lists ambiguities, contradictions, missing edge cases, and conflicts with the constitution. Does not resolve them.
+argument-hint: "[spec path, if there are several]"
 allowed-tools: Read, Grep, Glob
 ---
 
-Estás en la **fase 3 (Clarificación)** del flujo SDD.
+You're in **phase 3 (Clarification)** of the SDD flow.
 
-Spec a revisar: $ARGUMENTS (si está vacío, usa la spec activa más reciente de
+Spec to review: $ARGUMENTS (if empty, use the most recent active spec in
 `specs/`).
 
-1. Lee `docs/constitution.md` y la spec.
-2. Revísala como un **QA profesional**. **Solo detecta, no resuelvas ni
-   reescribas.** Lista, numerado, en cuatro bloques:
-   1. Ambigüedades (frases con más de una interpretación).
-   2. Contradicciones entre requisitos.
-   3. Casos límite no cubiertos (vacíos, duplicados, datos corruptos, límites,
-      concurrencia).
-   4. Conflictos con la constitución.
-3. Para cada punto, cita el RF o la línea concreta.
-4. No propongas soluciones hasta que te lo pida. Cuando lo haga, se aplican los
-   cambios a los RF afectados y cada hallazgo resuelto se anota como una línea
-   en una sección `## Clarificaciones` al final de `spec.md` (qué se preguntó,
-   qué se decidió, qué RF tocó). El historial de clarificaciones vive en
-   `spec.md`, no en `plan.md`.
+1. Read `docs/constitution.md` and the spec.
+2. Review it like a **professional QA**. **Only detect, don't resolve or
+   rewrite.** List, numbered, in four blocks:
+   1. Ambiguities (sentences with more than one interpretation).
+   2. Contradictions between requirements.
+   3. Uncovered edge cases (empty inputs, duplicates, corrupt data, limits,
+      concurrency).
+   4. Conflicts with the constitution.
+3. For each point, cite the FR or the specific line.
+4. Don't propose solutions until asked. When you are, apply the changes to
+   the affected FRs and record each resolved finding as a line in a
+   `## Clarifications` section at the end of `spec.md` (what was asked, what
+   was decided, which FR it touched). Clarification history lives in
+   `spec.md`, not in `plan.md`.

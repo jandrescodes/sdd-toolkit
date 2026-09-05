@@ -1,88 +1,96 @@
 ---
 name: spec-generator
-description: Usa esta skill cuando el usuario pida crear, redactar o revisar una especificación (spec) de una funcionalidad. Guía una entrevista de requisitos de una pregunta a la vez y produce un spec.md con requisitos en notación EARS siguiendo la plantilla incluida.
+description: Use this skill when the user asks to create, write, or review a feature specification (spec), in any language they address you in. Guides a one-question-at-a-time requirements interview and produces a spec.md with EARS-notation requirements following the included template.
 ---
 
 <!--
-  Derivado de la skill `spec-generator` del curso de SDD de MoureDev
-  (https://github.com/mouredev/hello-sdd), bajo Apache License 2.0 — ver
-  LICENSE-APACHE y NOTICE. Modificado: texto de `description`; regla de
-  numeración de `specs/NNN` y campo `**Estado:**` en el paso de redacción.
+  Derived from the `spec-generator` skill in MoureDev's SDD course
+  (https://github.com/mouredev/hello-sdd), under the Apache License 2.0 — see
+  LICENSE-APACHE and NOTICE. Modified: `description` text; `specs/NNN`
+  numbering rule and `**Status:**` field in the drafting step; translated to
+  English with spec content language now chosen by the target project.
 -->
 
-# Generador de specs
+# Spec generator
 
-Convierte una idea vaga en una especificación acordada. La spec es el
-contrato: si algo no está aquí, no se implementa.
+Turns a vague idea into an agreed-upon specification. The spec is the
+contract: if it isn't here, it isn't built.
 
-## Proceso
+## Process
 
-1. **Lee el contexto.** `docs/constitution.md` si existe, y las specs previas
-   de `specs/` para respetar convenciones y no contradecir lo ya acordado.
-2. **Entrevista al usuario.** Preguntas de **UNA en UNA**, máximo 6, esperando
-   respuesta antes de la siguiente. Céntrate en casos límite, comportamiento
-   ante errores y qué queda fuera. No propongas soluciones técnicas: si el
-   usuario pregunta "¿cómo lo harías?", redirige al QUÉ.
-   Prioriza preguntas cuya respuesta cambie lo que hay que construir; descarta
-   las que tengan una respuesta obvia por defecto.
-3. **Elige el número.** Contador propio de `specs/`, tres dígitos, monótono y
-   sin reutilizar números borrados: usa el siguiente libre
-   (`specs/NNN-<nombre-en-kebab-case>/spec.md`). En un repo nuevo empieza en
-   `001`; al adoptar SDD sobre una serie ya numerada, continúala (la decisión
-   se anota en `AGENTS.md`). El número **no** es el ordinal de `docs/roadmap.md`
-   ni un RF histórico. Lee `docs/roadmap.md` si existe.
-4. **Redacta** usando `spec-template.md` de esta skill, sin saltarte
-   secciones. Añade bajo el título una línea
-   `**Estado:** <propuesta | en curso | implementada ✅>`.
-   Criterios de aceptación **siempre en notación EARS**, numerados
-   como RF-1, RF-2, … Cada requisito debe ser verificable: si no se te ocurre
-   cómo comprobarlo, está mal escrito.
-5. **Marca lo que no sepas** como `[NECESITA ACLARACIÓN: pregunta concreta]`.
-   Nunca rellenes un hueco inventando: un hueco visible es información,
-   una suposición silenciosa es deuda.
-6. **Pide aprobación explícita** al terminar. No pases al plan ni escribas
-   código hasta tenerla.
+1. **Read the context.** `docs/constitution.md` if it exists, and prior specs
+   in `specs/` to respect conventions and not contradict what's already
+   agreed.
+2. **Interview the user.** Questions **ONE at a time**, six max, waiting for
+   an answer before the next. Focus on edge cases, error behavior, and what's
+   out of scope. Don't propose technical solutions: if the user asks "how
+   would you do it?", redirect to the WHAT.
+   Prioritize questions whose answer changes what needs to be built; drop
+   ones with an obvious default answer.
+3. **Pick the number.** `specs/`'s own counter, three digits, monotonic, never
+   reusing deleted numbers: use the next free one
+   (`specs/NNN-<kebab-case-name>/spec.md`). A new repo starts at `001`; when
+   adopting SDD on top of an already-numbered series, continue it (the
+   decision is noted in `AGENTS.md`). The number is **not** the ordinal from
+   `docs/roadmap.md` nor a historical FR. Read `docs/roadmap.md` if it
+   exists.
+4. **Draft** using this skill's `spec-template.md`, without skipping
+   sections. Add a line under the title:
+   `**Status:** <proposed | in progress | implemented ✅>`.
+   Acceptance criteria **always in EARS notation**, numbered as
+   FR-1, FR-2, … Every requirement must be verifiable: if you can't picture
+   how to check it, it's poorly written.
+5. **Flag what you don't know** as `[NEEDS CLARIFICATION: specific question]`.
+   Never fill a gap by guessing: a visible gap is information, a silent
+   assumption is debt.
+6. **Ask for explicit approval** when done. Don't move to the plan or write
+   code until you have it.
 
-## Reglas
+## Rules
 
-- La spec describe **QUÉ** y **POR QUÉ**. Prohibido incluir stack, arquitectura,
-  nombres de archivos, esquemas de datos, algoritmos o firmas de funciones:
-  eso va en el plan.
-- Incluye **siempre** la sección "Fuera de alcance". Es la que evita que la
-  funcionalidad crezca sola.
-- Un requisito, una frase. Si necesitas un "y" para unir dos comportamientos,
-  son dos requisitos.
-- Sin adjetivos no medibles: "rápido", "intuitivo", "robusto" no son
-  requisitos. Escribe el umbral o no lo escribas.
-- Idioma: el de la constitución del proyecto. Si no la hay, el del usuario.
+- The spec describes **WHAT** and **WHY**. Stack, architecture, file names,
+  data schemas, algorithms, or function signatures are forbidden here: that
+  goes in the plan.
+- **Always** include an "Out of scope" section. It's what keeps the feature
+  from growing on its own.
+- One requirement, one sentence. If you need an "and" to join two behaviors,
+  that's two requirements.
+- No unmeasurable adjectives: "fast", "intuitive", "robust" aren't
+  requirements. Write the threshold or don't write it.
+- **Content language**: whatever the target project's constitution states.
+  If there is none, whatever language the user is writing in. This applies to
+  the spec's prose; core concepts (`FR-`, EARS keywords, section headers)
+  always stay in English so tooling and cross-project tracking stay
+  consistent. Be tolerant of the language the user addresses you in,
+  regardless of the content language chosen.
 
-## Notación EARS
+## EARS notation
 
-Cinco patrones. Elige el que corresponda, no mezcles:
+Five patterns. Pick the one that fits, don't mix them:
 
-| Patrón              | Forma                                          | Cuándo                 |
-| ------------------- | ---------------------------------------------- | ---------------------- |
-| Ubicuo              | EL SISTEMA \<hará\>                            | siempre cierto         |
-| Dirigido por evento | CUANDO \<disparador\>, EL SISTEMA \<hará\>     | responde a algo        |
-| Estado              | MIENTRAS \<estado\>, EL SISTEMA \<hará\>       | durante una condición  |
-| Opcional            | DONDE \<característica\>, EL SISTEMA \<hará\>  | solo si está presente  |
-| No deseado          | SI \<condición\>, ENTONCES EL SISTEMA \<hará\> | errores y casos límite |
+| Pattern      | Form                                        | When                  |
+| ------------ | ------------------------------------------- | --------------------- |
+| Ubiquitous   | THE SYSTEM \<shall\>                        | always true           |
+| Event-driven | WHEN \<trigger\>, THE SYSTEM \<shall\>      | responds to something |
+| State-driven | WHILE \<state\>, THE SYSTEM \<shall\>       | during a condition    |
+| Optional     | WHERE \<feature\>, THE SYSTEM \<shall\>     | only if present       |
+| Unwanted     | IF \<condition\>, THEN THE SYSTEM \<shall\> | errors and edge cases |
 
-Ejemplo bien escrito:
+Well-written example:
 
-> RF-4: SI el nombre ya existe (comparación ignorando mayúsculas y espacios
-> exteriores), ENTONCES EL SISTEMA no creará un duplicado e informará del
-> conflicto (salida 1).
+> FR-4: IF the name already exists (case-insensitive, trimmed comparison),
+> THEN THE SYSTEM shall not create a duplicate and shall report the conflict
+> (exit code 1).
 
-Mal escrito, para contrastar:
+Poorly written, for contrast:
 
-> ~~RF-4: El sistema debe manejar bien los duplicados y ser rápido.~~
-> Sin patrón EARS, sin criterio verificable, dos ideas en una frase y un
-> adjetivo no medible.
+> ~~FR-4: The system should handle duplicates well and be fast.~~
+> No EARS pattern, no verifiable criterion, two ideas in one sentence, and an
+> unmeasurable adjective.
 
-## Al revisar una spec existente
+## When reviewing an existing spec
 
-Si el usuario pide revisar en vez de crear, no reescribas: **detecta y lista**,
-numerado, en cuatro bloques — (1) ambigüedades, (2) contradicciones entre
-requisitos, (3) casos límite no cubiertos, (4) conflictos con la constitución.
-No propongas soluciones hasta que te lo pidan.
+If the user asks to review instead of create, don't rewrite: **detect and
+list**, numbered, in four blocks — (1) ambiguities, (2) contradictions
+between requirements, (3) uncovered edge cases, (4) conflicts with the
+constitution. Don't propose solutions until asked.

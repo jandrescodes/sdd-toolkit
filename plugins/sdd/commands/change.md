@@ -1,19 +1,20 @@
 ---
-description: Fase 8 SDD — ante un requisito nuevo, actualiza primero la spec y muestra el diff. No toca código hasta aprobar el cambio de spec.
-argument-hint: "<requisito o cambio nuevo>"
+description: SDD phase 8 — on a new requirement, updates the spec first and shows the diff. Doesn't touch code until the spec change is approved.
+argument-hint: "<new requirement or change>"
 ---
 
-Estás en la **fase 8 (Cambio)** del flujo SDD.
+You're in **phase 8 (Change)** of the SDD flow.
 
-Cambio solicitado: $ARGUMENTS
+Requested change: $ARGUMENTS
 
-1. **NO toques código.**
-2. Lee `docs/constitution.md` y la spec activa.
-3. Determina qué RF se añaden, modifican o eliminan por este cambio. Comprueba
-   que no contradiga la constitución ni otros RF; si lo hace, dímelo antes de
-   seguir.
-4. Actualiza la spec (RF en EARS, y "Fuera de alcance" si el cambio recorta
-   algo) y **muéstrame el diff**.
-5. Espera mi aprobación del diff.
-6. Solo entonces: actualiza el plan, las tareas afectadas y `validation.md` si
-   ya existía, y sigue con la fase 6 para implementar los RF nuevos o cambiados.
+1. **Do NOT touch code.**
+2. Read `docs/constitution.md` and the active spec.
+3. Determine which FRs this change adds, modifies, or removes. Check it
+   doesn't contradict the constitution or other FRs; if it does, tell me
+   before continuing.
+4. Update the spec (FRs in EARS, and "Out of scope" if the change trims
+   something) and **show me the diff**.
+5. Wait for my approval of the diff.
+6. Only then: update the plan, the affected tasks, and `validation.md` if it
+   already existed, then continue with phase 6 to implement the new or
+   changed FRs.

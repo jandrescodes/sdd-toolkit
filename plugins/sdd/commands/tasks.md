@@ -1,24 +1,24 @@
 ---
-description: Fase 5 SDD — divide el plan en tareas de <30 min ordenadas por dependencia, cada una con sus RF, checkbox y una línea "Hecho cuando:" verificable.
-argument-hint: "[ruta del plan, si hay varios]"
+description: SDD phase 5 — breaks the plan into <30 min tasks ordered by dependency, each with its FRs, a checkbox, and a verifiable "Done when:" line.
+argument-hint: "[plan path, if there are several]"
 ---
 
-Estás en la **fase 5 (Tareas)** del flujo SDD.
+You're in **phase 5 (Tasks)** of the SDD flow.
 
-Plan: $ARGUMENTS (si está vacío, usa el `plan.md` de la spec activa más reciente).
+Plan: $ARGUMENTS (if empty, use the `plan.md` of the most recent active spec).
 
-1. Lee `docs/constitution.md`, la spec y el plan.
-2. Genera `specs/NNN-<slug>/tasks.md` (mismo NNN):
-   - Tareas de **menos de 30 minutos** cada una.
-   - **Ordenadas por dependencia** (T1 no depende de nada, etc.).
-   - Cada tarea: `- [ ] Tn. <descripción>. (RF-…)` seguido de una línea
-     `Hecho cuando: <criterio verificable>`.
-   - El criterio "Hecho cuando" debe ser comprobable (un test, un comando, un
-     archivo que existe), no "cuando funcione".
-3. Cubre todos los RF de la spec entre las tareas.
-4. Añade siempre al final el bloque `## Cierre de la feature` de la plantilla
-   (checkboxes fuera de la numeración `Tn`: validación, roadmap, y los que
-   apliquen para CHANGELOG / despliegue / convención nueva). Deja como `<hueco>`
-   lo que dependa del proyecto; no inventes pasos que la constitución o
-   `AGENTS.md` no respalden.
-5. No implementes nada todavía. Muéstrame la lista y espera el visto bueno.
+1. Read `docs/constitution.md`, the spec, and the plan.
+2. Generate `specs/NNN-<slug>/tasks.md` (same NNN):
+   - Tasks of **under 30 minutes** each.
+   - **Ordered by dependency** (T1 depends on nothing, etc.).
+   - Each task: `- [ ] Tn. <description>. (FR-…)` followed by a line
+     `Done when: <verifiable criterion>`.
+   - The "Done when" criterion must be checkable (a test, a command, a file
+     that exists), not "when it works".
+3. Cover every FR from the spec across the tasks.
+4. Always append the `## Feature closeout` block from the template at the
+   end (checkboxes outside the `Tn` numbering: validation, roadmap, and
+   whatever applies for CHANGELOG / deployment / a new convention). Leave
+   `<blank>` whatever depends on the project; don't invent steps the
+   constitution or `AGENTS.md` don't back.
+5. Don't implement anything yet. Show me the list and wait for approval.

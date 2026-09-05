@@ -1,27 +1,29 @@
 ---
-description: Fase 4 SDD — genera specs/NNN-<slug>/plan.md con módulos, modelo de datos, decisiones justificadas, riesgos y estrategia de verificación. Sin código.
-argument-hint: "[ruta de la spec, si hay varias]"
+description: SDD phase 4 — generates specs/NNN-<slug>/plan.md with modules, data model, justified decisions, risks, and a verification strategy. No code.
+argument-hint: "[spec path, if there are several]"
 ---
 
-Estás en la **fase 4 (Planificación)** del flujo SDD.
+You're in **phase 4 (Planning)** of the SDD flow.
 
-Spec: $ARGUMENTS (si está vacío, usa la spec activa más reciente de `specs/`).
+Spec: $ARGUMENTS (if empty, use the most recent active spec in `specs/`).
 
-1. **Comprueba prerrequisitos.** Si no existe `docs/constitution.md` o no hay una
-   spec activa en `specs/`, **avisa y detente** — no se puede planificar sin
-   ellas.
-2. Lee la constitución y la spec completas.
-3. **NO escribas código.** Genera `specs/NNN-<slug>/plan.md` (mismo NNN que la
-   spec) con:
-   - Estructura de módulos y su responsabilidad.
-   - Modelo de datos / esquema (o "sin estado" si aplica).
-   - Algoritmos no triviales con sus casos límite.
-   - Decisiones técnicas, **cada una con la alternativa descartada** y por qué.
-   - Contrato de interfaz (firmas, entradas/salidas, códigos de error).
-   - Riesgos, cada uno con su mitigación o por qué se acepta.
-   - Estrategia de verificación: suite automatizada o —si el proyecto no la
-     tiene— checklist manual por rol/flujo y qué evidencia se pega.
-   - Tabla de qué RF cubre cada parte.
-4. Todo el plan debe respetar la constitución. Si algo de la spec la contradice,
-   señálalo en vez de planificarlo.
-5. Pide **aprobación explícita** antes de pasar a tareas.
+1. **Check prerequisites.** If `docs/constitution.md` doesn't exist or there's
+   no active spec in `specs/`, **warn and stop** — planning can't happen
+   without them.
+2. Read the full constitution and spec.
+3. **Do NOT write code.** Generate `specs/NNN-<slug>/plan.md` (same NNN as
+   the spec) with:
+   - Module structure and each one's responsibility.
+   - Data model / schema (or "stateless" if it applies).
+   - Non-trivial algorithms with their edge cases.
+   - Technical decisions, **each with the alternative that was discarded**
+     and why.
+   - Interface contract (signatures, inputs/outputs, error codes).
+   - Risks, each with its mitigation or why it's accepted.
+   - Verification strategy: automated suite, or — if the project doesn't
+     have one — a manual checklist by role/flow and what evidence gets
+     attached.
+   - A table of which FR each part covers.
+4. The whole plan must respect the constitution. If anything in the spec
+   contradicts it, flag it instead of planning around it.
+5. Ask for **explicit approval** before moving to tasks.

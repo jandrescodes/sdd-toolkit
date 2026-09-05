@@ -1,27 +1,27 @@
-# Roadmap — <proyecto>
+# Roadmap — <project>
 
-Vista cross-feature: qué está hecho, qué toca ahora y qué hay en backlog.
-Artefacto de nivel proyecto (junto con `docs/constitution.md`). Se mantiene a
-mano; `/sdd:spec` lo lee al elegir número y `/sdd:validate` mueve una feature a
-`Hecho ✅` al cerrarla.
+Cross-feature view: what's done, what's next, and what's in the backlog.
+Project-level artifact (alongside `docs/constitution.md`). Maintained by
+hand; `/sdd:spec` reads it when picking a number and `/sdd:validate` moves a
+feature to `Done ✅` when it closes.
 
-Cada entrada de Hecho / Siguiente enlaza la **carpeta** de la feature
-(`specs/NNN-<slug>/`), nunca solo un número.
+Each Done / Next entry links the feature's **folder**
+(`specs/NNN-<slug>/`), never just a number.
 
-## Hecho ✅
+## Done ✅
 
-1. **<Nombre de la feature>** — <una línea>. → `specs/NNN-<slug>/`
+1. **<Feature name>** — <one line>. → `specs/NNN-<slug>/`
 
-_Features anteriores a la adopción de SDD: una línea cada una, sin retroactivar
-`spec/plan/tasks`; el detalle vive en `CHANGELOG.md`._
+_Features predating SDD adoption: one line each, without retroactively
+writing `spec/plan/tasks`; the detail lives in `CHANGELOG.md`._
 
-## Siguiente 🔜
+## Next 🔜
 
-- **<Feature en curso o la próxima>** — <una línea>. → `specs/NNN-<slug>/`
+- **<Feature in progress or up next>** — <one line>. → `specs/NNN-<slug>/`
 
 ## Backlog · ideas 💡
 
-_Sin comprometer ni ordenar del todo. Toda idea debe respetar
-`docs/constitution.md` (alcance del producto incluido)._
+_Not committed or fully ordered. Every idea must respect
+`docs/constitution.md` (including product scope)._
 
-- **<Idea>** — <qué problema resolvería>.
+- **<Idea>** — <what problem it would solve>.

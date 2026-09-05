@@ -1,53 +1,53 @@
 <!--
-  Bloque listo para pegar en el AGENTS.md del proyecto. Trabajo propio del
-  toolkit (MIT). Ajusta las <…> y borra las notas en cursiva.
+  Block ready to paste into the project's AGENTS.md. Toolkit's own work
+  (MIT). Adjust the <…> and delete the italicized notes.
 -->
 
-## Planificación de features (Spec-Driven Development)
+## Feature planning (Spec-Driven Development)
 
-Este proyecto se lleva con SDD: primero la spec, luego el plan, luego las
-tareas, y solo entonces el código. **La spec es el contrato: si algo no está en
-ella, no se implementa.**
+This project runs on SDD: spec first, then plan, then tasks, and only then
+code. **The spec is the contract: if it isn't there, it isn't implemented.**
 
-### Artefactos
+### Artifacts
 
 ```
-docs/constitution.md          ← principios del proyecto (nivel proyecto)
-docs/roadmap.md               ← qué hay hecho / en curso / en backlog (nivel proyecto)
+docs/constitution.md          ← project principles (project level)
+docs/roadmap.md               ← what's done / in progress / backlog (project level)
 specs/NNN-<slug>/
-├── spec.md                   ← QUÉ y POR QUÉ (RF en EARS) + § Clarificaciones
-├── plan.md                   ← CÓMO (módulos, datos, decisiones, riesgos)
-├── tasks.md                  ← tareas <30 min + bloque de cierre
-└── validation.md             ← recorrido RF por RF + veredicto (lo deja la fase 7)
+├── spec.md                   ← WHAT and WHY (FRs in EARS) + § Clarifications
+├── plan.md                   ← HOW (modules, data, decisions, risks)
+├── tasks.md                  ← <30 min tasks + closeout block
+└── validation.md             ← FR-by-FR walkthrough + verdict (left by phase 7)
 ```
 
-Una feature no está cerrada hasta que existen sus cuatro archivos.
+A feature isn't closed until all four files exist.
 
-### Fases
+### Phases
 
-| #   | Fase           | Command (plugin / script)                   |
+| #   | Phase          | Command (plugin / script)                   |
 | --- | -------------- | ------------------------------------------- |
-| 1   | Constitución   | `/sdd:constitution` · `/sdd-constitution`   |
-| 2   | Especificación | `/sdd:spec` · `/sdd-spec`                   |
-| 3   | Clarificación  | `/sdd:clarify` · `/sdd-clarify`             |
-| 4   | Planificación  | `/sdd:plan` · `/sdd-plan`                   |
-| 5   | Tareas         | `/sdd:tasks` · `/sdd-tasks`                 |
-| 6   | Implementación | `/sdd:implement <n>` · `/sdd-implement <n>` |
-| 7   | Validación     | `/sdd:validate` · `/sdd-validate`           |
-| 8   | Cambio         | `/sdd:change <req>` · `/sdd-change <req>`   |
+| 1   | Constitution   | `/sdd:constitution` · `/sdd-constitution`   |
+| 2   | Specification  | `/sdd:spec` · `/sdd-spec`                   |
+| 3   | Clarification  | `/sdd:clarify` · `/sdd-clarify`             |
+| 4   | Planning       | `/sdd:plan` · `/sdd-plan`                   |
+| 5   | Tasks          | `/sdd:tasks` · `/sdd-tasks`                 |
+| 6   | Implementation | `/sdd:implement <n>` · `/sdd-implement <n>` |
+| 7   | Validation     | `/sdd:validate` · `/sdd-validate`           |
+| 8   | Change         | `/sdd:change <req>` · `/sdd-change <req>`   |
 
-### Reglas
+### Rules
 
-- **Numeración `specs/NNN`**: contador propio de `specs/`, tres dígitos,
-  monótono, sin reutilizar números borrados. <Empieza en `001` | continúa la
-  serie heredada desde `NNN` — decisión de adopción>. No es el ordinal del
-  roadmap ni un RF histórico.
-- **Verificación como puerta**: ninguna tarea se marca `[x]` sin
-  <suite automatizada en verde | ejecutar `<comando o skill>` y pegar la
-  evidencia>.
-- **Precedencia**: `docs/constitution.md` manda sobre specs y planes. Ante
-  conflicto entre `docs/`/`specs/` y este archivo, este archivo es la fuente
-  operativa del **código** y `docs/`/`specs/` la capa de **planificación**.
-- **`docs/` y `specs/` se versionan pero no se despliegan**: exclúyelos del
-  artefacto de deploy y del docroot.
-- No modificar `specs/` fuera de su fase salvo petición explícita.
+- **`specs/NNN` numbering**: `specs/`'s own counter, three digits, monotonic,
+  never reusing deleted numbers. <Starts at `001` | continues the inherited
+  series from `NNN` — adoption decision>. It is not the roadmap's ordinal nor
+  a historical FR.
+- **Verification as a gate**: no task is marked `[x]` without
+  <automated suite green | running `<command or skill>` and attaching the
+  evidence>.
+- **Precedence**: `docs/constitution.md` rules over specs and plans. On
+  conflict between `docs/`/`specs/` and this file, this file is the
+  operational source for **code** and `docs/`/`specs/` is the **planning**
+  layer.
+- **`docs/` and `specs/` are versioned but not deployed**: exclude them from
+  the deploy artifact and the docroot.
+- Don't modify `specs/` outside its phase without an explicit request.

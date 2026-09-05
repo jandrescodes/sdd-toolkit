@@ -1,24 +1,26 @@
 ---
-description: Fase 6 SDD — implementa SOLO la tarea Tn indicada, verificación primero (tests o checklist), la ejecuta, marca la tarea y se detiene.
-argument-hint: "<número de tarea, p. ej. 3>"
+description: SDD phase 6 — implements ONLY the given task Tn, verification first (tests or checklist), runs it, marks the task, and stops.
+argument-hint: "<task number, e.g. 3>"
 ---
 
-Estás en la **fase 6 (Implementación)** del flujo SDD.
+You're in **phase 6 (Implementation)** of the SDD flow.
 
-Tarea a implementar: T$ARGUMENTS
+Task to implement: T$ARGUMENTS
 
-1. Si el argumento está vacío o no es un número, **pregúntame qué tarea** — no
-   asumas T1.
-2. Lee `docs/constitution.md`, la spec activa, el plan y `tasks.md`.
-3. Verifica que las tareas anteriores estén marcadas `[x]`. Si no, avísame.
-4. Implementa **solo** T$ARGUMENTS. Nada de otras tareas ni mejoras no pedidas.
-   Esta fase implementa tareas `Tn`; los ítems del bloque "Cierre de la feature"
-   de `tasks.md` no se implementan aquí.
-5. **Verificación primero.** Escribe los tests que cubren los RF de la tarea,
-   luego el código hasta que pasen. Si el proyecto no tiene suite automatizada,
-   ejecuta la verificación que indique la constitución / `AGENTS.md`.
-6. Ejecuta la verificación completa (suite o checklist) y **muéstrame el
-   resultado / la evidencia**. Si algo queda en rojo o sin evidencia, no cierres
-   la tarea.
-7. Marca T$ARGUMENTS como `[x]` en `tasks.md` y **detente**. No sigas con la
-   siguiente tarea.
+1. If the argument is empty or not a number, **ask me which task** — don't
+   assume T1.
+2. Read `docs/constitution.md`, the active spec, the plan, and `tasks.md`.
+3. Verify previous tasks are marked `[x]`. If not, warn me.
+4. Implement **only** T$ARGUMENTS. No other tasks, no unrequested
+   improvements. This phase implements `Tn` tasks; items in `tasks.md`'s
+   feature-closeout block (whatever it's labeled — `## Feature closeout`,
+   `## Cierre de la feature`, or otherwise, in whatever language) are not
+   implemented here.
+5. **Verification first.** Write the tests covering the task's FRs, then the
+   code until they pass. If the project has no automated suite, run the
+   verification the constitution / `AGENTS.md` specifies.
+6. Run the full verification (suite or checklist) and **show me the
+   result / evidence**. If anything is red or has no evidence, don't close
+   the task.
+7. Mark T$ARGUMENTS as `[x]` in `tasks.md` and **stop**. Don't continue to
+   the next task.

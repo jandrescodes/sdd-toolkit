@@ -1,31 +1,32 @@
-# AGENTS.md — <proyecto>
+# AGENTS.md — <project>
 
-## Proyecto
+## Project
 
-<Qué es, en 2-3 frases. Arquitectura, tecnologías.>
+<What it is, in 2-3 sentences. Architecture, technologies.>
 
-## Comandos
+## Commands
 
-- Ejecutar: `<comando>`
-- Lint/formato: `<comando>`
-- Verificación (puerta de cada tarea): `<comando de tests | skill/checklist
-manual — nómbralo aquí una sola vez>`
+- Run: `<command>`
+- Lint/format: `<command>`
+- Verification (each task's gate): `<test command | manual skill/checklist —
+name it here once>`
 
-## Estilo y convenciones
+## Style and conventions
 
-<Versión del lenguaje, convenciones de nombres, idioma del código y mensajes.>
+<Language version, naming conventions, language for code and messages.>
 
-## Reglas
+## Rules
 
-- Lee `docs/constitution.md` y la spec activa en `specs/` antes de tocar código.
-- <Límites: qué no tocar, qué no añadir sin preguntar.>
-- No modifiques archivos dentro de `specs/` salvo petición explícita.
-- Precedencia: `docs/constitution.md` manda sobre specs y planes. Ante
-  conflicto entre `docs/`/`specs/` y este archivo, este archivo es la fuente
-  operativa del código y `docs/`/`specs/` la capa de planificación.
-- `docs/` y `specs/` se versionan pero no se despliegan.
+- Read `docs/constitution.md` and the active spec in `specs/` before
+  touching code.
+- <Boundaries: what not to touch, what not to add without asking.>
+- Don't modify files inside `specs/` except on explicit request.
+- Precedence: `docs/constitution.md` rules over specs and plans. On
+  conflict between `docs/`/`specs/` and this file, this file is the
+  operational source for code and `docs/`/`specs/` is the planning layer.
+- `docs/` and `specs/` are versioned but not deployed.
 
-## Al terminar cualquier tarea
+## When finishing any task
 
-- <Verificación obligatoria, p. ej. ejecutar los tests y confirmar en la
-  respuesta que pasan.>
+- <Mandatory verification, e.g. run the tests and confirm in the response
+  that they pass.>

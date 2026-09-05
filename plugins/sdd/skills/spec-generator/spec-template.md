@@ -1,40 +1,40 @@
-# Spec NNN — <Nombre de la funcionalidad>
+# Spec NNN — <Feature name>
 
-## Contexto y objetivo
+## Context and goal
 
-<Qué problema resuelve y por qué merece la pena. Un párrafo.>
+<What problem this solves and why it's worth it. One paragraph.>
 
-## Usuarios / actores
+## Users / actors
 
-<Quién lo usa.>
+<Who uses it.>
 
-## Historias de usuario
+## User stories
 
-- H1: Como <rol> quiero <acción> para <beneficio>.
+- U1: As a <role> I want <action> so that <benefit>.
 
-## Requisitos funcionales (criterios de aceptación en EARS)
+## Functional requirements (EARS acceptance criteria)
 
-- RF-1: CUANDO <evento>, EL SISTEMA <respuesta> (salida/resultado esperado).
-- RF-2: SI <condición no deseada>, ENTONCES EL SISTEMA <respuesta>.
-- RF-3: MIENTRAS <estado>, EL SISTEMA <respuesta>.
-- RF-4: EL SISTEMA <comportamiento permanente>.
+- FR-1: WHEN <event>, THE SYSTEM <response> (expected output/result).
+- FR-2: IF <unwanted condition>, THEN THE SYSTEM <response>.
+- FR-3: WHILE <state>, THE SYSTEM <response>.
+- FR-4: THE SYSTEM <permanent behavior>.
 
-## Requisitos no funcionales
+## Non-functional requirements
 
-<Solo los que apliquen: rendimiento, seguridad, plataformas, idioma...>
+<Only those that apply: performance, security, platforms, language...>
 
-## Casos límite
+## Edge cases
 
-<Vacíos, duplicados, datos corruptos, límites, concurrencia...>
+<Empty inputs, duplicates, corrupt data, limits, concurrency...>
 
-## Fuera de alcance
+## Out of scope
 
-<Lo que explícitamente NO se hace en esta iteración.>
+<What is explicitly NOT done in this iteration.>
 
-## Criterios de finalización
+## Completion criteria
 
-<Ej.: todos los RF con test en verde + demo manual del flujo principal.>
+<E.g.: all FRs with passing tests + manual demo of the main flow.>
 
-## Dudas abiertas
+## Open questions
 
-- [NECESITA ACLARACIÓN] <duda>
+- [NEEDS CLARIFICATION] <question>

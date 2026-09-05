@@ -1,38 +1,38 @@
-# Plan técnico — Spec NNN
+# Technical plan — Spec NNN
 
-## Estructura de módulos
+## Module structure
 
-- `<módulo>` → `<responsabilidad>` (RF-…)
+- `<module>` → `<responsibility>` (FR-…)
 
-## Modelo de datos
+## Data model
 
-<Esquema, formato, invariantes. Si no hay estado, dilo.>
+<Schema, format, invariants. If stateless, say so.>
 
-## Algoritmos / lógica no trivial
+## Algorithms / non-trivial logic
 
-<Pasos del algoritmo clave, con sus casos límite.>
+<Steps of the key algorithm, with its edge cases.>
 
-## Decisiones técnicas
+## Technical decisions
 
-- <Decisión> → <justificación>. Alternativa descartada: <cuál y por qué no>.
+- <Decision> → <justification>. Discarded alternative: <which and why not>.
 
-## Contrato de interfaz
+## Interface contract
 
-<Firmas de comandos/endpoints/funciones públicas, entradas y salidas.>
+<Signatures of public commands/endpoints/functions, inputs and outputs.>
 
-## Estrategia de verificación
+## Verification strategy
 
-<Qué se prueba y cómo: suite automatizada (unitarios, integración, fixtures) o
-—si el proyecto no la tiene— checklist manual por rol/flujo y qué evidencia se
-pega.>
+<What gets tested and how: automated suite (unit, integration, fixtures), or
+— if the project doesn't have one — a manual checklist by role/flow and what
+evidence gets attached.>
 
-## Riesgos
+## Risks
 
-- <Riesgo> → <mitigación o por qué se acepta>. <Enlaza a "Fuera de alcance" de
-  la spec si el riesgo se difiere.>
+- <Risk> → <mitigation or why it's accepted>. <Link to the spec's "Out of
+  scope" if the risk is deferred.>
 
-## Qué RF cubre cada parte
+## Which FR each part covers
 
-| Parte | RF   |
-| ----- | ---- |
-| <…>   | RF-… |
+| Part | FR   |
+| ---- | ---- |
+| <…>  | FR-… |

@@ -1,23 +1,23 @@
-# Tareas — Spec NNN
+# Tasks — Spec NNN
 
-Tareas de <30 min, ordenadas por dependencia. Cada una: sus RF, un checkbox y
-una línea "Hecho cuando:" verificable.
+Tasks under 30 min, ordered by dependency. Each one: its FRs, a checkbox, and
+a verifiable "Done when:" line.
 
-- [ ] T1. <Descripción>. (RF: —)
-      Hecho cuando: <criterio verificable>.
-- [ ] T2. <Descripción>. (RF-…)
-      Hecho cuando: <criterio verificable>.
-- [ ] T3. <Descripción>. (RF-…)
-      Hecho cuando: <criterio verificable>.
+- [ ] T1. <Description>. (FR: —)
+      Done when: <verifiable criterion>.
+- [ ] T2. <Description>. (FR-…)
+      Done when: <verifiable criterion>.
+- [ ] T3. <Description>. (FR-…)
+      Done when: <verifiable criterion>.
 
-## Cierre de la feature
+## Feature closeout
 
-_Checkboxes sueltos, fuera de la numeración `Tn` — no se implementan con
-`/sdd:implement`. Deja como `<hueco>` lo que dependa del proyecto; no inventes
-pasos que la constitución o `AGENTS.md` no respalden._
+_Standalone checkboxes, outside the `Tn` numbering — not implemented via
+`/sdd:implement`. Leave `<blank>` whatever depends on the project; don't
+invent steps the constitution or `AGENTS.md` don't back._
 
-- [ ] Verificación de todos los RF (`/sdd:validate` → `specs/NNN-<slug>/validation.md`).
-- [ ] Mover la feature a `Hecho ✅` en `docs/roadmap.md`, enlazando esta carpeta.
-- [ ] <Actualizar `CHANGELOG` / documentación del proyecto, si aplica.>
-- [ ] <Pasos de despliegue o migración manual, si aplica.>
-- [ ] <Convención nueva descubierta → anotarla en `AGENTS.md`, si aplica.>
+- [ ] Verify all FRs (`/sdd:validate` → `specs/NNN-<slug>/validation.md`).
+- [ ] Move the feature to `Done ✅` in `docs/roadmap.md`, linking this folder.
+- [ ] <Update `CHANGELOG` / project docs, if applicable.>
+- [ ] <Deployment or manual migration steps, if applicable.>
+- [ ] <New convention discovered → record it in `AGENTS.md`, if applicable.>

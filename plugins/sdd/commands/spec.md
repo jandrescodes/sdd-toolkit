@@ -1,27 +1,30 @@
 ---
-description: Fase 2 SDD — entrevista de requisitos (una pregunta a la vez, máx. 6) y genera specs/NNN-<slug>/spec.md con RF en notación EARS.
-argument-hint: "<funcionalidad a especificar>"
+description: SDD phase 2 — requirements interview (one question at a time, max 6) that generates specs/NNN-<slug>/spec.md with FRs in EARS notation.
+argument-hint: "<feature to specify>"
 ---
 
-Estás en la **fase 2 (Especificación)** del flujo SDD. Usa la skill
-`spec-generator`.
+You're in **phase 2 (Specification)** of the SDD flow. Use the
+`spec-generator` skill.
 
-Funcionalidad: $ARGUMENTS
+Feature: $ARGUMENTS
 
-Reglas de esta fase:
+Rules for this phase:
 
-- **NO escribas código.**
-- Lee `docs/constitution.md`, `docs/roadmap.md` y las specs previas de `specs/`
-  antes de empezar.
-- Hazme preguntas **de una en una**, máximo 6, esperando respuesta. Céntrate en
-  casos límite, comportamiento ante errores y qué queda fuera de alcance.
-- Solo el **QUÉ** y el **POR QUÉ**. Si te pregunto "¿cómo lo harías?", redirige
-  al qué.
-- Al terminar, genera `specs/NNN-<slug>/spec.md` con la plantilla de la skill:
-  línea `**Estado:**`, RF numerados en **EARS**, sección "Fuera de alcance" y
-  criterios de finalización. Marca huecos como `[NECESITA ACLARACIÓN: ...]`.
-  `NNN` es el siguiente libre del contador de `specs/` (tres dígitos, monótono,
-  sin reutilizar borrados); **no** es el ordinal del roadmap ni un RF histórico.
-  En un repo nuevo empieza en `001`; si el repo continúa una serie heredada,
-  respétala.
-- Pide **aprobación explícita** antes de pasar a la fase de plan.
+- **Do NOT write code.**
+- Read `docs/constitution.md`, `docs/roadmap.md`, and prior specs in `specs/`
+  before starting.
+- Ask questions **one at a time**, six max, waiting for an answer. Focus on
+  edge cases, error behavior, and what's out of scope.
+- Only the **WHAT** and the **WHY**. If asked "how would you do it?",
+  redirect to the what.
+- When done, generate `specs/NNN-<slug>/spec.md` using the skill's template:
+  `**Status:**` line, FRs numbered in **EARS**, an "Out of scope" section,
+  and completion criteria. Flag gaps as `[NEEDS CLARIFICATION: ...]`.
+  `NNN` is the next free number in `specs/`'s counter (three digits,
+  monotonic, never reusing deleted ones); it is **not** the roadmap's ordinal
+  nor a historical FR. A new repo starts at `001`; if the repo continues an
+  inherited series, respect it.
+- Write the spec's content in whatever language `docs/constitution.md`
+  declares, or the user's language if none is declared — but keep FR
+  numbering and EARS keywords in English regardless.
+- Ask for **explicit approval** before moving to the plan phase.

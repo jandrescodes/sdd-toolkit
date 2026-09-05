@@ -2,13 +2,20 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "sdd",
   "displayName": "Spec-Driven Development",
-  "version": "0.2.0",
-  "description": "Flujo SDD completo como skills y slash commands: constitución → spec (EARS) → clarificación → plan → tareas → implementación → validación → cambio.",
+  "version": "0.3.0",
+  "description": "Complete SDD flow as skills and slash commands: constitution → spec (EARS) → clarification → plan → tasks → implementation → validation → change.",
   "author": {
     "name": "Andres (jandrescodes)",
     "url": "https://github.com/jandrescodes"
   },
   "homepage": "https://github.com/jandrescodes/sdd-toolkit",
   "license": "MIT",
-  "keywords": ["sdd", "spec-driven", "ears", "workflow", "planning", "specification"]
+  "keywords": [
+    "sdd",
+    "spec-driven",
+    "ears",
+    "workflow",
+    "planning",
+    "specification"
+  ]
 }
