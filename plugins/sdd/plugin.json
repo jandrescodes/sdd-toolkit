@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sdd",
+  "description": "Complete Spec-Driven Development flow as portable skills for GitHub Copilot.",
+  "version": "0.4.0",
+  "author": {
+    "name": "Andres (jandrescodes)",
+    "url": "https://github.com/jandrescodes"
+  },
+  "homepage": "https://github.com/jandrescodes/sdd-toolkit",
+  "repository": "https://github.com/jandrescodes/sdd-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "sdd",
+    "spec-driven",
+    "ears",
+    "workflow",
+    "planning",
+    "specification"
+  ]
+}

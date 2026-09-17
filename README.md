@@ -4,10 +4,11 @@
 
 **The complete Spec-Driven Development (SDD) flow packaged as skills and
 slash commands for [Claude Code](https://claude.com/claude-code) and
-[opencode](https://opencode.ai).**
+[opencode](https://opencode.ai), with portable skills for
+[GitHub Copilot](https://github.com/features/copilot).**
 
 [![validate](https://github.com/jandrescodes/sdd-toolkit/actions/workflows/validate.yml/badge.svg)](https://github.com/jandrescodes/sdd-toolkit/actions/workflows/validate.yml)
-&nbsp;[![plugin](https://img.shields.io/badge/plugin-0.3.0-2f81f7)](./CHANGELOG.md)
+&nbsp;[![plugin](https://img.shields.io/badge/plugin-0.4.0-2f81f7)](./CHANGELOG.md)
 &nbsp;![license](https://img.shields.io/badge/license-MIT%20%2B%20Apache--2.0-blue)
 
 <em>The spec is the contract: if it isn't there, it isn't implemented.<br>
@@ -54,6 +55,18 @@ interview). Full map of artifacts and paths:
 ```
 
 Update with `/plugin update sdd`. Commands are `/sdd:<phase>`.
+
+### GitHub Copilot CLI — plugin
+
+```
+copilot plugin marketplace add jandrescodes/sdd-toolkit
+copilot plugin install sdd@sdd-toolkit
+```
+
+The plugin exposes the portable `sdd-flow` and `spec-generator` skills.
+Copilot discovers them from the Agent Plugins 1.0 manifest and the same
+`plugins/sdd/skills/` source used by the other clients. Inspect them with
+`copilot skill list`.
 
 ### opencode, or Claude Code without the plugin — script
 
@@ -117,7 +130,8 @@ commit. Per-version detail is in [`CHANGELOG.md`](./CHANGELOG.md).
 
 ```
 bash tests/validate.sh                          # quality gate
-claude plugin validate ./plugins/sdd --strict   # plugin manifest
+claude plugin validate ./plugins/sdd --strict   # Claude plugin manifest
+copilot plugin install ./plugins/sdd             # Copilot local smoke test
 ```
 
 Only edit under `plugins/sdd/`. Everything else is a copy or an example.

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/marketplace.json",
+  "name": "sdd-toolkit",
+  "owner": {
+    "name": "Andres (jandrescodes)",
+    "url": "https://github.com/jandrescodes"
+  },
+  "metadata": {
+    "description": "Spec-Driven Development toolkit for GitHub Copilot",
+    "version": "0.4.0"
+  },
+  "plugins": [
+    {
+      "name": "sdd",
+      "description": "Complete Spec-Driven Development flow as portable skills: constitution, specification, clarification, planning, tasks, implementation, validation, and change.",
+      "version": "0.4.0",
+      "source": "./plugins/sdd"
+    }
+  ]
+}

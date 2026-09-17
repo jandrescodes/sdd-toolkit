@@ -6,6 +6,8 @@ set -u
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PLUGIN="$ROOT/plugins/sdd"
+COPILOT_MARKETPLACE="$ROOT/.github/plugin/marketplace.json"
+COPILOT_PLUGIN="$PLUGIN/plugin.json"
 errors=0
 
 fail() { printf '  ✗ %s\n' "$1"; errors=$((errors + 1)); }
@@ -40,7 +42,11 @@ frontmatter_value() {
 }
 
 echo "→ JSON"
-for f in "$ROOT/.claude-plugin/marketplace.json" "$PLUGIN/.claude-plugin/plugin.json"; do
+for f in \
+  "$ROOT/.claude-plugin/marketplace.json" \
+  "$PLUGIN/.claude-plugin/plugin.json" \
+  "$COPILOT_MARKETPLACE" \
+  "$COPILOT_PLUGIN"; do
   if [ ! -f "$f" ]; then fail "falta $f"; continue; fi
   if json_check "$f"; then ok "${f#$ROOT/}"; else fail "JSON inválido: ${f#$ROOT/}"; fi
 done

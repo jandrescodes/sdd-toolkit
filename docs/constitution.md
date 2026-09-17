@@ -26,9 +26,9 @@ comply with them.
    each produce a Markdown file that stays in the project's repo. The roadmap
    (`docs/roadmap.md`) is the other project-level artifact, maintained by hand.
    If a step leaves no trace, it isn't done.
-4. **No runtime dependencies**: only `bash` and what Claude Code and opencode
-   already ship with. `python3` or `node` are accepted for JSON validation,
-   both common. No package managers or extra binaries.
+4. **No runtime dependencies**: only `bash` and what Claude Code, Copilot, and
+   opencode already ship with. `python3` or `node` are accepted for JSON
+   validation, both common. No package managers or extra binaries.
 5. **EARS is mandatory**: acceptance criteria in every spec are written in
    EARS notation, numbered FR-1, FR-2, …, and each one must be verifiable.
 6. **Verification as a gate**: `bash tests/validate.sh` **and**

@@ -9,6 +9,16 @@ Semantic versioning. The canonical version lives in
 
 —
 
+## [0.4.0] - 2026-09-17
+
+GitHub Copilot CLI distribution through the Agent Plugins 1.0 format.
+
+### Added
+
+- Copilot marketplace manifest at `.github/plugin/marketplace.json`.
+- Portable Copilot plugin manifest at `plugins/sdd/plugin.json`.
+- README installation and local verification instructions for Copilot CLI.
+
 ## [0.3.0] - 2026-09-04
 
 The toolkit's own prompts, commands, skills, and docs translated from
