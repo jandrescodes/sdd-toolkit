@@ -4,8 +4,9 @@ Canonical reference: which file each phase produces or consumes, where it
 goes, who touches it, and which template it comes from. Paths relative to
 the root of the **project repo** using the toolkit.
 
-Everything is versioned in git. **None of this gets deployed**: exclude
-`docs/` and `specs/` from the deploy artifact and the docroot.
+Everything is versioned in git, except `deliverables/` (ignored by default).
+**None of this gets deployed**: exclude `docs/`, `specs/`, and `deliverables/`
+from the deploy artifact and the docroot.
 
 ## Project level
 
@@ -19,6 +20,31 @@ Everything is versioned in git. **None of this gets deployed**: exclude
 | Reference detail               | `docs/<topic>.md`                                   | By hand. Anything that doesn't fit as a rule in `AGENTS.md`                                                                | —                       | no template                                       |
 | Version history                | `CHANGELOG.md` (root)                               | By hand / feature closeout block                                                                                           | —                       | no template                                       |
 | Project verification           | e.g. `.claude/skills/<verifier>/` or a test command | The repo's own. **Declared once in `AGENTS.md` § Commands**                                                                | used by phases 6 and 7  | no template                                       |
+
+## Documentation layer — `docs/` and `deliverables/`
+
+Derived views of the artifacts above, never a second source of truth: if one
+disagrees with the constitution, specs, or plans, those prevail. They are not
+phase artifacts and `/sdd:docs` is not a ninth phase.
+
+| Artifact          | Path                                    | Who creates / edits it                                                                                                                                                             | Phase · command                                  | Source template                               |
+| ----------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | --------------------------------------------- |
+| Schema            | `docs/schema.md`                        | Derived. Refreshed automatically by `/sdd:validate` on a fulfilled verdict, or on request with `/sdd:docs schema`. Everything under `## Notes (hand-written)` is yours and is kept | cross-cutting · `/sdd:docs schema`               | `sdd-documents/templates/schema.md` (MIT)     |
+| App flow          | `docs/app-flow.md`                      | By hand (optional). Not generated                                                                                                                                                  | —                                                | `sdd-documents/templates/app-flow.md` (MIT)   |
+| UX brief          | `docs/ux-brief.md`                      | By hand (optional). Not generated                                                                                                                                                  | —                                                | `sdd-documents/templates/ux-brief.md` (MIT)   |
+| PRD               | `deliverables/prd.md`                   | Derived from closed features' specs, after you approve a proposal                                                                                                                  | cross-cutting · `/sdd:docs prd`                  | `sdd-documents/templates/prd.md` (MIT)        |
+| TRD               | `deliverables/trd.md`                   | Derived from closed features' plans, after you approve a proposal                                                                                                                  | cross-cutting · `/sdd:docs trd`                  | `sdd-documents/templates/trd.md` (MIT)        |
+| Scope change log  | `deliverables/changes.md`               | Derived from the `## Changes` entries of closed features, after you approve a proposal                                                                                             | cross-cutting · `/sdd:docs changes`              | `sdd-documents/templates/changes.md` (MIT)    |
+| Acceptance record | `deliverables/acceptance-NNN-<slug>.md` | Derived from one closed feature, after you approve a proposal                                                                                                                      | cross-cutting · `/sdd:docs acceptance [feature]` | `sdd-documents/templates/acceptance.md` (MIT) |
+
+- **Docs profile**: one line, `Docs profile: lite` or `Docs profile: formal`,
+  in the SDD section of `AGENTS.md`. It decides whether the client-facing
+  documents (`deliverables/*`) are enabled: with `lite`, which is also the
+  default when the line is absent, each request needs a confirmation. The
+  schema document is not affected.
+- Only **closed** features appear in the client-facing documents: a fulfilled
+  `validation.md` not older than the spec's latest `CHG-n` change.
+- `deliverables/` is added to `.gitignore` after you approve it.
 
 ## Feature level — all under `specs/NNN-<slug>/`
 
@@ -51,13 +77,15 @@ Everything is versioned in git. **None of this gets deployed**: exclude
 
 ## On the toolkit's side (single source of truth)
 
-| What            | Path in `sdd-toolkit`                                                                                                            |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| The 8 commands  | `plugins/sdd/commands/{constitution,spec,clarify,plan,tasks,implement,validate,change}.md`                                       |
-| Flow skill      | `plugins/sdd/skills/sdd-flow/SKILL.md`                                                                                           |
-| Phase templates | `plugins/sdd/skills/sdd-flow/templates/`                                                                                         |
-| Spec template   | `plugins/sdd/skills/spec-generator/spec-template.md` (separate, Apache-2.0)                                                      |
-| Installed as    | plugin: `/sdd:<phase>` · script: `~/.claude/{skills,commands}/` and `~/.config/opencode/{skills,commands}/` with a `sdd-` prefix |
+| What               | Path in `sdd-toolkit`                                                                                                            |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| The 9 commands     | `plugins/sdd/commands/{constitution,spec,clarify,plan,tasks,implement,validate,change,docs}.md`                                  |
+| Flow skill         | `plugins/sdd/skills/sdd-flow/SKILL.md`                                                                                           |
+| Phase templates    | `plugins/sdd/skills/sdd-flow/templates/`                                                                                         |
+| Documents skill    | `plugins/sdd/skills/sdd-documents/SKILL.md`                                                                                      |
+| Document templates | `plugins/sdd/skills/sdd-documents/templates/`                                                                                    |
+| Spec template      | `plugins/sdd/skills/spec-generator/spec-template.md` (separate, Apache-2.0)                                                      |
+| Installed as       | plugin: `/sdd:<phase>` · script: `~/.claude/{skills,commands}/` and `~/.config/opencode/{skills,commands}/` with a `sdd-` prefix |
 
 The newer templates (`roadmap.md`, `validation.md`, `CLAUDE.md`,
 `AGENTS-sdd-section.md`) are the toolkit's own work → MIT, outside `NOTICE`.

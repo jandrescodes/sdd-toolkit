@@ -24,7 +24,8 @@ comply with them.
 3. **One versioned artifact per phase**: constitution (`docs/constitution.md`),
    spec, plan, tasks, and validation (`specs/NNN-<slug>/{spec,plan,tasks,validation}.md`)
    each produce a Markdown file that stays in the project's repo. The roadmap
-   (`docs/roadmap.md`) is the other project-level artifact, maintained by hand.
+   (`docs/roadmap.md`) is the other project-level artifact, maintained by hand
+   or by `/sdd:validate`.
    If a step leaves no trace, it isn't done.
 4. **No runtime dependencies**: only `bash` and what Claude Code, Copilot, and
    opencode already ship with. `python3` or `node` are accepted for JSON

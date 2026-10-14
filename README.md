@@ -20,12 +20,13 @@ Every phase leaves a versioned artifact in the repo.</em>
 
 ## The flow
 
-Eight phases, each with its artifact and slash command.
+Eight phases, each with its artifact and slash command, plus one
+cross-cutting command, `docs`, that builds project documents (see below).
 
 | #   | Phase          | Artifact                                            | Command         |
 | --- | -------------- | --------------------------------------------------- | --------------- |
 | 1   | Constitution   | `docs/constitution.md`                              | `constitution`  |
-| —   | Roadmap        | `docs/roadmap.md` <sub>(by hand)</sub>              | _(template)_    |
+| —   | Roadmap        | `docs/roadmap.md` <sub>(by hand or validate)</sub>  | _(template)_    |
 | 2   | Specification  | `specs/NNN-<slug>/spec.md` <sub>(FRs in EARS)</sub> | `spec`          |
 | 3   | Clarification  | `spec.md` § Clarifications                          | `clarify`       |
 | 4   | Planning       | `specs/NNN-<slug>/plan.md`                          | `plan`          |
@@ -42,8 +43,25 @@ How you invoke each command depends on the install method:
 
 The entry point is the **`sdd-flow`** skill (explains the flow and brings the
 templates); phase 2 is driven by **`spec-generator`** (requirements
-interview). Full map of artifacts and paths:
-[`docs/artifacts.md`](./docs/artifacts.md).
+interview); documents are built by **`sdd-documents`**. Full map of
+artifacts and paths: [`docs/artifacts.md`](./docs/artifacts.md).
+
+### Project documents
+
+`/sdd:docs <prd|trd|acceptance|changes|schema> [feature]` (`/sdd-docs` with
+the script; on Copilot CLI just ask for the document) derives a PRD, a TRD, an
+acceptance record, a scope change log, or a schema document from the existing
+specs, plans, and validations. It is a cross-cutting command, not a ninth
+phase, and nothing is written until you approve the proposal.
+
+- The client-facing documents go to `deliverables/` (excluded from deploy and
+  proposed for `.gitignore`); the schema goes to `docs/schema.md`, and
+  `/sdd:validate` refreshes it when a feature closes.
+- One line in the SDD section of `AGENTS.md` sets the **Docs profile**:
+  `lite` (default) asks for confirmation on every client-facing document,
+  `formal` enables them.
+- Only closed features appear in them, and they are derived views: the specs
+  prevail if they disagree.
 
 ## Installation
 
@@ -140,7 +158,7 @@ Only edit under `plugins/sdd/`. Everything else is a copy or an example.
 
 Dual license:
 
-- **MIT** — the repo's own work: `install.sh`, `tests/validate.sh`, the 8
+- **MIT** — the repo's own work: `install.sh`, `tests/validate.sh`, the 9
   slash commands, the `sdd-flow` skill and its templates (`roadmap.md`,
   `validation.md`, `CLAUDE.md`, `AGENTS-sdd-section.md`, `plan.md`,
   `tasks.md`), and the plugin manifests. See [`LICENSE`](./LICENSE).

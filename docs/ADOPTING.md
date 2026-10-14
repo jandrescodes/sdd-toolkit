@@ -51,12 +51,14 @@ folder), **continue the series** — the next feature is `008`, not `001` —
 and note that decision in `AGENTS.md`. The number doesn't have to match the
 roadmap's ordinal or historical FRs.
 
-### 7. Exclude `docs/` and `specs/` from deployment
+### 7. Exclude `docs/`, `specs/`, and `deliverables/` from deployment
 
 They're development artifacts and often contain schema, queries, and
-thresholds. If the deploy does `rsync`/a checkout copy, add
-`--exclude='docs/' --exclude='specs/'` (and `.github/`). If the server
-serves the repo directly, remove them from the docroot.
+thresholds; `deliverables/` holds the client documents that `/sdd:docs`
+generates. If the deploy does `rsync`/a checkout copy, add
+`--exclude='docs/' --exclude='specs/' --exclude='deliverables/'` (and
+`.github/`). If the server serves the repo directly, remove them from the
+docroot.
 
 ### 8. Sweep the references
 
@@ -77,7 +79,7 @@ Typical shape of the adoption, in a single `docs:` commit (no code touched):
 | Tech stack      | `spec/constitution/tech-stack.md` merged into `AGENTS.md` (rules) + `docs/` (reference)                           |
 | Example feature | The feature already documented in `spec/features/NNN-…` was kept only as reference                                |
 | Numbering       | The `specs/` series continued from the last number used, noted in `AGENTS.md`                                     |
-| Deploy          | Deploy workflow: `--exclude='docs/' --exclude='specs/'` in the `rsync`                                            |
+| Deploy          | Deploy workflow: `--exclude='docs/' --exclude='specs/' --exclude='deliverables/'` in the `rsync`                  |
 | Sweep           | README, internal prompts, internal docs, and headers of the repo's own skills                                     |
 
 After that, the normal flow's phases 1-8 apply unchanged.

@@ -1,7 +1,7 @@
 # Roadmap — sdd-toolkit
 
 Cross-feature view of the toolkit itself. Project-level artifact (alongside
-`docs/constitution.md`). Maintained by hand.
+`docs/constitution.md`). Maintained by hand or by `/sdd:validate`.
 
 Each Done / Next entry links the feature's folder.
 
@@ -28,6 +28,12 @@ Each Done / Next entry links the feature's folder.
    (`plugins/sdd/plugin.json`, `.github/plugin/marketplace.json`); Copilot
    exposes the skills only (no slash commands).
    → `specs/001-sdd-toolkit/spec.md § Later changes` + `CHANGELOG.md`
+5. **Documentation profiles (0.5.0)** — `Docs profile: lite | formal`;
+   `/sdd:docs` and the `sdd-documents` skill generate PRD, TRD, acceptance
+   record, and scope change log into `deliverables/`; `/sdd:validate` now
+   moves the feature to Done and refreshes `docs/schema.md`; `/sdd:change`
+   records `CHG-n` entries.
+   → `specs/002-docs-profiles/`
 
 ## Next 🔜
 
