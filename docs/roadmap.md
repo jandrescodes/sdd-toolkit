@@ -24,6 +24,10 @@ Each Done / Next entry links the feature's folder.
    unset) instead of being hardcoded to Spanish; every prompt made tolerant
    of whatever language it's addressed in.
    → `specs/001-sdd-toolkit/spec.md § Later changes` + `CHANGELOG.md`
+4. **GitHub Copilot CLI distribution** — Agent Plugins 1.0 manifests
+   (`plugins/sdd/plugin.json`, `.github/plugin/marketplace.json`); Copilot
+   exposes the skills only (no slash commands).
+   → `specs/001-sdd-toolkit/spec.md § Later changes` + `CHANGELOG.md`
 
 ## Next 🔜
 

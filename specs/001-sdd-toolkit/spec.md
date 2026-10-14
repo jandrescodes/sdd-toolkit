@@ -211,3 +211,13 @@ SYSTEM SHALL`, `IF...THEN`).
   constitution-level decision, documented in `docs/constitution.md`
   principle 2.
 - Plugin version: `0.2.0` → `0.3.0`.
+
+## Later changes (GitHub Copilot distribution, 2026-09)
+
+A third installation path was added in version 0.4.0. Spec changes:
+
+- **New distribution channel**: GitHub Copilot CLI through the Agent
+  Plugins 1.0 format (`plugins/sdd/plugin.json`,
+  `.github/plugin/marketplace.json`). Copilot exposes the skills only, not
+  the slash commands.
+- Plugin version: `0.3.0` → `0.4.0`.
