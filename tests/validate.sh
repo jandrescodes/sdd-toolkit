@@ -74,6 +74,57 @@ if [ -d "$PLUGIN/commands" ]; then
   done < <(find "$PLUGIN/commands" -name '*.md')
 fi
 
+echo "→ Capa de documentos (sdd-documents)"
+DOCS_SKILL="$PLUGIN/skills/sdd-documents"
+[ -f "$DOCS_SKILL/SKILL.md" ] && ok "skills/sdd-documents/SKILL.md" || fail "falta skills/sdd-documents/SKILL.md"
+for t in prd trd acceptance changes schema app-flow ux-brief; do
+  [ -f "$DOCS_SKILL/templates/$t.md" ] && ok "template $t.md" || fail "falta skills/sdd-documents/templates/$t.md"
+done
+if [ -f "$PLUGIN/commands/docs.md" ]; then
+  [ -n "$(frontmatter_value "$PLUGIN/commands/docs.md" description)" ] \
+    && ok "commands/docs.md con description" || fail "commands/docs.md: sin 'description' en frontmatter"
+else
+  fail "falta commands/docs.md"
+fi
+frontmatter_value "$PLUGIN/commands/validate.md" allowed-tools | grep -qw Edit \
+  && ok "validate.md lista Edit en allowed-tools" || fail "validate.md: falta Edit en allowed-tools"
+grep -qF '## Changes' "$PLUGIN/commands/change.md" \
+  && ok "change.md menciona ## Changes" || fail "change.md: no menciona '## Changes'"
+# Cuenta las líneas "Docs profile:" fuera de comentarios HTML (también multilínea).
+profile_lines="$(awk '
+  { line=$0; out=""
+    while (length(line)) {
+      if (c) { i=index(line,"-->"); if (!i) line=""; else { line=substr(line,i+3); c=0 } }
+      else   { i=index(line,"<!--"); if (!i) { out=out line; line="" } else { out=out substr(line,1,i-1); line=substr(line,i+4); c=1 } }
+    }
+    if (out ~ /Docs profile:/) n++ }
+  END { print n+0 }' "$PLUGIN/skills/sdd-flow/templates/AGENTS-sdd-section.md")"
+[ "$profile_lines" = "1" ] \
+  && ok "AGENTS-sdd-section.md: una línea activa 'Docs profile:'" \
+  || fail "AGENTS-sdd-section.md: $profile_lines líneas activas 'Docs profile:' (debe haber 1)"
+
+echo "→ Versión"
+# Las cuatro cadenas: plugin.json (Claude), plugin.json (Copilot) y las dos del marketplace de Copilot.
+versions="$(
+  { grep -o '"version": *"[^"]*"' "$PLUGIN/.claude-plugin/plugin.json"
+    grep -o '"version": *"[^"]*"' "$COPILOT_PLUGIN"
+    grep -o '"version": *"[^"]*"' "$COPILOT_MARKETPLACE"; } 2>/dev/null \
+  | sed 's/.*: *"\(.*\)"/\1/'
+)"
+count="$(printf '%s\n' "$versions" | grep -c .)"
+distinct="$(printf '%s\n' "$versions" | sort -u | grep -c .)"
+canonical="$(printf '%s\n' "$versions" | head -n 1)"
+if [ "$count" = "4" ] && [ "$distinct" = "1" ]; then
+  ok "las 4 cadenas de versión coinciden ($canonical)"
+else
+  fail "versiones de manifiestos inconsistentes ($count cadenas, $distinct distintas): $(printf '%s' "$versions" | tr '\n' ' ')"
+fi
+if [ -n "$canonical" ] && grep -qF "## [$canonical]" "$ROOT/CHANGELOG.md"; then
+  ok "CHANGELOG.md tiene el encabezado [$canonical]"
+else
+  fail "CHANGELOG.md no tiene el encabezado '## [$canonical]'"
+fi
+
 echo "→ install.sh"
 if [ -f "$ROOT/install.sh" ]; then
   [ -x "$ROOT/install.sh" ] && ok "ejecutable" || fail "install.sh no es ejecutable (chmod +x)"
@@ -104,8 +155,12 @@ if [ -x "$ROOT/install.sh" ]; then
   for d in \
     "$SMOKE/.claude/skills/sdd-flow/SKILL.md" \
     "$SMOKE/.claude/commands/sdd-spec.md" \
+    "$SMOKE/.claude/commands/sdd-docs.md" \
+    "$SMOKE/.claude/skills/sdd-documents/templates/prd.md" \
     "$SMOKE/.config/opencode/skills/sdd-flow/SKILL.md" \
-    "$SMOKE/.config/opencode/commands/sdd-spec.md"; do
+    "$SMOKE/.config/opencode/commands/sdd-spec.md" \
+    "$SMOKE/.config/opencode/commands/sdd-docs.md" \
+    "$SMOKE/.config/opencode/skills/sdd-documents/templates/prd.md"; do
     [ -f "$d" ] && ok "existe ${d#$SMOKE/}" || fail "falta ${d#$SMOKE/}"
   done
   [ -f "$SMOKE/.claude/commands/spec.md" ] && fail "command sin prefijo en destino plano" || ok "commands prefijados (sin spec.md suelto)"
