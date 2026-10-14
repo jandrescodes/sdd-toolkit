@@ -9,6 +9,46 @@ Semantic versioning. The canonical version lives in
 
 —
 
+## [0.5.0] - 2026-10-14
+
+Documentation layer on top of the eight phases: a per-project `Docs profile`,
+a living schema document, and client-facing documents derived from the
+existing specs, plans, and validations. The flow stays at eight phases;
+`/sdd:docs` is a cross-cutting ninth command, not a phase.
+
+### Added
+
+- `/sdd:docs <prd|trd|acceptance|changes|schema> [feature]` and the
+  `sdd-documents` skill behind it, which also answers plain-language requests
+  (Copilot CLI has no slash commands). Nothing is written before the user
+  approves a proposal; client-facing documents go to `deliverables/` and the
+  schema to `docs/schema.md`.
+- `Docs profile: lite | formal` line in the SDD section of `AGENTS.md`
+  (`lite` when absent): with `lite`, each client-facing document needs a
+  confirmation.
+- Seven original MIT templates inside the skill: `prd`, `trd`, `acceptance`,
+  `changes`, `schema`, and the hand-written `app-flow` and `ux-brief`.
+- `/sdd:change` records each approved change as a `CHG-n` entry under
+  `## Changes` in the spec; a spec changed after its validation is no longer
+  treated as closed until re-validated.
+- `validation.md` carries a `**Date:**` line and an `## Updated files`
+  section.
+- `tests/validate.sh` checks for the documents layer, the new install paths,
+  and that the four manifest versions and the `CHANGELOG.md` heading agree.
+
+### Changed
+
+- `/sdd:validate` now moves the feature to `Done ✅` in `docs/roadmap.md`
+  (or adds it) and refreshes `docs/schema.md` when the verdict is fulfilled,
+  without asking, and lists both in `validation.md`.
+- `docs/constitution.md` principle 3: the roadmap is maintained by hand or by
+  `/sdd:validate`. The same wording is updated in the README, the flow skill,
+  and the templates.
+- `deliverables/` joins `docs/` and `specs/` in the deploy exclusion (flow
+  skill, SDD section template, adoption guide).
+- Docs: `docs/artifacts.md`, `README.md`, and `docs/ADOPTING.md` describe the
+  new command, the profile, and the nine commands.
+
 ## [0.4.0] - 2026-09-17
 
 GitHub Copilot CLI distribution through the Agent Plugins 1.0 format.
@@ -163,7 +203,8 @@ First version of the toolkit. Tag on `64ebc84`.
 - **README**: claimed the plugin leaves commands as `/sdd-*`; fixed to
   `/sdd:<phase>`. Added a warning against mixing plugin + script.
 
-[Unreleased]: https://github.com/jandrescodes/sdd-toolkit/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/jandrescodes/sdd-toolkit/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.1.0...0.2.0
