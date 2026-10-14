@@ -2,8 +2,8 @@
 
 Cross-feature view: what's done, what's next, and what's in the backlog.
 Project-level artifact (alongside `docs/constitution.md`). Maintained by
-hand; `/sdd:spec` reads it when picking a number and `/sdd:validate` moves a
-feature to `Done ✅` when it closes.
+hand or by `/sdd:validate`, which moves a feature to `Done ✅` when it closes;
+`/sdd:spec` reads it when picking a number.
 
 Each Done / Next entry links the feature's **folder**
 (`specs/NNN-<slug>/`), never just a number.

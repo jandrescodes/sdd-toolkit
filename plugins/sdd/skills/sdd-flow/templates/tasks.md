@@ -17,7 +17,8 @@ _Standalone checkboxes, outside the `Tn` numbering — not implemented via
 invent steps the constitution or `AGENTS.md` don't back._
 
 - [ ] Verify all FRs (`/sdd:validate` → `specs/NNN-<slug>/validation.md`).
-- [ ] Move the feature to `Done ✅` in `docs/roadmap.md`, linking this folder.
+- [ ] Confirm `/sdd:validate` moved the feature to `Done ✅` in
+      `docs/roadmap.md`, linking this folder.
 - [ ] <Update `CHANGELOG` / project docs, if applicable.>
 - [ ] <Deployment or manual migration steps, if applicable.>
 - [ ] <New convention discovered → record it in `AGENTS.md`, if applicable.>

@@ -35,6 +35,10 @@ A feature isn't closed until all four files exist.
 | 7   | Validation     | `/sdd:validate` · `/sdd-validate`           |
 | 8   | Change         | `/sdd:change <req>` · `/sdd-change <req>`   |
 
+Cross-cutting, not a ninth phase: `/sdd:docs <prd|trd|acceptance|changes|schema>
+[feature]` · `/sdd-docs <…>` builds a project document from the artifacts
+above, after you approve a proposal.
+
 ### Rules
 
 - **`specs/NNN` numbering**: `specs/`'s own counter, three digits, monotonic,
@@ -45,9 +49,16 @@ A feature isn't closed until all four files exist.
   <automated suite green | running `<command or skill>` and attaching the
   evidence>.
 - **Precedence**: `docs/constitution.md` rules over specs and plans. On
-  conflict between `docs/`/`specs/` and this file, this file is the
-  operational source for **code** and `docs/`/`specs/` is the **planning**
-  layer.
-- **`docs/` and `specs/` are versioned but not deployed**: exclude them from
-  the deploy artifact and the docroot.
+conflict between `docs/`/`specs/` and this file, this file is the
+operational source for **code** and `docs/`/`specs/` is the **planning**
+layer.
+<!--
+  The profile line below sets how much of the documentation layer applies:
+  `lite` asks for confirmation on every formal client document; `formal`
+  enables them. Keep exactly one active line, with the value `lite` or
+  `formal`, and delete this note.
+-->
+- Docs profile: lite
+- **`docs/`, `specs/`, and `deliverables/` are versioned (or ignored) but not
+  deployed**: exclude them from the deploy artifact and the docroot.
 - Don't modify `specs/` outside its phase without an explicit request.

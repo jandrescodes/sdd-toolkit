@@ -1,6 +1,6 @@
 ---
 name: sdd-flow
-description: Use this skill when the user wants to start or drive a project with Spec-Driven Development (SDD) — in any language they ask in ("start a project with SDD", "spec-driven flow", "do it phase by phase with a spec", "empezar con SDD", "flujo spec-driven"). Explains the 8 phases, which artifact each one leaves, and which slash command runs it, and brings the base templates to copy into the project.
+description: Use this skill when the user wants to start or drive a project with Spec-Driven Development (SDD) — in any language they ask in ("start a project with SDD", "spec-driven flow", "do it phase by phase with a spec", "empezar con SDD", "flujo spec-driven"). Explains the 8 phases, which artifact each one leaves, and which slash command runs it, plus the cross-cutting `/sdd:docs` command, and brings the base templates to copy into the project.
 ---
 
 # Spec-Driven Development (SDD)
@@ -18,7 +18,7 @@ they're `/sdd-<phase>`.
 | --- | -------------- | ------------------------------------------- | -------------------- |
 | 1   | Constitution   | `docs/constitution.md`                      | `/sdd:constitution`  |
 | —   | Agent context  | `AGENTS.md` (+ `CLAUDE.md` → `@AGENTS.md`)  | (template)           |
-| —   | Roadmap        | `docs/roadmap.md` (project level, by hand)  | (template)           |
+| —   | Roadmap        | `docs/roadmap.md` (by hand or validate)     | (template)           |
 | 2   | Specification  | `specs/NNN-<slug>/spec.md`                  | `/sdd:spec`          |
 | 3   | Clarification  | `specs/NNN-<slug>/spec.md` § Clarifications | `/sdd:clarify`       |
 | 4   | Planning       | `specs/NNN-<slug>/plan.md`                  | `/sdd:plan`          |
@@ -30,6 +30,25 @@ they're `/sdd-<phase>`.
 `/sdd:spec` **reads** `docs/roadmap.md` when picking a number; `/sdd:validate`
 **moves** the feature to `Done ✅` when it closes. Full map of paths,
 templates, and who touches what: the toolkit's `docs/artifacts.md`.
+
+## Documents on top of the phases
+
+The flow stays at 8 phases. Alongside them there is a ninth **command**,
+`/sdd:docs <prd|trd|acceptance|changes|schema> [feature]` (`/sdd-docs` with
+the install script), which is cross-cutting, not a phase. It runs the
+`sdd-documents` skill, which derives a PRD, TRD, acceptance record, scope
+change log, or schema document from the existing artifacts after you approve
+a proposal. Without the command (Copilot CLI), ask for the document in plain
+language and the skill does the same.
+
+- The client-facing documents are written to `deliverables/`, which the
+  skill proposes adding to `.gitignore`. The schema goes to `docs/schema.md`.
+- **Docs profile**: the SDD section of `AGENTS.md` carries one line,
+  `Docs profile: lite` or `Docs profile: formal`. With `lite` (also the
+  default when the line is absent) the skill asks for confirmation on every
+  client-facing document; `formal` enables them.
+- `docs/app-flow.md` and `docs/ux-brief.md` are optional and written by hand
+  from the skill's templates.
 
 ## Starting a project from scratch
 
@@ -73,7 +92,7 @@ example in the toolkit's `docs/ADOPTING.md`):
    not, in the constitution.
 5. `specs/` numbering: if the repo already had numbered specs, continue the
    series and note it in `AGENTS.md`; if not, start at `001`.
-6. Exclude `docs/` and `specs/` from the deploy artifact.
+6. Exclude `docs/`, `specs/`, and `deliverables/` from the deploy artifact.
 7. Sweep the references (README, prompts, internal docs, your own skills).
 8. No code. Everything into a separate `docs:` commit, approved before
    writing.
@@ -94,7 +113,8 @@ After that, phases 1-8 proceed as usual.
 - **Precedence**: `docs/constitution.md` rules over specs and plans. On
   conflict between `docs/`/`specs/` and `AGENTS.md`, `AGENTS.md` is the
   operational source for code and `docs/`/`specs/` is the planning layer.
-- **`docs/` and `specs/` are versioned but not deployed.**
+- **`docs/`, `specs/`, and `deliverables/` are not deployed.** The first two
+  are versioned; `deliverables/` is ignored by default.
 - **Content language**: whatever the project's constitution declares; if
   there is none, whatever the user is writing in. Be tolerant of the
   language you're addressed in regardless of the content language chosen.
