@@ -1,6 +1,6 @@
 ---
-description: Cross-cutting action (not a phase) — generates a PRD, TRD, acceptance record, scope change log, or schema document from the SDD artifacts, after you approve a proposal.
-argument-hint: "<prd|trd|acceptance|changes|schema> [feature]"
+description: Cross-cutting action (not a phase) — generates a PRD, TRD, acceptance record, scope change log, delivery package, schema, app flow, or UX brief from the SDD artifacts, after you approve a proposal.
+argument-hint: "<prd|trd|acceptance|changes|delivery|schema|flow|ux> [feature]"
 allowed-tools: Read, Grep, Glob, Bash, Write, Edit, Skill
 ---
 

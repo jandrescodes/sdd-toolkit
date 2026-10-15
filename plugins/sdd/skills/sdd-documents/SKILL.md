@@ -1,6 +1,6 @@
 ---
 name: sdd-documents
-description: Use this skill when the user wants a project document built from the SDD artifacts — in any language they ask in ("generate the PRD", "write the technical doc", "acceptance record for this feature", "change log for the client", "update the schema doc", "genera el PRD", "acta de aceptación", "documento de cambios"). Derives PRD, TRD, acceptance record, scope change log, and schema from the existing specs, plans, and validations, after the user approves a proposal. Also brings the templates for the hand-written app-flow and UX-brief documents.
+description: Use this skill when the user wants a project document built from the SDD artifacts — in any language they ask in ("generate the PRD", "write the technical doc", "acceptance record for this feature", "change log for the client", "update the schema doc", "genera el PRD", "acta de aceptación", "documento de cambios", "paquete de entrega", "documento de entrega", "flujo de la app", "diagrama de flujo", "brief de UX"). Derives PRD, TRD, acceptance record, scope change log, delivery package, schema, app flow, and UX brief from the existing specs, plans, and validations, after the user approves a proposal. Whatever the artifacts do not state is left as a marked gap, never invented.
 ---
 
 # SDD documents
@@ -14,14 +14,16 @@ It is a cross-cutting action, **not a ninth phase** of the flow. Apart from
 the schema refresh that `/sdd:validate` runs on its own (section 9), it never
 writes anything the user hasn't approved.
 
-| Name         | File                                    | Kind                          |
-| ------------ | --------------------------------------- | ----------------------------- |
-| `prd`        | `deliverables/prd.md`                   | client-facing, derived        |
-| `trd`        | `deliverables/trd.md`                   | client-facing, derived        |
-| `acceptance` | `deliverables/acceptance-NNN-<slug>.md` | client-facing, derived        |
-| `changes`    | `deliverables/changes.md`               | client-facing, derived        |
-| `schema`     | `docs/schema.md`                        | internal, derived             |
-| `flow`, `ux` | `docs/app-flow.md`, `docs/ux-brief.md`  | hand-written, from a template |
+| Name         | File                                    | Kind                   |
+| ------------ | --------------------------------------- | ---------------------- |
+| `prd`        | `deliverables/prd.md`                   | client-facing, derived |
+| `trd`        | `deliverables/trd.md`                   | client-facing, derived |
+| `acceptance` | `deliverables/acceptance-NNN-<slug>.md` | client-facing, derived |
+| `changes`    | `deliverables/changes.md`               | client-facing, derived |
+| `schema`     | `docs/schema.md`                        | internal, derived      |
+| `delivery`   | `deliverables/delivery.md`              | client-facing, derived |
+| `flow`       | `docs/app-flow.md`                      | internal, derived      |
+| `ux`         | `docs/ux-brief.md`                      | internal, derived      |
 
 Templates live in this skill's `templates/` folder. Depending on how the
 toolkit is installed, it is at:
@@ -36,16 +38,16 @@ toolkit is installed, it is at:
 The request arrives either as an argument of `/sdd:docs <name> [feature]` or
 as plain language in any language. Work out the name first:
 
-1. If it is one of `prd`, `trd`, `acceptance`, `changes`, or `schema`, go on.
-2. If it is `flow` or `ux` (or a request for an app-flow / UX document), say
-   that these two are **written by hand** from `templates/app-flow.md` and
-   `templates/ux-brief.md` and are not generated, point to the template, and
-   stop.
-3. If the request came from the command and the name is missing or is
-   anything else, list the five valid names (and mention `flow`/`ux`) and
-   stop. Generate nothing.
-4. If the request came in natural language and does not identify **exactly
-   one** of the five, **ask which one**. Generate nothing yet.
+1. If it is one of `prd`, `trd`, `acceptance`, `changes`, `delivery`,
+   `schema`, `flow`, or `ux`, go on.
+2. If the request came from the command and the name is missing or is
+   anything else, list the eight valid names and stop. Generate nothing.
+3. If the request came in natural language, choose the name when exactly one
+   is the clear closest match (for example "documento de entrega" is
+   `delivery`, "acta de aceptación" is `acceptance`). If two or more fit, or
+   none does, **ask which one** and generate nothing yet.
+4. **Check the template** (section 5, "Before drafting") now, before the gate
+   of section 3 asks anything: if it is missing, name it and stop.
 
 Only `acceptance` reads a second argument: the feature, given as a spec
 number or a folder slug.
@@ -68,7 +70,8 @@ profile` line, the profile is `lite`. Say nothing about it.
 ## 3. The `lite` gate
 
 Applies to the client-facing documents (`prd`, `trd`, `acceptance`,
-`changes`) while the profile is `lite`. It does not apply to `schema`.
+`changes`, `delivery`) while the profile is `lite`. It does not apply to the
+internal documents (`schema`, `flow`, `ux`).
 
 1. Warn that formal documents are not enabled for this project, and ask for
    confirmation before proposing anything.
@@ -79,8 +82,10 @@ Applies to the client-facing documents (`prd`, `trd`, `acceptance`,
 
 ## 4. Closed features
 
-`prd`, `trd`, and `changes` cover **closed features only**; `acceptance`
-covers one closed feature. `schema` doesn't depend on this section. For each
+`prd`, `trd`, `changes`, `delivery`, and `flow` cover **closed features
+only**; `acceptance` covers one closed feature. `ux` reads the constitution
+plus the closed features, and works from the constitution alone when none is
+closed. `schema` doesn't depend on this section. For each
 folder `specs/NNN-<slug>/`, decide its state:
 
 1. **Verdict.** Read `validation.md`. If it doesn't exist, the feature is
@@ -117,6 +122,10 @@ Every document goes through the same path once its content is drafted (the
 per-document rules come in later sections). Nothing is written before the
 user approves.
 
+**Before drafting,** check that the document's template exists in this
+skill's `templates/` folder (section 1 already did, before any gate). If it
+doesn't, name the missing template and generate nothing.
+
 1. **Header.** Start the document with this block, in the document's
    language:
 
@@ -134,14 +143,23 @@ user approves.
 3. **Language.** The client-facing documents are written entirely — headings
    and header block included — in the content language declared by
    `docs/constitution.md`, or in the language the user writes in if it
-   declares none. Don't mix two languages in one file. The schema document
-   keeps the template's wording.
-4. **Existing file.** If the path already exists, compare the draft with it
-   **ignoring the generation-date line**:
+   declares none. Don't mix two languages in one file: translate fixed words such as the
+   change Type (`add`, `modify`, `remove`) and the outcome labels, but keep
+   titles of changes as the spec's author wrote them, since they are names.
+   The schema document keeps the template's wording.
+4. **Existing file.** If the path already exists, first apply the **reuse
+   rule** while drafting: for every item whose source text did not change
+   since the file was written and whose existing wording still complies with
+   the current rules, copy that wording verbatim instead of rephrasing it, and write new wording only for items whose source changed.
+   Keep the order fixed: features as in section 4, items by `FR-n` or `CHG-n`
+   number, sections as in the template. Then compare the draft with the file
+   **ignoring the generation-date line** (the only line left out of the
+   comparison):
    - Nothing else differs → report the file as **up to date** and write
      nothing; stop.
    - Otherwise show what changes against the existing file (a diff) and ask
-     whether to overwrite it.
+     whether to overwrite it. A file written by hand has no header block, so
+     its first conversion always shows a diff and is never "up to date".
 5. **Approval.** Show the proposal (or the diff, for an existing file) and
    write only after an explicit yes. If the user declines or doesn't answer,
    write nothing.
@@ -154,11 +172,37 @@ user approves.
      `deliverables/` is not ignored. Don't ask again in the same request.
 7. **Write** the file (creating `deliverables/` if needed).
 
+### Internal documents
+
+`schema`, `flow`, and `ux` use the same path with these differences:
+
+- **No `.gitignore` check** (step 6): they live in `docs/`, and sections 3 and
+  6 don't apply.
+- **Wording.** The header block, the headings, and the notes heading keep the
+  template's English wording; for `flow` and `ux` the body is written in the
+  content language of step 3.
+- **Hand-written notes.** Copy everything from the existing
+  `## Notes (hand-written)` heading to the end of the file unchanged. If the
+  existing file has no such heading, write an empty notes section and report
+  that the previous content was replaced (it stays recoverable from version
+  control).
+- **Kept content** (`flow` and `ux`). When the target exists, compare it
+  item by item inside each `##` section (an item is a bullet, a table row,
+  or a paragraph, identified by its label or first words). If the draft
+  leaves an item as a gap (`TODO: provide …`) and the existing item holds
+  text that is not a gap, keep the existing text: the artifacts give no
+  source for it, so replacing it would only destroy work. If the draft has
+  content for the item, the draft wins and the diff shows the replacement
+  for approval. Existing items the draft has no counterpart for are kept,
+  except journeys in `flow`, which are replaced as a whole (their steps
+  depend on each other's order). A section the existing file lacks is
+  added.
+
 ## 6. Rules for client-facing documents
 
-These rules apply to `prd`, `trd`, `acceptance`, and `changes` — the reader is
-a client or stakeholder, not the team. They do **not** apply to `schema`,
-which is an internal document.
+These rules apply to `prd`, `trd`, `acceptance`, `changes`, and `delivery` —
+the reader is a client or stakeholder, not the team. They do **not** apply to
+the internal documents (`schema`, `flow`, `ux`).
 
 **Always leave out**, whatever the source says:
 
@@ -168,10 +212,13 @@ which is an internal document.
   unresolved.
 - In the scope change log, each entry's **Reason**.
 
-**Plain sentences.** In the PRD and in the acceptance record, write each
-requirement as one plain sentence that says who benefits and what they get.
-No EARS keywords (`WHEN`, `THE SYSTEM shall`, …), no `FR-` identifiers, and
-no technical identifiers such as file names, table names, or commands.
+**Plain sentences.** In the PRD, in the acceptance record, and in the
+delivery package, write each requirement as one plain sentence that says who
+benefits and what they get. No EARS keywords (`WHEN`, `THE SYSTEM shall`, …),
+no `FR-` identifiers inside the sentence, and no technical identifiers such
+as file names, table names, or commands. The only place an `FR-n` reference
+may appear is the requirements column of a scope change table, as in
+`changes`.
 
 **Review list.** Every proposal ends with a "Review before approving" list,
 so the user can check what the rules can't guarantee. Re-read the draft **and
@@ -228,7 +275,7 @@ part covers. Keep technical identifiers: unlike the PRD, this reader is
 technical. Anything sensitive that stays in the kept text goes to the review
 list (section 6).
 
-## 8. `acceptance` and `changes`
+## 8. `acceptance`, `changes`, and `delivery`
 
 ### `acceptance [feature]` — acceptance record
 
@@ -246,8 +293,9 @@ follow sections 5 and 6.
 3. **Content**, from `spec.md` and `validation.md`:
    - The feature's goal.
    - Each requirement as a plain sentence (section 6), with its validated
-     outcome in plain words (verified, or not verified) as `validation.md`
-     records it.
+     outcome in plain words as `validation.md` records it: verified, verified
+     with limits (the result carries a qualifier such as "see limits"), or
+     not verified.
    - The validation date.
    - The spec's completion criteria, as a checklist.
    - Blank sign-off lines for the client's name, date, and signature.
@@ -268,6 +316,41 @@ Covers the **closed features** from section 4, in that order. Fill
    entries, gets one line saying it has no recorded changes. Say so too when
    no closed feature has any.
 4. List non-closed features in one line each, as in section 4.
+
+### `delivery` — delivery package
+
+One project-level document for the **closed features** from section 4, in
+that order. Fill `templates/delivery.md`, then follow sections 5 and 6. It
+has no version field: the title carries only the project (the date lives in
+the header's generation-date line, so a repeat run can be "up to date").
+
+1. If no feature is closed, say so and generate nothing.
+2. For each closed feature, from `spec.md` and `validation.md`:
+   - What was delivered: the feature's goal, in plain words.
+   - What people get: each requirement as a plain sentence (section 6) with
+     its validated outcome, exactly as `acceptance` writes it (including
+     "verified with limits", so a qualified result is never shown as plain
+     verified).
+   - Known limits: take **only** the bullets under the `## Known limits`
+     heading of `validation.md`, in plain language. If the heading is missing
+     or empty, write the line "No limits are recorded for this feature."
+     Don't mine `## Notes` or any other section for limits.
+3. **Drop what is not a product restriction.** A bullet under `## Known
+   limits` that says something was not tested or could not be checked (for
+   example "not tested on …", "pending load test"), or that is bookkeeping
+   about the SDD artifacts themselves (an undated validation, a spec status),
+   is not a limit a client can use: leave it out of the draft and list it in
+   the review list (section 6) with its file and section. When unsure, leave
+   it out and list it. Write the bullets that stay without file names or other
+   technical identifiers.
+4. Scope changes: the entries of the `changes` derivation above, over the
+   same features, with the same rules (the `FR-n` references stay in this
+   table; the **Reason** never does).
+5. List non-closed features in one line each, as in section 4.
+6. Add the hand-off block with blank lines for the recipient's name, the
+   date, and the signature.
+7. Summary: one short paragraph with the number of delivered features and of
+   recorded changes.
 
 ## 9. `schema` — persistent data structures
 
@@ -307,3 +390,79 @@ Procedure:
 6. **Compare, ignoring the generation-date line.** If nothing else differs,
    write nothing (interactive: report it as up to date). In automatic mode,
    a changed file is written and reported as updated.
+
+## 10. `flow` and `ux` — app flow and UX brief
+
+Internal documents, like `schema`: sections 3 and 6 don't apply, so there is
+no `lite` gate and no client-facing rule.
+
+**Gaps.** The artifacts don't state everything these templates ask for. Where
+a section has no source, write the line `TODO: provide <what>` (the prefix is
+a fixed English token; `<what>` is in the content language) instead of
+inventing content. Never fill a gap from general knowledge or from what a
+typical product would do.
+
+**Gap list.** End every proposal with the list of gaps: one line per section
+left as a gap, saying what is missing, so the user knows what to complete by
+hand. If there are none, say so.
+
+### `flow` — app flow
+
+Fill `templates/app-flow.md` into `docs/app-flow.md`. It needs at least one
+closed feature (section 4): if none is closed, say so and generate nothing.
+Read the `spec.md` of every closed feature, in the order of section 4.
+
+1. **Actors** ← each spec's "Users / actors", deduplicated by name across
+   features.
+2. **Main journeys**: one per user story. Take its steps from the FRs whose
+   wording shares the story's actor and action; a table row per step (actor,
+   action, result) and the text diagram block of the template. An FR that
+   matches no story goes to a final **General journey**, so none is lost.
+   A feature with no user stories gets one gap for its journey. The General
+   journey is a single final one for the whole project: FRs with an actor and
+   an action become its rows; FRs that state a quality (keyboard use, status
+   text, readability) or only describe what the system does with no person
+   involved are listed under it as "Applies to every journey" bullets, with
+   no actor or action invented.
+3. **Alternative paths** ← the `IF … THEN` FRs, saying where the journey
+   diverges and how it ends.
+4. **Error and empty states** ← the spec's edge cases, plus the `IF … THEN`
+   FRs that describe a message or a refusal. Write the situation and, if an
+   FR states it, what the user sees; when only the situation is sourced, add
+   `TODO: provide what the user sees` on the same line.
+5. **Screens or views** ← only the ones an FR names (a page, view, screen,
+   or view of the product, by name; a section of a document does not count).
+   If none is named, one gap.
+6. Anything else the template asks for that has no source is a gap.
+7. Write it through the internal write path (section 5), and end the
+   proposal with the gap list.
+
+### `ux` — UX brief
+
+Fill `templates/ux-brief.md` into `docs/ux-brief.md`. It doesn't need a closed
+feature: read `docs/constitution.md` and the `spec.md` and `plan.md` of the
+closed features (section 4). With no closed feature, use the constitution
+alone.
+
+Derive only what those artifacts state:
+
+1. **Language(s)** ← the content language the constitution declares, and any
+   requirement that names a language.
+2. **Accessibility** ← the requirements, in any section, that mention
+   accessibility or usability (contrast, keyboard, screen readers, and the
+   like, in whatever language the spec uses), each with where it applies.
+3. **Audience** ← the entries of "Users / actors", listed as named. Their
+   context of use, experience level, and constraints are a gap unless an
+   artifact states them.
+4. **Platforms and constraints** ← statements in the plans or the
+   non-functional requirements that name a platform or device.
+5. **Principles** ← only the constitution principles that concern the user
+   experience; none → a gap. **Content rules** ← requirements that fix the
+   wording, terms, or format of what the user reads. **Out of scope** ← the
+   "Out of scope" lists of the closed features that concern the interface.
+6. **Experience goals, tone of voice, and visual direction** are always a
+   gap unless an artifact states them. Never infer them from the kind of
+   product.
+7. Any other section of the template with no source is a gap.
+8. Write it through the internal write path (section 5), and end the
+   proposal with the gap list.

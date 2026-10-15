@@ -19,7 +19,7 @@ Validated on: YYYY-MM-DD
 
 | What the feature does for people                  | Outcome                    |
 | ------------------------------------------------- | -------------------------- |
-| <Plain sentence: who benefits and what they get.> | <Verified or not verified> |
+| <Plain sentence: who benefits and what they get.> | <Verified, verified with limits, or not verified> |
 
 ## Completion criteria
 
