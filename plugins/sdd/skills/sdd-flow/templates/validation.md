@@ -34,6 +34,15 @@ reason (for example `schema: skipped, no schema source found`)._
 
 - <file — what changed, or why it was skipped>
 
+## Known limits
+
+_Optional. Only restrictions a client may read: what the product does not do,
+or where it stops. Never verification gaps ("not tested on …", "pending
+load test") or notes about the SDD artifacts themselves: those go in Notes. `/sdd:docs delivery` reads this section. Leave it out if there are
+none._
+
+- <Plain statement of a product restriction.>
+
 ## Notes
 
 - <Caveats, known debt, checks that couldn't be automated.>

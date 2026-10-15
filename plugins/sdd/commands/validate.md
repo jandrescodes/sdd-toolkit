@@ -43,5 +43,10 @@ schema source found`), or a discrepancy between migrations and models.
    steps 6 and 7 changed (`docs/roadmap.md`, `docs/schema.md`), or `none`;
    a skipped update goes there too, with its reason. If this phase doesn't
    leave this file behind, it isn't done.
+   Add an optional `## Known limits` section **only** with restrictions a
+   client may read (what the product does not do, or where it stops). Never
+   write verification gaps there (what was not tested or could not be
+   checked): those belong in `## Uncovered FRs` and `## Notes`. If there are
+   no such restrictions, leave the section out.
 9. Don't change code in this phase. If you find a failure, report it; it
    gets fixed by going back to phase 6.
