@@ -34,21 +34,25 @@ templates, and who touches what: the toolkit's `docs/artifacts.md`.
 ## Documents on top of the phases
 
 The flow stays at 8 phases. Alongside them there is a ninth **command**,
-`/sdd:docs <prd|trd|acceptance|changes|schema> [feature]` (`/sdd-docs` with
+`/sdd:docs <prd|trd|acceptance|changes|delivery|schema|flow|ux> [feature]` (`/sdd-docs` with
 the install script), which is cross-cutting, not a phase. It runs the
 `sdd-documents` skill, which derives a PRD, TRD, acceptance record, scope
-change log, or schema document from the existing artifacts after you approve
+change log, delivery package, schema document, app flow, or UX brief from the existing artifacts after you approve
 a proposal. Without the command (Copilot CLI), ask for the document in plain
 language and the skill does the same.
 
 - The client-facing documents are written to `deliverables/`, which the
-  skill proposes adding to `.gitignore`. The schema goes to `docs/schema.md`.
+  skill proposes adding to `.gitignore`. The delivery package goes to
+  `deliverables/delivery.md`. The schema, app flow, and UX brief go to
+  `docs/schema.md`, `docs/app-flow.md`, and `docs/ux-brief.md`.
 - **Docs profile**: the SDD section of `AGENTS.md` carries one line,
   `Docs profile: lite` or `Docs profile: formal`. With `lite` (also the
   default when the line is absent) the skill asks for confirmation on every
   client-facing document; `formal` enables them.
-- `docs/app-flow.md` and `docs/ux-brief.md` are optional and written by hand
-  from the skill's templates.
+- `flow` and `ux` are internal documents: generated from the specs and the
+  constitution with no confirmation gate. Gaps are left as `TODO: provide
+  <what>`, never invented, and everything under `## Notes (hand-written)` is
+  kept.
 
 ## Starting a project from scratch
 

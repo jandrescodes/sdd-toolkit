@@ -35,8 +35,8 @@ A feature isn't closed until all four files exist.
 | 7   | Validation     | `/sdd:validate` · `/sdd-validate`           |
 | 8   | Change         | `/sdd:change <req>` · `/sdd-change <req>`   |
 
-Cross-cutting, not a ninth phase: `/sdd:docs <prd|trd|acceptance|changes|schema>
-[feature]` · `/sdd-docs <…>` builds a project document from the artifacts
+Cross-cutting, not a ninth phase: `/sdd:docs
+<prd|trd|acceptance|changes|delivery|schema|flow|ux> [feature]` · `/sdd-docs <…>` builds a project document from the artifacts
 above, after you approve a proposal.
 
 ### Rules
