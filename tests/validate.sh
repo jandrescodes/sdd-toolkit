@@ -77,7 +77,7 @@ fi
 echo "→ Capa de documentos (sdd-documents)"
 DOCS_SKILL="$PLUGIN/skills/sdd-documents"
 [ -f "$DOCS_SKILL/SKILL.md" ] && ok "skills/sdd-documents/SKILL.md" || fail "falta skills/sdd-documents/SKILL.md"
-for t in prd trd acceptance changes schema app-flow ux-brief; do
+for t in prd trd acceptance changes schema delivery app-flow ux-brief; do
   [ -f "$DOCS_SKILL/templates/$t.md" ] && ok "template $t.md" || fail "falta skills/sdd-documents/templates/$t.md"
 done
 if [ -f "$PLUGIN/commands/docs.md" ]; then
@@ -102,6 +102,37 @@ profile_lines="$(awk '
 [ "$profile_lines" = "1" ] \
   && ok "AGENTS-sdd-section.md: una línea activa 'Docs profile:'" \
   || fail "AGENTS-sdd-section.md: $profile_lines líneas activas 'Docs profile:' (debe haber 1)"
+
+for t in app-flow ux-brief; do
+  grep -qF '## Notes (hand-written)' "$DOCS_SKILL/templates/$t.md" \
+    && ok "$t.md: encabezado de notas" || fail "$t.md: falta '## Notes (hand-written)'"
+done
+
+# Cada `templates/<archivo>.md` citado por un SKILL.md o comando debe existir (sin comentarios HTML).
+# En un SKILL.md se resuelve contra su propia carpeta; en un comando exige el prefijo `<skill>/`.
+strip_html_comments() {
+  awk '{ line=$0; out=""
+    while (length(line)) {
+      if (c) { i=index(line,"-->"); if (!i) line=""; else { line=substr(line,i+3); c=0 } }
+      else   { i=index(line,"<!--"); if (!i) { out=out line; line="" } else { out=out substr(line,1,i-1); line=substr(line,i+4); c=1 } }
+    }
+    print out }' "$1"
+}
+while IFS= read -r f; do
+  rel="${f#$ROOT/}"
+  refs="$(strip_html_comments "$f" | grep -oE '([a-z0-9-]+/)?templates/[A-Za-z0-9._-]+\.md' | sort -u)"
+  [ -n "$refs" ] || continue
+  bad=0
+  while IFS= read -r r; do
+    case "$f" in
+      */SKILL.md) skill_dir="$(dirname "$f")"; [[ "$r" == */templates/* ]] && target="$PLUGIN/skills/$r" || target="$skill_dir/$r" ;;
+      *) [[ "$r" == */templates/* ]] && target="$PLUGIN/skills/$r" || target="" ;;
+    esac
+    if [ -z "$target" ]; then fail "$rel: referencia '$r' sin prefijo de skill"; bad=1
+    elif [ ! -f "$target" ]; then fail "$rel: references $r, which does not exist"; bad=1; fi
+  done <<< "$refs"
+  [ "$bad" = 0 ] && ok "$rel: referencias a plantillas válidas"
+done < <(find "$PLUGIN/skills" "$PLUGIN/commands" \( -name SKILL.md -o -path '*/commands/*.md' \))
 
 echo "→ Versión"
 # Las cuatro cadenas: plugin.json (Claude), plugin.json (Copilot) y las dos del marketplace de Copilot.
@@ -156,10 +187,16 @@ if [ -x "$ROOT/install.sh" ]; then
     "$SMOKE/.claude/skills/sdd-flow/SKILL.md" \
     "$SMOKE/.claude/commands/sdd-spec.md" \
     "$SMOKE/.claude/commands/sdd-docs.md" \
+    "$SMOKE/.claude/skills/sdd-documents/templates/delivery.md" \
+    "$SMOKE/.claude/skills/sdd-documents/templates/app-flow.md" \
+    "$SMOKE/.claude/skills/sdd-documents/templates/ux-brief.md" \
     "$SMOKE/.claude/skills/sdd-documents/templates/prd.md" \
     "$SMOKE/.config/opencode/skills/sdd-flow/SKILL.md" \
     "$SMOKE/.config/opencode/commands/sdd-spec.md" \
     "$SMOKE/.config/opencode/commands/sdd-docs.md" \
+    "$SMOKE/.config/opencode/skills/sdd-documents/templates/delivery.md" \
+    "$SMOKE/.config/opencode/skills/sdd-documents/templates/app-flow.md" \
+    "$SMOKE/.config/opencode/skills/sdd-documents/templates/ux-brief.md" \
     "$SMOKE/.config/opencode/skills/sdd-documents/templates/prd.md"; do
     [ -f "$d" ] && ok "existe ${d#$SMOKE/}" || fail "falta ${d#$SMOKE/}"
   done
