@@ -9,6 +9,36 @@ Semantic versioning. The canonical version lives in
 
 —
 
+## [0.6.0] - 2026-10-14
+
+`/sdd:docs` now generates the app flow, the UX brief, and a delivery package,
+which 0.5.0 only shipped as hand-written templates or did not have.
+
+### Added
+
+- `/sdd:docs delivery` writes `deliverables/delivery.md`: one project-level
+  document with what each closed feature delivered, its known limits, and
+  the scope changes. It follows the `lite` / `formal` gate.
+- `/sdd:docs flow` and `/sdd:docs ux` derive `docs/app-flow.md` and
+  `docs/ux-brief.md` from the constitution and the closed features, with no
+  confirmation gate. Gaps are left as `TODO: provide <what>`, never invented,
+  and the `## Notes (hand-written)` section is kept.
+- Optional `## Known limits` section in the validation template; `delivery`
+  reads limits only from it, and verification gaps go to the review list.
+- `tests/validate.sh` checks that every `templates/<file>.md` referenced by a
+  skill or command exists, and that the new templates reach every install
+  target.
+
+### Changed
+
+- `acceptance` and `delivery` show a result with a qualifier as "verified
+  with limits"; `ux-brief.md` gains a "Platforms and constraints" section;
+  `delivery` is titled by project only, so a repeat run can be "up to date".
+- Regenerating a file reuses the wording of the existing one for items whose
+  source did not change, so an unchanged run does not rephrase the document.
+- `docs/artifacts.md`, `README.md`, and the flow skill describe `flow` and
+  `ux` as generated and list `delivery` with its path.
+
 ## [0.5.0] - 2026-10-14
 
 Documentation layer on top of the eight phases: a per-project `Docs profile`,
@@ -203,7 +233,8 @@ First version of the toolkit. Tag on `64ebc84`.
 - **README**: claimed the plugin leaves commands as `/sdd-*`; fixed to
   `/sdd:<phase>`. Added a warning against mixing plugin + script.
 
-[Unreleased]: https://github.com/jandrescodes/sdd-toolkit/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/jandrescodes/sdd-toolkit/compare/0.6.0...HEAD
+[0.6.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.2.0...0.3.0
