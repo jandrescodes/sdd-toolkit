@@ -34,6 +34,11 @@ Each Done / Next entry links the feature's folder.
    moves the feature to Done and refreshes `docs/schema.md`; `/sdd:change`
    records `CHG-n` entries.
    → `specs/002-docs-profiles/`
+6. **Derived app-flow, UX brief, and delivery (0.6.0)** — `/sdd:docs` now
+   generates `flow` (`docs/app-flow.md`), `ux` (`docs/ux-brief.md`), and
+   `delivery` (`deliverables/delivery.md`); `Known limits` section in
+   `validation.md`; template-reference check in `tests/validate.sh`.
+   → `specs/003-derived-docs/`
 
 ## Next 🔜
 
