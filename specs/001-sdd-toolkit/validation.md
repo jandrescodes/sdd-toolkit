@@ -1,5 +1,7 @@
 # Validation — Spec 001
 
+**Date:** 2026-08-27
+
 FR-by-FR walkthrough. First pass 2026-08-27; revised after the corrections
 the same day (see "Later corrections" in `spec.md`).
 
@@ -32,13 +34,13 @@ the same day (see "Later corrections" in `spec.md`).
 - [x] `bash tests/validate.sh` green (includes `install.sh`'s smoke test).
 - [x] `claude plugin validate ./plugins/sdd --strict` with no errors.
 - [x] Plugin install verified locally: `claude plugin marketplace add
-  <path>` + `claude plugin install sdd@sdd-toolkit` OK; `claude plugin
-  details sdd` lists the 8 commands (`constitution`, `spec`, …) and the
+<path>` + `claude plugin install sdd@sdd-toolkit` OK; `claude plugin
+details sdd` lists the 8 commands (`constitution`, `spec`, …) and the
       2 skills (`sdd-flow`, `spec-generator`); `--strict` green.
 - [x] Install from the marketplace **published on GitHub**:
       `claude plugin marketplace add jandrescodes/sdd-toolkit` +
       `claude plugin install sdd@sdd-toolkit` OK; `claude plugin details
-    sdd` lists the 8 commands and the 2 skills.
+  sdd` lists the 8 commands and the 2 skills.
 - [ ] End-to-end walkthrough of the 8 phases on a real project using the
       installed plugin (left as the toolkit's normal usage).
 

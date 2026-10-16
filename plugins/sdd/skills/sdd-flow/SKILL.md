@@ -50,7 +50,8 @@ language and the skill does the same.
   default when the line is absent) the skill asks for confirmation on every
   client-facing document; `formal` enables them.
 - `flow` and `ux` are internal documents: generated from the specs and the
-  constitution with no confirmation gate. Gaps are left as `TODO: provide
+  constitution with no `lite` gate (the proposal still needs your approval
+  before anything is written). Gaps are left as `TODO: provide
   <what>`, never invented, and everything under `## Notes (hand-written)` is
   kept.
 

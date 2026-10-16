@@ -95,9 +95,8 @@ None uncovered. Partial coverage:
 - Regeneration is model-written and not byte-stable: in `b-es` the second
   run translated two titles and showed a diff instead of "up to date"
   (FR-50); in English it reached "up to date".
-- Spec 001's `validation.md` has no `**Date:**`; the acceptance record for it
-  used the date of the first pass (2026-08-27) and said so.
-- The spec's `Status` still reads `proposed` (closeout task).
+- Spec 001's `validation.md` had no `**Date:**`; it now carries the date of
+  the first pass (2026-08-27), the one the acceptance record used.
 
 ## Updated files
 

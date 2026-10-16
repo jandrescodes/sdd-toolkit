@@ -8,7 +8,7 @@ slash commands for [Claude Code](https://claude.com/claude-code) and
 [GitHub Copilot](https://github.com/features/copilot).**
 
 [![validate](https://github.com/jandrescodes/sdd-toolkit/actions/workflows/validate.yml/badge.svg)](https://github.com/jandrescodes/sdd-toolkit/actions/workflows/validate.yml)
-&nbsp;[![plugin](https://img.shields.io/badge/plugin-0.6.0-2f81f7)](./CHANGELOG.md)
+&nbsp;[![plugin](https://img.shields.io/badge/plugin-0.6.1-2f81f7)](./CHANGELOG.md)
 &nbsp;![license](https://img.shields.io/badge/license-MIT%20%2B%20Apache--2.0-blue)
 
 <em>The spec is the contract: if it isn't there, it isn't implemented.<br>
@@ -100,7 +100,9 @@ cd sdd-toolkit
 
 Copies to `~/.claude/{skills,commands}/` and/or
 `~/.config/opencode/{skills,commands}/`. Options: `--dry-run` (writes
-nothing), `--force` (overwrites destinations that differ). Idempotent.
+nothing), `--force` (overwrites destinations that differ), `--prune` (deletes
+installed toolkit files that no longer exist in the source; without it they
+are only reported). Idempotent.
 
 > **Pick one path.** Installing the plugin and also running `install.sh
 --target claude` duplicates every phase (`/sdd:spec` and `/sdd-spec`). On
@@ -154,6 +156,7 @@ commit. Per-version detail is in [`CHANGELOG.md`](./CHANGELOG.md).
 
 ```
 bash tests/validate.sh                          # quality gate
+bash tests/lint-docs.sh docs/app-flow.md        # shape of a generated document
 claude plugin validate ./plugins/sdd --strict   # Claude plugin manifest
 copilot plugin install ./plugins/sdd             # Copilot local smoke test
 ```

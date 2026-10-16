@@ -432,7 +432,9 @@ Read the `spec.md` of every closed feature, in the order of section 4.
    `TODO: provide what the user sees` on the same line.
 5. **Screens or views** ← only the ones an FR names (a page, view, screen,
    or view of the product, by name; a section of a document does not count).
-   If none is named, one gap.
+   If none is named, one gap. A project with no screens (a CLI, a toolkit)
+   states that by hand: write "Not applicable: <reason>" under the heading;
+   the kept-content rule of section 5 preserves it on every refresh.
 6. Anything else the template asks for that has no source is a gap.
 7. Write it through the internal write path (section 5), and end the
    proposal with the gap list.
