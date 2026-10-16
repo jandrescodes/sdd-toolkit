@@ -134,6 +134,20 @@ while IFS= read -r f; do
   [ "$bad" = 0 ] && ok "$rel: referencias a plantillas válidas"
 done < <(find "$PLUGIN/skills" "$PLUGIN/commands" \( -name SKILL.md -o -path '*/commands/*.md' \))
 
+# El formateador de Markdown rompe las líneas de firma con `___`; ninguna plantilla debe traer escapes.
+broken="$(grep -rlE '\\\*\\\*|\\_\\_' "$PLUGIN/skills" --include='*.md' 2>/dev/null)"
+[ -z "$broken" ] && ok "plantillas sin escapes \\*\\* / \\_\\_" \
+  || fail "escapes rotos por el formateador en: $(printf '%s' "$broken" | tr '\n' ' ')"
+
+echo "→ Linter de documentos generados (fixtures)"
+LINT="$ROOT/tests/lint-docs.sh"
+for g in "$ROOT"/tests/fixtures/docs/good-*.md; do
+  bash "$LINT" "$g" >/dev/null && ok "pasa ${g#$ROOT/}" || fail "el linter rechaza ${g#$ROOT/}"
+done
+for b in "$ROOT"/tests/fixtures/docs/bad-*.md; do
+  bash "$LINT" "$b" >/dev/null && fail "el linter acepta ${b#$ROOT/}" || ok "rechaza ${b#$ROOT/}"
+done
+
 echo "→ Versión"
 # Las cuatro cadenas: plugin.json (Claude), plugin.json (Copilot) y las dos del marketplace de Copilot.
 versions="$(
@@ -214,6 +228,23 @@ if [ -x "$ROOT/install.sh" ]; then
   HOME="$SMOKE" "$ROOT/install.sh" --target claude --force >/dev/null 2>&1
   cmp -s "$PLUGIN/commands/spec.md" "$SMOKE/.claude/commands/sdd-spec.md" \
     && ok "--force restaura el destino" || fail "--force no restauró el destino"
+
+  # huérfanos: se avisan sin --prune y se borran con --prune, sin tocar lo ajeno
+  mkdir -p "$SMOKE/.claude/skills/otra-skill"
+  echo x > "$SMOKE/.claude/skills/otra-skill/SKILL.md"
+  echo x > "$SMOKE/.claude/skills/sdd-documents/templates/viejo.md"
+  echo x > "$SMOKE/.claude/commands/sdd-viejo.md"
+  echo x > "$SMOKE/.claude/commands/propio.md"
+  out3="$(HOME="$SMOKE" "$ROOT/install.sh" --target claude 2>&1)"
+  printf '%s\n' "$out3" | grep -q "huérfano" && [ -f "$SMOKE/.claude/commands/sdd-viejo.md" ] \
+    && ok "huérfanos: avisa sin borrar" || fail "huérfanos: debería avisar sin borrar: $out3"
+  HOME="$SMOKE" "$ROOT/install.sh" --target claude --prune --dry-run >/dev/null 2>&1
+  [ -f "$SMOKE/.claude/commands/sdd-viejo.md" ] && ok "--prune --dry-run no borra" || fail "--prune --dry-run borró"
+  HOME="$SMOKE" "$ROOT/install.sh" --target claude --prune >/dev/null 2>&1
+  if [ ! -f "$SMOKE/.claude/commands/sdd-viejo.md" ] && [ ! -f "$SMOKE/.claude/skills/sdd-documents/templates/viejo.md" ]; then
+    ok "--prune borra huérfanos del toolkit"; else fail "--prune no borró los huérfanos"; fi
+  [ -f "$SMOKE/.claude/commands/propio.md" ] && [ -f "$SMOKE/.claude/skills/otra-skill/SKILL.md" ] \
+    && ok "--prune respeta lo ajeno" || fail "--prune borró archivos ajenos al toolkit"
 
   rm -rf "$SMOKE"; trap - EXIT
 fi
