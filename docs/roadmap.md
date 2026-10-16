@@ -39,6 +39,10 @@ Each Done / Next entry links the feature's folder.
    `delivery` (`deliverables/delivery.md`); `Known limits` section in
    `validation.md`; template-reference check in `tests/validate.sh`.
    → `specs/003-derived-docs/`
+7. **Hardening and quality (0.6.1)** — CI with `contents: read` and a pinned
+   checkout, Dependabot, `install.sh --prune`, `tests/lint-docs.sh` with
+   fixtures, signature tables, and a real-session test of `/sdd:docs`.
+   → `CHANGELOG.md`
 
 ## Next 🔜
 
@@ -48,8 +52,6 @@ _No feature in progress — maintenance on top of the current release._
 
 _Every idea must respect `docs/constitution.md`._
 
-- **Support for Cursor or other agents** — today only Claude Code and
-  opencode.
+- **Support for Cursor or other agents** — today Claude Code, opencode, and
+  GitHub Copilot CLI (skills only).
 - **Automated semantic versioning** (release-please or similar).
-- **Optional check in `validate.sh`** that every template referenced in
-  `SKILL.md` exists.

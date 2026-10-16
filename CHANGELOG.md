@@ -7,7 +7,38 @@ Semantic versioning. The canonical version lives in
 
 ## [Unreleased]
 
-—
+## [0.6.1] - 2026-10-16
+
+Hardening and quality patch: CI security, a linter for generated documents,
+and `install.sh --prune`. `/sdd:docs flow|ux|delivery` was also exercised in
+real sessions (Spanish and English): flow and ux regenerate identically.
+
+### Changed
+
+- `flow` and `ux` are described as having no `lite` gate, not "no confirmation":
+  the proposal always needs approval before anything is written.
+- `/sdd:validate` shows the verification command declared by the project and
+  waits for the user's go-ahead before running it.
+- The hand-off and sign-off blocks of the `delivery` and `acceptance`
+  templates are now a two-column table with empty cells, which the Markdown
+  formatter no longer breaks.
+
+### Added
+
+- `install.sh --prune` removes installed toolkit files (skill folders and
+  `sdd-*` commands) that no longer exist in the source; without it they are
+  reported. Skills and commands that are not the toolkit's are never touched.
+- `tests/lint-docs.sh` checks the shape of a generated document (header
+  block, notes section, no `FR-` outside tables, no broken escapes, `TODO:
+provide` with a description), with good and bad fixtures in the quality gate.
+- `Dependabot` keeps the GitHub Actions up to date.
+- `sdd-documents` documents how to mark "Screens or views" as not applicable
+  by hand.
+
+### Security
+
+- CI: the workflow runs with `contents: read`, `actions/checkout` is pinned
+  to a commit SHA (v7.0.1) and no longer persists credentials.
 
 ## [0.6.0] - 2026-10-14
 
@@ -233,7 +264,8 @@ First version of the toolkit. Tag on `64ebc84`.
 - **README**: claimed the plugin leaves commands as `/sdd-*`; fixed to
   `/sdd:<phase>`. Added a warning against mixing plugin + script.
 
-[Unreleased]: https://github.com/jandrescodes/sdd-toolkit/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/jandrescodes/sdd-toolkit/compare/0.6.1...HEAD
+[0.6.1]: https://github.com/jandrescodes/sdd-toolkit/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/jandrescodes/sdd-toolkit/compare/0.3.0...0.4.0
