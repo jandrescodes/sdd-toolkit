@@ -27,8 +27,8 @@ Validated on: YYYY-MM-DD
 
 ## Sign-off
 
-Accepted by (name): **************\_\_**************
-
-Date: **************\_\_**************
-
-Signature: **************\_\_**************
+| Field | Entry |
+| --- | --- |
+| Accepted by (name) | |
+| Date | |
+| Signature | |

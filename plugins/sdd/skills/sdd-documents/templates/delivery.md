@@ -60,8 +60,8 @@ No scope changes were recorded.
 
 ## Hand-off
 
-Delivered to (name): **\*\***\*\***\*\***\_\_**\*\***\*\***\*\***
-
-Date: **\*\***\*\***\*\***\_\_**\*\***\*\***\*\***
-
-Signature: **\*\***\*\***\*\***\_\_**\*\***\*\***\*\***
+| Field | Entry |
+| --- | --- |
+| Delivered to (name) | |
+| Date | |
+| Signature | |
