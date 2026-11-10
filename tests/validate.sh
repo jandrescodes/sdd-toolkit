@@ -211,7 +211,11 @@ if [ -x "$ROOT/install.sh" ]; then
     "$SMOKE/.config/opencode/skills/sdd-documents/templates/delivery.md" \
     "$SMOKE/.config/opencode/skills/sdd-documents/templates/app-flow.md" \
     "$SMOKE/.config/opencode/skills/sdd-documents/templates/ux-brief.md" \
-    "$SMOKE/.config/opencode/skills/sdd-documents/templates/prd.md"; do
+    "$SMOKE/.config/opencode/skills/sdd-documents/templates/prd.md" \
+    "$SMOKE/.config/opencode/skills/spec-generator/LICENSE-APACHE" \
+    "$SMOKE/.config/opencode/skills/spec-generator/NOTICE" \
+    "$SMOKE/.claude/skills/sdd-flow/LICENSE-APACHE" \
+    "$SMOKE/.claude/skills/sdd-flow/NOTICE"; do
     [ -f "$d" ] && ok "existe ${d#$SMOKE/}" || fail "falta ${d#$SMOKE/}"
   done
   [ -f "$SMOKE/.claude/commands/spec.md" ] && fail "command sin prefijo en destino plano" || ok "commands prefijados (sin spec.md suelto)"

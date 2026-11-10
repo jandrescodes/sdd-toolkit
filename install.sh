@@ -57,6 +57,26 @@ esac
 
 changed=0
 
+# copy_file <origen> <destino>
+copy_file() {
+  local f="$1" target="$2"
+  if [ -f "$target" ] && cmp -s "$f" "$target"; then
+    return 0
+  fi
+  if [ -f "$target" ] && [ "$FORCE" -eq 0 ]; then
+    echo "  omito (difiere, usa --force): ${target/#$HOME/\~}"
+    return 0
+  fi
+  if [ "$DRY_RUN" -eq 1 ]; then
+    echo "  copiaría: ${target/#$HOME/\~}"
+  else
+    mkdir -p "$(dirname "$target")"
+    cp "$f" "$target"
+    echo "  ${target/#$HOME/\~}"
+  fi
+  changed=$((changed + 1))
+}
+
 # copy_tree <dir-origen> <dir-destino> [prefijo-para-archivos-en-la-raíz]
 copy_tree() {
   local src="$1" dst="$2" prefix="${3:-}" rel f target
@@ -69,22 +89,23 @@ copy_tree() {
       */*) target="$dst/$rel" ;;
       *)   target="$dst/$prefix$rel" ;;
     esac
-    if [ -f "$target" ] && cmp -s "$f" "$target"; then
-      continue
-    fi
-    if [ -f "$target" ] && [ "$FORCE" -eq 0 ]; then
-      echo "  omito (difiere, usa --force): ${target/#$HOME/\~}"
-      continue
-    fi
-    if [ "$DRY_RUN" -eq 1 ]; then
-      echo "  copiaría: ${target/#$HOME/\~}"
-    else
-      mkdir -p "$(dirname "$target")"
-      cp "$f" "$target"
-      echo "  ${target/#$HOME/\~}"
-    fi
-    changed=$((changed + 1))
+    copy_file "$f" "$target"
   done < <(find "$src" -type f)
+}
+
+# Skills con archivos derivados de hello-sdd (Apache-2.0): el texto de la
+# licencia y el NOTICE deben viajar con ellas al instalarse sueltas.
+APACHE_SKILLS="spec-generator sdd-flow"
+APACHE_FILES="LICENSE-APACHE NOTICE"
+
+# copy_apache_notices <dir-destino-de-skills>
+copy_apache_notices() {
+  local dst="$1" skill file
+  for skill in $APACHE_SKILLS; do
+    for file in $APACHE_FILES; do
+      copy_file "$ROOT/$file" "$dst/$skill/$file"
+    done
+  done
 }
 
 # prune_tree <dir-origen> <dir-destino> [prefijo]
@@ -106,6 +127,10 @@ prune_tree() {
       while IFS= read -r f; do
         rel="${f#"$dst"/}"
         [ -f "$src/$rel" ] && continue
+        # Los avisos de Apache los copia el instalador; no son huérfanos.
+        case " $APACHE_SKILLS " in *" $name "*)
+          case " $APACHE_FILES " in *" ${rel#"$name"/} "*) continue ;; esac ;;
+        esac
         prune_file "$f"
       done < <(find "$dst/$name" -type f)
     done
@@ -126,6 +151,7 @@ prune_file() {
 install_claude() {
   echo "Claude Code:"
   copy_tree "$SRC_SKILLS" "$HOME/.claude/skills"
+  copy_apache_notices "$HOME/.claude/skills"
   copy_tree "$SRC_COMMANDS" "$HOME/.claude/commands" "sdd-"
   prune_tree "$SRC_SKILLS" "$HOME/.claude/skills"
   prune_tree "$SRC_COMMANDS" "$HOME/.claude/commands" "sdd-"
@@ -134,6 +160,7 @@ install_claude() {
 install_opencode() {
   echo "opencode:"
   copy_tree "$SRC_SKILLS" "$HOME/.config/opencode/skills"
+  copy_apache_notices "$HOME/.config/opencode/skills"
   copy_tree "$SRC_COMMANDS" "$HOME/.config/opencode/commands" "sdd-"
   prune_tree "$SRC_SKILLS" "$HOME/.config/opencode/skills"
   prune_tree "$SRC_COMMANDS" "$HOME/.config/opencode/commands" "sdd-"
