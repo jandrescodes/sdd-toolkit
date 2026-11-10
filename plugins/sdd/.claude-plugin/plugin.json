@@ -9,7 +9,7 @@
     "url": "https://github.com/jandrescodes"
   },
   "homepage": "https://github.com/jandrescodes/sdd-toolkit",
-  "license": "MIT",
+  "license": "MIT AND Apache-2.0",
   "keywords": [
     "sdd",
     "spec-driven",
