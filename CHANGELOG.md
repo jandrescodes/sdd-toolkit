@@ -7,6 +7,24 @@ Semantic versioning. The canonical version lives in
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-11-10
+
+Licensing patch: the manifests now declare the dual license and the installer
+ships the Apache-2.0 notices with the skills that need them.
+
+### Changed
+
+- The plugin manifests (Claude Code and Copilot) declare
+  `MIT AND Apache-2.0` instead of only `MIT`, matching `LICENSE`,
+  `LICENSE-APACHE` and `NOTICE`.
+
+### Fixed
+
+- `install.sh` copies `LICENSE-APACHE` and `NOTICE` next to `spec-generator`
+  and `sdd-flow` (the skills with files derived from hello-sdd) for both the
+  Claude Code and opencode targets. `--prune` does not treat them as orphans,
+  and `tests/validate.sh` checks that they are installed.
+
 ## [0.6.1] - 2026-10-16
 
 Hardening and quality patch: CI security, a linter for generated documents,

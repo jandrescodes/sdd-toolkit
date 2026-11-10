@@ -178,6 +178,8 @@ Dual license:
   `sdd-flow/templates/AGENTS.md`, and
   `sdd-flow/templates/constitution.md`. See
   [`LICENSE-APACHE`](./LICENSE-APACHE) and [`NOTICE`](./NOTICE).
+  `install.sh` copies both files next to `spec-generator` and `sdd-flow` so
+  the notices travel with the installed skills.
 
 ---
 
